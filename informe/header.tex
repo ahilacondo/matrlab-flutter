@@ -131,6 +131,8 @@
 \IfFileExists{../capturas/#1.png}{\includegraphics[width=\linewidth]{../capturas/#1.png}}{%
 \fbox{\parbox[c][0.28\textheight][c]{0.9\linewidth}{\centering\footnotesize\textcolor{red!60!black}{\textbf{Captura pendiente}}\\\texttt{\detokenize{#1}}\\(ejecutar \texttt{flutter test})}}}}
 
+% Captura en una figura de varias: ancho 0.235 con subtítulo.
+\newcommand{\scap}[2]{\begin{subfigure}[t]{0.235\textwidth}\centering\capt{#1}{}\caption{#2}\end{subfigure}}
 % Tres capturas en fila con subtítulo breve cada una.
 \newcommand{\trio}[7]{%
 \begin{figure}[!htbp]\centering
