@@ -2,3 +2,7 @@ analyzer:
   errors:
     # Las advertencias de estilo no deben ocultar errores reales.
     unused_import: warning
+  exclude:
+    - build/**
+    - android/**
+    - web/**

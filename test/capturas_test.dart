@@ -40,6 +40,14 @@ Future<void> _cargarFuentes() async {
     }
   }
   await cargador.load();
+
+  // Fuente de iconos de Material; sin ella los iconos salen como cuadrados.
+  final iconos = File('${carpeta.path}/MaterialIcons-Regular.otf');
+  if (iconos.existsSync()) {
+    final cargadorIconos = FontLoader('MaterialIcons')
+      ..addFont(Future.value(ByteData.sublistView(iconos.readAsBytesSync())));
+    await cargadorIconos.load();
+  }
 }
 
 /// Monta la app con tamaño de pantalla lógico [ancho] x [alto] (dp).
