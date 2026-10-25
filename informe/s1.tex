@@ -1,0 +1,38 @@
+\section{Introducción}
+\label{sec:objetivo}
+
+\subsection{Propósito del laboratorio}
+En este laboratorio desarrollé una aplicación móvil con un \textbf{framework multiplataforma} (Flutter) y armé todas sus interfaces con los \textbf{componentes propios del framework} (widgets). Las funcionalidades de cada pantalla salen del \textbf{árbol de problemas} que planteé para el caso. Además, investigué los componentes de Flutter que sirven para \textbf{organizar la interfaz y manejar el layout}, y los comparé con los de React Native y .NET MAUI para justificar la elección \cite{guia04}.
+
+La aplicación es \textbf{MatrLab}, la app de matrícula en laboratorios de la Escuela Profesional de Ingeniería de Sistemas que analicé en el Laboratorio~1 (comparación de herramientas sin código) y prototipé en Adalo en el Laboratorio~2 \cite{lab1,lab2}. Ahora la rehago en código con Flutter, lo que me permite comparar ambos enfoques con el mismo problema.
+
+\subsection{Trabajo realizado y su ubicación en el informe}
+El laboratorio se organizó en cuatro frentes de trabajo: elegir el framework, investigar el layout, diseñar las interfaces a partir del árbol de problemas y programar la aplicación. La tabla~\ref{tab:cumplimiento} resume el trabajo realizado en cada uno y la sección en que se documenta.
+
+\begin{table}[H]
+	\centering\small
+	\begin{tabularx}{\textwidth}{|p{4.2cm}|X|p{2.3cm}|}
+		\hline
+		\rowcolor{tablebackground}\color{white}\textbf{Frente de trabajo} & \color{white}\textbf{Trabajo realizado} & \color{white}\textbf{Dónde}\\
+		\hline
+		Elección del framework & Comparé Flutter, React Native y .NET MAUI con su documentación oficial y decidí con una matriz ponderada & Secc.~\ref{sec:investigacion} \\\hline
+		Investigación de layout & Estudié el modelo de restricciones, armé un catálogo de widgets de layout, sus equivalencias con otros frameworks y los errores típicos & Secc.~\ref{sec:layout} a \ref{sec:errores} \\\hline
+		Funcionalidades a partir del árbol de problemas & Planteé 6 causas, de ellas 6 funcionalidades y 6 pantallas & Secc.~\ref{sec:descripcion} \\\hline
+		Descripción del programa & Describí el contexto, el alcance, los actores y los datos de ejemplo & Secc.~\ref{sec:descripcion} \\\hline
+		Diseño de interfaces & Definí el sistema de diseño y el mapa de navegación, y dibujé 10 mockups con cada elemento asociado a su widget & Secc.~\ref{sec:diseno} \\\hline
+		Desarrollo de la aplicación & Estructuré el proyecto, programé el estado y las pantallas y documenté el resultado con 17 capturas comentadas & Secc.~\ref{sec:desarrollo} \\\hline
+		Valoración del framework & Argumenté dos características a favor y dos en contra, con evidencia de este proyecto & Secc.~\ref{sec:apreciacion} \\\hline
+		Código fuente & Se entrega completo en el repositorio del proyecto (carpetas \texttt{lib/} y \texttt{test/}) & Repositorio \\\hline
+		Fuentes consultadas & Documentación oficial de los tres frameworks y mis informes previos & Referencias \\\hline
+	\end{tabularx}
+	\caption{Resumen de lo desarrollado en el laboratorio y su ubicación en el informe.}
+	\label{tab:cumplimiento}
+\end{table}
+
+\subsection{Alcance y límites}
+\begin{itemize}
+	\item \textbf{Qué sí es:} una aplicación Flutter funcional, con 9 pantallas, lógica de matrícula (cupos, cruces de horario, lista de espera) y un panel de administración, probada con pruebas automáticas.
+	\item \textbf{Qué no es:} no tiene servidor ni base de datos; los datos viven en memoria y se reinician al cerrar la app. No se publicó en tiendas. El control de concurrencia real (muchos estudiantes a la vez) exige un servidor y queda como trabajo futuro (secc.~\ref{sec:conclusiones}).
+	\item \textbf{Origen de las capturas:} se generan ejecutando la aplicación real con el motor de pruebas de Flutter (\texttt{flutter\_test}), que renderiza los mismos widgets que un teléfono; no son fotos de un dispositivo físico.
+	\item \textbf{Datos:} los códigos y grupos de Plataformas Emergentes, Seguridad Informática y Base de Datos II vienen del caso del Laboratorio~2; Redes e Ingeniería de Software son ficticios, solo sirven para probar el diseño.
+\end{itemize}

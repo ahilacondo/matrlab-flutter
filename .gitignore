@@ -1,0 +1,29 @@
+# Flutter / Dart
+.dart_tool/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+build/
+pubspec.lock
+.idea/
+*.iml
+.vscode/
+# Carpetas de plataforma (se regeneran con flutter create)
+android/
+ios/
+web/
+# LaTeX
+informe/*.aux
+informe/*.log
+informe/*.toc
+informe/*.lof
+informe/*.lot
+informe/*.out
+informe/*.bbl
+informe/*.blg
+informe/*.fls
+informe/*.fdb_latexmk
+informe/*.synctex.gz
+informe/build.log
+# Salidas locales
+salida_*.txt

@@ -1,0 +1,9 @@
+\appendix
+\section{Cómo reproducir el proyecto y las capturas}
+\label{anx:repro}
+\begin{enumerate}
+	\item Instalar Flutter y Android Studio; comprobar con \texttt{flutter doctor}.
+	\item Abrir una terminal en la carpeta del proyecto y ejecutar \texttt{flutter create --project-name matrlab --platforms android,web .} (solo la primera vez; añade las carpetas de plataforma sin sobrescribir \texttt{lib/} ni \texttt{pubspec.yaml}).
+	\item \texttt{flutter pub get}, \texttt{flutter analyze} y \texttt{flutter test}. Esto ejecuta todas las pruebas y deja las 17 capturas en \texttt{capturas/}.
+	\item \texttt{flutter run} para abrir la aplicación en un emulador o en el navegador (\texttt{flutter run -d chrome}).
+\end{enumerate}

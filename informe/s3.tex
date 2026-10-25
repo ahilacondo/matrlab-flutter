@@ -1,0 +1,71 @@
+\section{Descripción general del programa}
+\label{sec:descripcion}
+
+\subsection{Contexto y problema}
+En el Laboratorio~1 se planteó una aplicación de apoyo a la matrícula de estudiantes en los laboratorios de la Escuela Profesional de Ingeniería de Sistemas, y se describieron las dificultades vividas por el equipo en procesos de matrícula similares: cupos que se agotan en segundos, falta de información de disponibilidad en tiempo real y saturación del sistema por alta concurrencia el día de matrícula \cite{lab1}. En el Laboratorio~2 se construyó un prototipo con el modelo de datos Cursos, Grupos de Laboratorio, Usuarios y Matrículas \cite{lab2}. Este laboratorio parte de ese mismo problema.
+
+\subsection{Árbol de problemas}
+El árbol de la figura~\ref{fig:arbol} organiza el problema central, sus causas y sus efectos. Las causas C1 a C3 son las dificultades documentadas en el Laboratorio~1 \cite{lab1}; las causas C4 a C6 y los efectos E1 a E4 se plantearon en este trabajo a partir de las funcionalidades que ya figuraban en la descripción de MatrLab (validación de horarios, notificaciones, panel administrativo y reportes de ocupación) y son \textbf{hipótesis del autor}, no resultados de una encuesta.
+
+\onefig{img/d_arbol_problemas.png}{1.0}{Árbol de problemas de MatrLab: seis causas (abajo), problema central (centro) y cuatro efectos (arriba).}{fig:arbol}
+
+\subsection{De las causas a las funcionalidades}
+Cada causa se convierte en una funcionalidad concreta (requisito funcional, RF) y cada RF en una pantalla (figura~\ref{fig:causafun} y tabla~\ref{tab:rf}). Así el diseño de las interfaces queda justificado por el árbol y no por preferencia estética.
+
+\onefig{img/d_causa_funcion.png}{0.95}{Trazabilidad causa $\rightarrow$ funcionalidad $\rightarrow$ pantalla.}{fig:causafun}
+
+\begin{table}[H]
+	\centering\footnotesize
+	\begin{tabularx}{\textwidth}{|p{0.9cm}|p{1.1cm}|X|p{3.2cm}|}
+		\hline
+		\rowcolor{tablebackground}\color{white}\textbf{Causa} & \color{white}\textbf{RF} & \color{white}\textbf{Funcionalidad} & \color{white}\textbf{Pantalla}\\
+		\hline
+		C1 & RF1 & Matrícula directa: al confirmar, el cupo se descuenta de inmediato y se genera la matrícula con estado «Confirmada». Un grupo lleno rechaza la solicitud. & Detalle de grupo, hoja de confirmación, confirmación \\\hline
+		C2 & RF2 & La ocupación se muestra como barra, fracción y etiqueta con icono (Disponible / Casi lleno / Lleno) en la lista de cursos y en cada grupo. & Cursos, detalle de curso \\\hline
+		C3 & RF3 & Flujo mínimo: curso $\rightarrow$ grupo $\rightarrow$ confirmar. La lógica está aislada en \texttt{MatrLabState}, de modo que pueda moverse a un servidor sin tocar las pantallas. & Todo el flujo \\\hline
+		C4 & RF4 & Se impide matricularse en un grupo cuyo horario se cruce con otro ya matriculado, o en dos grupos del mismo curso; el horario semanal muestra las franjas ocupadas. & Detalle de grupo, mi horario \\\hline
+		C5 & RF5 & Si el grupo está lleno, el estudiante se une a una lista de espera; cuando el administrador agrega cupos, se genera la notificación «Se liberó un cupo». & Detalle de grupo, alertas \\\hline
+		C6 & RF6 & Panel con cupos totales y ocupados, ocupación global, ranking de grupos más saturados y botones para agregar o quitar cupos. & Panel (administrador) \\\hline
+		— & RF7 & Inicio de sesión con código de estudiante (8 dígitos) o usuario administrador, con validación de campos. & Login \\\hline
+	\end{tabularx}
+	\caption{Requisitos funcionales derivados del árbol de problemas.}
+	\label{tab:rf}
+\end{table}
+
+\subsection{Requisitos no funcionales}
+\begin{table}[H]
+	\centering\footnotesize
+	\begin{tabularx}{\textwidth}{|p{3.2cm}|X|}
+		\hline
+		\rowcolor{tablebackground}\color{white}\textbf{Requisito} & \color{white}\textbf{Cómo se atiende}\\
+		\hline
+		Diseño adaptable & Navegación inferior bajo 600\,dp y riel lateral desde 600\,dp; cuadrícula de cursos con ancho máximo por tarjeta; contenido centrado con ancho máximo. \\\hline
+		Accesibilidad básica & El estado de ocupación nunca depende solo del color: lleva icono y texto. Las barras de cupos tienen etiqueta semántica (\texttt{Semantics}). Los botones de icono tienen \texttt{tooltip}. \\\hline
+		Consistencia visual & Un solo tema Material 3 generado desde un color semilla; widgets reutilizables (\texttt{CupoBar}, \texttt{EstadoChip}, \texttt{StatTile}, \texttt{Aviso}). \\\hline
+		Mantenibilidad & Estado separado de la interfaz, una pantalla por archivo, sin paquetes externos (solo el SDK de Flutter). \\\hline
+		Verificabilidad & Pruebas unitarias de las reglas de negocio, una prueba de interfaz del flujo completo y un conjunto de pruebas que generan las capturas. \\\hline
+	\end{tabularx}
+	\caption{Requisitos no funcionales.}
+	\label{tab:rnf}
+\end{table}
+
+\subsection{Datos de ejemplo}
+\begin{table}[H]
+	\centering\footnotesize
+	\begin{tabular}{|l|l|l|l|c|}
+		\hline
+		\rowcolor{tablebackground}\color{white}\textbf{Curso} & \color{white}\textbf{Grupo} & \color{white}\textbf{Horario} & \color{white}\textbf{Aula} & \color{white}\textbf{Cupos}\\
+		\hline
+		Plataformas Emergentes (IS-742) & A & Mar 14:00--16:00 & Lab. Redes 302 & 17/20 \\
+		& B & Jue 10:00--12:00 & Lab. Redes 302 & 9/20 \\\hline
+		Seguridad Informática (IS-735) & A & Lun 08:00--10:00 & Lab. Cómputo 201 & 15/18 \\
+		& B & Mié 16:00--18:00 & Lab. Cómputo 201 & 6/18 \\\hline
+		Base de Datos II (IS-624) & A & Mar 08:00--10:00 & Lab. Cómputo 105 & 12/25 \\
+		& B & Vie 14:00--16:00 & Lab. Cómputo 105 & 25/25 (lleno) \\\hline
+		Redes y Comunicación de Datos (IS-533)$^\ast$ & A & Mar 14:00--16:00 & Lab. Redes 301 & 10/22 \\
+		& B & Jue 14:00--16:00 & Lab. Redes 301 & 21/22 \\\hline
+		Ingeniería de Software (IS-641)$^\ast$ & A & Mié 08:00--10:00 & Lab. Cómputo 202 & 5/24 \\\hline
+	\end{tabular}
+	\caption{Cursos y grupos de demostración (ocupados/total). Los de Plataformas Emergentes, Seguridad Informática y Base de Datos II provienen del Laboratorio~2 \cite{lab2}; $^\ast$ son ficticios. Los casos están elegidos a propósito: PE-A y RC-A se cruzan; BD2-B está lleno; PE-A y RC-B están casi llenos.}
+	\label{tab:datos}
+\end{table}

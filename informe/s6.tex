@@ -1,0 +1,26 @@
+\section{Apreciación de la herramienta}
+\label{sec:apreciacion}
+
+Se señalan dos características a favor y dos en contra de Flutter, cada una con la evidencia que dejó este proyecto.
+
+\subsection{Dos características a favor}
+\begin{enumerate}
+	\item \textbf{Layout declarativo y componible, con un widget por decisión.} Alinear, repartir espacio, superponer, recortar o hacer scroll son widgets con nombre propio, y la regla única «las restricciones bajan, los tamaños suben» \cite{flutterconstr} permite razonar cualquier pantalla de la misma forma. En MatrLab esto se tradujo en reutilización real: \texttt{StatTile} se usa 8 veces en 3 pantallas, \texttt{ContenidoCentrado} 6 veces y \texttt{CupoBar} aparece tanto en el detalle del curso como en el del grupo, siempre con el mismo aspecto. Además, el catálogo de widgets de la sección~\ref{sec:catalogo} es pequeño (unos 18 widgets de layout) y cubrió las 9 pantallas.
+	\item \textbf{Un solo código que se adapta, sin paquetes externos.} La misma aplicación pasa de teléfono a tableta cambiando únicamente la navegación, con un \texttt{LayoutBuilder} y un punto de corte de 600\,dp, y la cuadrícula de cursos se adapta sola con \texttt{SliverGridDelegateWithMaxCrossAxisExtent}. Todo el proyecto (2\,262 líneas en \texttt{lib/}) se hizo solo con el SDK: Material 3, tema, navegación, formularios, tablas y estado (\texttt{ChangeNotifier} + \texttt{InheritedNotifier}) vienen incluidos. Además, el desarrollo en Flutter admite recarga en caliente con estado conservado \cite{flutterarq}.
+\end{enumerate}
+
+\subsection{Dos características en contra}
+\begin{enumerate}
+	\item \textbf{Anidamiento profundo de widgets.} Como todo es un widget y cada ajuste (margen, alineación, recorte) es otro widget envolvente, el código se hunde hacia la derecha. En \texttt{cursos\_screen.dart} la tarjeta de curso llega a 18 niveles de sangría (\texttt{Card} $\rightarrow$ \texttt{InkWell} $\rightarrow$ \texttt{Padding} $\rightarrow$ \texttt{Row} $\rightarrow$ \texttt{Expanded} $\rightarrow$ \texttt{Column} $\rightarrow$ \texttt{Row}\ldots), lo que obliga a extraer clases y funciones para mantener la legibilidad; la propia documentación recomienda separar partes de la interfaz en variables o funciones \cite{flutterlayout}.
+	\item \textbf{Las reglas de restricciones generan errores en tiempo de ejecución que no son evidentes.} Un \texttt{Expanded} dentro de un contenedor con scroll, un \texttt{GridView} dentro de un \texttt{ListView} o un \texttt{Card} sin tamaño producen desbordes, excepciones o widgets invisibles \cite{flutterconstr,flutterlayout}. En el panel hubo que recordar \texttt{shrinkWrap: true} y \texttt{NeverScrollableScrollPhysics} para evitar el error (tabla~\ref{tab:errores}). A esto se suma aprender Dart y su modelo de widgets, que para quien viene de JavaScript o C\# es una barrera inicial (puntaje 3 en la tabla~\ref{tab:decision}); y, a diferencia de React Native, Flutter no usa los controles del sistema sino los suyos \cite{flutterarq,rncomp}, de modo que la apariencia nativa depende del tema que se defina.
+\end{enumerate}
+
+\section{Conclusiones}
+\label{sec:conclusiones}
+\begin{itemize}
+	\item Partir de un \textbf{árbol de problemas} ordenó el diseño: cada causa tiene una funcionalidad y cada funcionalidad una pantalla (figura~\ref{fig:causafun}), de modo que no hay pantallas sin justificación ni causas sin respuesta, salvo la concurrencia masiva (C3), que solo puede resolverse con un servidor.
+	\item Entre los tres frameworks analizados, \textbf{Flutter} resultó el más adecuado para este laboratorio por su modelo de layout explícito y consistente (matriz de la tabla~\ref{tab:decision}); React Native queda como alternativa cercana si se prefiere JavaScript, y .NET MAUI si el equipo ya trabaja en el ecosistema .NET.
+	\item El conocimiento clave de layout en Flutter cabe en una regla (restricciones abajo, tamaños arriba, posición decidida por el padre) y en un catálogo reducido de widgets; la mayoría de los errores se explican con esa regla.
+	\item Se logró una aplicación completa sin paquetes externos, con lógica de negocio separada y probada, y con una interfaz que se adapta de teléfono a tableta.
+	\item \textbf{Trabajo futuro:} conectar MatrLab a un servidor y una base de datos para resolver la concurrencia real (C3) y las notificaciones push; comparar el esfuerzo con el prototipo de Adalo del Laboratorio~2 \cite{lab2}; y probar la aplicación en dispositivos Android reales.
+\end{itemize}

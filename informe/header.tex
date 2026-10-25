@@ -1,0 +1,154 @@
+\documentclass[11pt]{article}
+\usepackage[top=3cm, bottom=3cm, left=2.6cm, right=2.6cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-tabla,es-noshorthands]{babel}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage[unicode=true,pdfencoding=auto,colorlinks=true,linkcolor=black,citecolor=black,urlcolor=blue!50!black]{hyperref}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage[numbers]{natbib}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{fancyhdr}
+\usepackage{needspace}
+\usepackage{tcolorbox}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.9}
+\renewcommand{\textfraction}{0.08}
+\renewcommand{\floatpagefraction}{0.75}
+
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+\newcolumntype{N}{@{}m{0pt}@{}}
+\newcolumntype{x}[1]{>{\centering\arraybackslash\hspace{0pt}}p{#1}}
+
+\newcommand{\itemEmail}{ahilacondo@unsa.edu.pe}
+\newcommand{\itemIntegrante}{Hilacondo Begazo, Andre Jimmy}
+\newcommand{\itemAsignatura}{Plataformas Emergentes}
+\newcommand{\itemUniversity}{Universidad Nacional de San Agustín de Arequipa}
+\newcommand{\itemFaculty}{Facultad de Ingeniería de Producción y Servicios}
+\newcommand{\itemDepartment}{Departamento Académico de Ingeniería de Sistemas e Informática}
+\newcommand{\itemSchool}{Escuela Profesional de Ingeniería de Sistemas}
+\newcommand{\itemAnioLectivo}{2026}
+\newcommand{\itemNroSemestre}{B}
+\newcommand{\itemFechaPresentacion}{24/10/2026}
+\newcommand{\itemHoraPresentacion}{}
+\newcommand{\itemPracticeNumber}{04}
+\newcommand{\itemTheme}{MatrLab: aplicación multiplataforma en Flutter para la matrícula en laboratorios}
+\newcommand{\itemDocente}{MSc. Norman Patrick Harvey Arce}
+
+\AtBeginDocument{%
+	\renewcommand\figurename{Figura}
+	\renewcommand\tablename{Tabla}
+	\renewcommand\listfigurename{Índice de figuras}
+	\renewcommand\listtablename{Índice de tablas}
+	\renewcommand\contentsname{Índice}
+}
+\renewcommand{\refname}{Referencias}
+
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{42pt}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\fancyhead[L]{\raisebox{-0.2\height}{\includegraphics[width=3cm]{img/logo_episunsa.png}}}
+\fancyhead[C]{\fontsize{7}{7}\selectfont \itemUniversity \\ \itemFaculty \\ \itemDepartment \\ \itemSchool \\ \textbf{\itemAsignatura}}
+\fancyhead[R]{\raisebox{-0.2\height}{\includegraphics[width=1.2cm]{img/logo_abet}}}
+\fancyfoot[L]{\footnotesize\itemIntegrante}
+\fancyfoot[C]{\footnotesize\itemAsignatura}
+\fancyfoot[R]{\footnotesize Página \thepage}
+
+\definecolor{dkgreen}{rgb}{0,0.5,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{codebackground}{rgb}{0.96, 0.96, 0.93}
+\definecolor{tablebackground}{rgb}{0.8, 0, 0}
+\definecolor{guinda}{HTML}{8C1D2F}
+
+\lstdefinelanguage{Dart}{
+  morekeywords={abstract,as,assert,async,await,break,case,catch,class,const,continue,default,do,else,enum,extends,extension,factory,false,final,finally,for,get,if,implements,import,in,is,late,library,new,null,on,part,required,return,set,static,super,switch,this,throw,true,try,typedef,var,void,while,with,yield,export,show,hide,when,override},
+  morekeywords=[2]{Widget,String,int,double,bool,List,Set,Map,Future,BuildContext,StatelessWidget,StatefulWidget,State,Key,Color,IconData,Icon,Text,Column,Row,Expanded,Scaffold,AppBar,Padding,SizedBox,Stack,Positioned,Table,TableRow,ListView,GridView,Card,Container,Wrap,Align},
+  sensitive=true,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  morestring=[b]"
+}
+\lstdefinestyle{dart}{
+  language=Dart,
+  basicstyle=\scriptsize\ttfamily,
+  keywordstyle=\color{blue},
+  keywordstyle=[2]\color{guinda},
+  commentstyle=\color{dkgreen}\itshape,
+  stringstyle=\color{mauve},
+  backgroundcolor=\color{codebackground},
+  numbers=left, numberstyle=\tiny\color{gray}, numbersep=5pt,
+  breaklines=true, breakatwhitespace=false,
+  showstringspaces=false, tabsize=2, frame=single, rulecolor=\color{gray!40},
+  columns=flexible, keepspaces=true,
+  aboveskip=4mm, belowskip=3mm,
+  extendedchars=true,
+  literate=
+    {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+    {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+    {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1 {¡}{{!`}}1
+    {·}{{\textperiodcentered}}1 {–}{{--}}1 {…}{{\ldots}}1
+    {«}{{\guillemotleft}}1 {»}{{\guillemotright}}1 {→}{{$\rightarrow$}}1
+}
+\lstdefinestyle{consola}{
+  language=bash, basicstyle=\footnotesize\ttfamily, backgroundcolor=\color{black!88}, 
+  basicstyle=\footnotesize\ttfamily\color{white}, breaklines=true, frame=single, rulecolor=\color{gray},
+  showstringspaces=false, columns=flexible, aboveskip=3mm, belowskip=3mm, keywordstyle=\color{white}, commentstyle=\color{green!60!white},
+  literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1 {ñ}{{\~n}}1
+}
+
+\captionsetup{font=small,labelfont=bf}
+\captionsetup[subfigure]{font=footnotesize}
+\renewcommand{\arraystretch}{1.15}
+\setlength{\parskip}{4pt}
+\setlist{itemsep=2pt, topsep=3pt}
+
+% Figura de un solo archivo.
+\newcommand{\onefig}[4]{%
+\begin{figure}[!htbp]\centering\includegraphics[width=#2\textwidth,height=0.62\textheight,keepaspectratio]{#1}\caption{#3}\label{#4}\end{figure}}
+
+% Marca visible de contenido que depende de ejecutar el proyecto en el equipo del autor.
+\newcommand{\pendiente}[1]{\begin{tcolorbox}[colback=yellow!15,colframe=orange!80!black,boxrule=0.6pt,arc=2pt,left=4pt,right=4pt,top=2pt,bottom=2pt]\footnotesize\textbf{PENDIENTE:} #1\end{tcolorbox}}
+
+% Captura de pantalla: si el PNG existe lo muestra; si no, deja un recuadro marcado.
+\newcommand{\capt}[2]{%
+\IfFileExists{../capturas/#1.png}{\includegraphics[width=\linewidth]{../capturas/#1.png}}{%
+\fbox{\parbox[c][0.28\textheight][c]{0.9\linewidth}{\centering\footnotesize\textcolor{red!60!black}{\textbf{Captura pendiente}}\\\texttt{\detokenize{#1}}\\(ejecutar \texttt{flutter test})}}}}
+
+% Tres capturas en fila con subtítulo breve cada una.
+\newcommand{\trio}[7]{%
+\begin{figure}[!htbp]\centering
+\begin{subfigure}[t]{0.31\textwidth}\centering\capt{#1}{}\caption{#2}\end{subfigure}\hfill
+\begin{subfigure}[t]{0.31\textwidth}\centering\capt{#3}{}\caption{#4}\end{subfigure}\hfill
+\begin{subfigure}[t]{0.31\textwidth}\centering\capt{#5}{}\caption{#6}\end{subfigure}
+\caption{#7}
+\end{figure}}
+
+% Dos capturas en fila.
+\newcommand{\duo}[5]{%
+\begin{figure}[!htbp]\centering
+\begin{subfigure}[t]{0.34\textwidth}\centering\capt{#1}{}\caption{#2}\end{subfigure}\hspace{0.04\textwidth}
+\begin{subfigure}[t]{0.34\textwidth}\centering\capt{#3}{}\caption{#4}\end{subfigure}
+\caption{#5}
+\end{figure}}
+% Captura ancha (tableta).
+\newcommand{\ancha}[3]{%
+\begin{figure}[!htbp]\centering\IfFileExists{../capturas/#1.png}{\includegraphics[width=0.95\textwidth]{../capturas/#1.png}}{\fbox{\parbox[c][0.2\textheight][c]{0.9\linewidth}{\centering\footnotesize\textcolor{red!60!black}{\textbf{Captura pendiente}}\\\texttt{\detokenize{#1}}}}}\caption{#2}\label{#3}\end{figure}}
+% Extracto de código con encabezado.
+\newcommand{\extracto}[3]{\lstinputlisting[style=dart,linerange={#2},caption={#3},captionpos=b]{../#1}}

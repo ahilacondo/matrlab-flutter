@@ -1,0 +1,203 @@
+\section{Investigación: frameworks multiplataforma y componentes de layout}
+\label{sec:investigacion}
+
+\subsection{Qué es un framework multiplataforma}
+Un framework multiplataforma permite escribir una sola base de código y ejecutarla en varias plataformas. Lo que distingue a los tres analizados es \emph{cómo dibujan la interfaz}:
+\begin{itemize}
+	\item \textbf{Flutter} no usa los controles del sistema: dibuja su propia interfaz. En plataformas nativas lo hace con el motor Impeller, que viaja dentro de la app \cite{flutterarq}.
+	\item \textbf{React Native} describe la interfaz con React y, al ejecutarse, crea las vistas nativas de Android e iOS; no usa una vista web \cite{rncomp}.
+	\item \textbf{.NET MAUI} usa C\# para la lógica y XAML para la interfaz, y unifica las APIs de Android, iOS, macOS y Windows en una sola, sin perder el acceso a cada plataforma \cite{mauiwhat}.
+\end{itemize}
+
+\subsection{Comparación de los tres frameworks}
+La tabla~\ref{tab:frameworks} resume lo que dice la documentación oficial de cada uno sobre los aspectos que importan para este laboratorio.
+
+\begin{table}[H]
+	\centering\footnotesize
+	\begin{tabularx}{\textwidth}{|p{2.5cm}|X|X|X|}
+		\hline
+		\rowcolor{tablebackground}\color{white}\textbf{Aspecto} & \color{white}\textbf{Flutter} & \color{white}\textbf{React Native} & \color{white}\textbf{.NET MAUI}\\
+		\hline
+		Lenguaje & Dart \cite{flutterrn} & JavaScript con React \cite{rncomp} & C\# y XAML \cite{mauiwhat} \\\hline
+		Cómo dibuja la UI & Motor propio (Impeller en nativo) \cite{flutterarq} & Vistas nativas de Android e iOS \cite{rncomp} & Aplicación nativa; la capa de MAUI consume las APIs nativas \cite{mauiwhat} \\\hline
+		Unidad de interfaz & Widget: «casi todo es un widget» \cite{flutterrn,flutterarq} & Componente (\texttt{View}, \texttt{Text}, \texttt{Image}…) \cite{rncomp} & Control y página en XAML \cite{mauiwhat} \\\hline
+		Modelo de layout & Widgets de layout (\texttt{Row}, \texttt{Column}, \texttt{Stack}…) con restricciones \cite{flutterlayout,flutterconstr} & Flexbox (motor Yoga) mediante la propiedad \texttt{style} \cite{rnflex} & Clases de layout: \texttt{Grid}, \texttt{StackLayout}, \texttt{FlexLayout}, \texttt{AbsoluteLayout} \cite{mauilayout} \\\hline
+		Plataformas & Android, iOS, Windows, macOS, Linux y web \cite{flutterarq} & Android e iOS (núcleo de la documentación) \cite{rncomp} & Android, iOS, macOS y Windows \cite{mauiwhat} \\\hline
+		Estado de la UI & \texttt{StatefulWidget} y \texttt{setState()} \cite{flutterrn} & Hooks como \texttt{useState} \cite{flutterrn} & Enlace de datos (\emph{data binding}) \cite{mauiwhat} \\\hline
+		Navegación & \texttt{Navigator.push} con rutas \cite{flutterrn} & Navegadores de pila y de pestañas \cite{flutterrn} & Varios tipos de página (p.~ej. \emph{flyout}) \cite{mauiwhat} \\\hline
+		Edición en vivo & \emph{Hot reload} con estado conservado (VM en desarrollo) \cite{flutterarq} & — (no verificado en las fuentes citadas) & \emph{.NET Hot Reload} y \emph{XAML Hot Reload} \cite{mauiwhat} \\\hline
+		Requisito especial & Ninguno para Android & Ninguno para Android & Compilar para iOS/macOS exige una Mac \cite{mauiwhat} \\\hline
+	\end{tabularx}
+	\caption{Comparación de Flutter, React Native y .NET MAUI según su documentación oficial.}
+	\label{tab:frameworks}
+\end{table}
+
+\subsection{Elección del framework}
+\label{sec:eleccion}
+Para decidir se definieron seis criterios con un peso cada uno y se puntuó de 1 a 5. \textbf{Los pesos y puntajes son una valoración propia}, basada en lo que dice la documentación y en la necesidad concreta de MatrLab (listas, formularios, tablas, una navegación adaptable y muchas decisiones de layout); no son una medición experimental.
+
+\begin{table}[H]
+	\centering\footnotesize
+	\begin{tabularx}{\textwidth}{|X|c|c|c|c|}
+		\hline
+		\rowcolor{tablebackground}\color{white}\textbf{Criterio} & \color{white}\textbf{Peso} & \color{white}\textbf{Flutter} & \color{white}\textbf{React Native} & \color{white}\textbf{.NET MAUI}\\
+		\hline
+		Control y claridad del layout (el foco del laboratorio) & 25\,\% & 5 & 4 & 4 \\\hline
+		Consistencia visual entre plataformas & 15\,\% & 5 & 4 & 3 \\\hline
+		Curva de aprendizaje con lo que ya se conoce & 15\,\% & 3 & 4 & 2 \\\hline
+		Herramientas para desarrollar y probar en Android & 15\,\% & 5 & 4 & 3 \\\hline
+		Documentación oficial sobre layout y componentes & 15\,\% & 5 & 4 & 4 \\\hline
+		Adecuación a MatrLab (listas, tablas, formularios, Material) & 15\,\% & 5 & 4 & 3 \\\hline
+		\textbf{Puntaje ponderado} & 100\,\% & \textbf{4.70} & \textbf{4.00} & \textbf{3.25} \\\hline
+	\end{tabularx}
+	\caption{Matriz de decisión ponderada (valoración propia del autor).}
+	\label{tab:decision}
+\end{table}
+
+\onefig{img/g_decision.png}{0.85}{Contribución de cada criterio al puntaje ponderado. Flutter obtiene 4.70, React Native 4.00 y .NET MAUI 3.25.}{fig:decision}
+
+\paragraph{Por qué Flutter.} Primero, el modelo de layout de Flutter es el más explícito: cada decisión (alinear, repartir espacio, superponer, hacer scroll) corresponde a un widget con nombre propio, lo que facilita documentar «qué hace cada componente», que es lo que pide el laboratorio. Segundo, al dibujar su propia interfaz, el mismo diseño se ve igual en todos los dispositivos, lo que simplifica las capturas y el diseño adaptable. Tercero, el entorno de Android Studio que ya se usa en el curso permite ejecutar Flutter sin herramientas nuevas.
+
+\paragraph{Por qué no los otros dos.} React Native es una alternativa sólida y más cercana a JavaScript (el autor ya la usó en un trabajo previo), pero su layout se expresa con propiedades de estilo y no con componentes con nombre, lo que hace menos visible el «catálogo» de componentes de organización. .NET MAUI obliga a trabajar con C\# y XAML y, para iOS, a disponer de una Mac \cite{mauiwhat}; además la curva de aprendizaje es la más alta para el equipo. La principal desventaja de Flutter es aprender Dart (puntaje 3 en ese criterio).
+
+\subsection{El modelo de layout de Flutter}
+\label{sec:layout}
+Flutter organiza la interfaz componiendo widgets; los widgets de layout son widgets invisibles que ordenan a otros \cite{flutterlayout}. Toda la lógica se resume en una regla de la documentación \cite{flutterconstr}:
+
+\begin{center}\textbf{«Las restricciones bajan. Los tamaños suben. El padre fija la posición.»}\end{center}
+
+\onefig{img/d_constraints.png}{0.62}{Protocolo de layout de Flutter: el padre pasa restricciones (mínimo y máximo de ancho y alto) a cada hijo, cada hijo devuelve un tamaño dentro de esos límites y el padre decide dónde colocarlo. Elaboración propia a partir de \cite{flutterconstr}.}{fig:constraints}
+
+Esto ocurre en una sola pasada por el árbol, lo que hace el layout rápido, pero implica que un widget \emph{no puede elegir libremente su tamaño ni su posición} \cite{flutterarq,flutterconstr}. Las restricciones pueden ser \emph{estrictas} (mínimo = máximo, un solo tamaño posible, como la pantalla para el widget raíz) o \emph{flexibles} (mínimo 0, como las que \texttt{Center} da a su hijo).
+
+\begin{table}[H]
+	\centering\footnotesize
+	\begin{tabularx}{\textwidth}{|p{3.0cm}|X|}
+		\hline
+		\rowcolor{tablebackground}\color{white}\textbf{Widget} & \color{white}\textbf{Comportamiento según la documentación \cite{flutterconstr}}\\
+		\hline
+		\texttt{Container} & Sin tamaño ni hijo, intenta ser lo más grande posible; con hijo y sin tamaño, mide lo que su hijo (más el padding); con \texttt{width}/\texttt{height}, intenta respetarlos \emph{solo dentro} de lo que permita su padre. \\\hline
+		\texttt{Row} / \texttt{Column} & Con eje principal acotado, intentan ser lo más grandes posible; con eje principal sin límite (dentro de un scroll u otro flex) se ajustan a sus hijos y estos \emph{no pueden} usar \texttt{Expanded}. El eje transversal nunca puede ser ilimitado. No limitan a sus hijos, así que pueden desbordar. \\\hline
+		\texttt{Expanded} / \texttt{Flexible} & Dentro de \texttt{Row}/\texttt{Column} reparten el espacio sobrante según \texttt{flex}. \texttt{Expanded} obliga al hijo a ocupar su parte; \texttt{Flexible} deja que sea menor. Ambos ignoran el tamaño intrínseco del hijo. \\\hline
+		\texttt{Align} / \texttt{Center} & Relajan las restricciones (el hijo puede ser más pequeño) y lo posicionan según \texttt{alignment}. \\\hline
+		\texttt{ConstrainedBox} & Añade restricciones \emph{adicionales} a las del padre; no puede saltárselas. \\\hline
+		\texttt{UnconstrainedBox} & No impone restricciones a su hijo; si el hijo es mayor que la caja, aparece la advertencia de desborde. \\\hline
+	\end{tabularx}
+	\caption{Comportamiento de los widgets de layout más usados.}
+	\label{tab:comportamiento}
+\end{table}
+
+\subsection{Catálogo de widgets de layout usados en MatrLab}
+\label{sec:catalogo}
+Los widgets de layout se clasifican en los que reciben un solo hijo (\texttt{child}) y los que reciben varios (\texttt{children}) \cite{flutterlayout}. La tabla~\ref{tab:catalogo} lista los que se usaron y dónde. Los marcados con $^\dagger$ no están descritos en la página consultada y su descripción es conocimiento general del framework.
+
+\begin{table}[H]
+	\centering\footnotesize
+	\begin{tabularx}{\textwidth}{|p{2.7cm}|p{1.8cm}|X|X|}
+		\hline
+		\rowcolor{tablebackground}\color{white}\textbf{Widget} & \color{white}\textbf{Tipo} & \color{white}\textbf{Qué hace} & \color{white}\textbf{Uso en MatrLab}\\
+		\hline
+		\texttt{Scaffold} & 1 hijo (ranuras) & Estructura base: \texttt{appBar}, \texttt{body}, barra inferior & Cada pantalla; el \texttt{ShellScreen} \\\hline
+		\texttt{Column} & varios & Ordena en vertical & Formularios, tarjetas, hoja de confirmación \\\hline
+		\texttt{Row} & varios & Ordena en horizontal & Fila de resúmenes, título + estado, botones \\\hline
+		\texttt{Expanded} & 1 hijo (en Row/Column) & Ocupa el espacio sobrante & Tres \texttt{StatTile} iguales; textos largos con \texttt{ellipsis} \\\hline
+		\texttt{Spacer}$^\dagger$ & sin hijo & Hueco flexible entre widgets de una fila & Separar «N grupos» del chip de estado \\\hline
+		\texttt{Stack} / \texttt{Positioned} & varios & Superpone; \texttt{Positioned} coloca en un borde & Cabecera del curso (icono decorativo sobre degradado) \\\hline
+		\texttt{Padding}, \texttt{SizedBox} & 1 hijo & Margen interno; tamaño fijo o separación & Márgenes de 16\,dp, separaciones de 4 a 24\,dp, botón de 48\,dp \\\hline
+		\texttt{Align}, \texttt{Center} & 1 hijo & Alinea o centra & Contenido centrado en login y confirmación \\\hline
+		\texttt{ConstrainedBox} & 1 hijo & Limita el ancho máximo & Login (420\,dp), contenido en tablets (720\,dp) \\\hline
+		\texttt{Container} & 1 hijo & Decoración, tamaño, color & Iconos circulares, chips, avisos, tarjetas de estado \\\hline
+		\texttt{ClipRRect}$^\dagger$ & 1 hijo & Recorta con bordes redondeados & Barras de cupos, cabecera con degradado \\\hline
+		\texttt{Card} & 1 hijo & Caja Material con esquinas y sombra & Cursos, grupos, notificaciones \\\hline
+		\texttt{ListView} & varios, con scroll & Lista que se desplaza & Detalle de curso y de grupo, horario, alertas, panel \\\hline
+		\texttt{GridView} & varios, con scroll & Cuadrícula & Cursos (\texttt{.builder}, columnas según ancho); panel (\texttt{.count}) \\\hline
+		\texttt{Table} & varios & Filas y columnas alineadas & Datos del grupo; horario semanal \\\hline
+		\texttt{Wrap}$^\dagger$ & varios & Salta de línea al quedarse sin espacio & Filtros y lista de espera \\\hline
+		\texttt{IndexedStack}$^\dagger$ & varios & Muestra uno y conserva los demás & Pestañas del \texttt{ShellScreen} \\\hline
+		\texttt{SafeArea}$^\dagger$ & 1 hijo & Evita muescas y barras del sistema & Login, confirmación, botón inferior \\\hline
+		\texttt{LayoutBuilder} & 1 hijo (builder) & Entrega las restricciones del padre & Elegir barra inferior o riel lateral \\\hline
+	\end{tabularx}
+	\caption{Widgets de organización y layout usados en la aplicación.}
+	\label{tab:catalogo}
+\end{table}
+
+\subsection{Equivalencias con React Native y .NET MAUI}
+Como el laboratorio pide investigar los componentes propios del framework, la tabla~\ref{tab:equiv} traduce cada necesidad de layout a lo que ofrecen los otros dos. Las celdas con $^\ast$ son conocimiento general que las páginas consultadas no detallan.
+
+\begin{table}[H]
+	\centering\footnotesize
+	\begin{tabularx}{\textwidth}{|p{2.4cm}|X|X|X|}
+		\hline
+		\rowcolor{tablebackground}\color{white}\textbf{Necesidad} & \color{white}\textbf{Flutter} & \color{white}\textbf{React Native} & \color{white}\textbf{.NET MAUI}\\
+		\hline
+		Apilar en vertical & \texttt{Column} \cite{flutterlayout} & \texttt{View}; \texttt{flexDirection} es \texttt{column} por defecto \cite{rnflex} & \texttt{VerticalStackLayout} \cite{mauilayout} \\\hline
+		Apilar en horizontal & \texttt{Row} \cite{flutterlayout} & \texttt{View} con \texttt{flexDirection: 'row'} \cite{rnflex} & \texttt{HorizontalStackLayout} \cite{mauilayout} \\\hline
+		Repartir espacio sobrante & \texttt{Expanded}/\texttt{Flexible} con \texttt{flex} \cite{flutterlayout} & Propiedad \texttt{flex: n} \cite{rnflex} & \texttt{Grid} con filas/columnas proporcionales \cite{mauilayout} \\\hline
+		Alinear hijos & \texttt{mainAxisAlignment}, \texttt{crossAxisAlignment} \cite{flutterlayout} & \texttt{justifyContent}, \texttt{alignItems} \cite{rnflex} & Alineación en cada control (\texttt{HorizontalOptions}$^\ast$) \\\hline
+		Superponer & \texttt{Stack} + \texttt{Positioned} \cite{flutterlayout,flutterrn} & \texttt{position: 'absolute'} \cite{rnflex} & \texttt{AbsoluteLayout} \cite{mauilayout} \\\hline
+		Saltar de línea & \texttt{Wrap}$^\dagger$ & \texttt{flexWrap: 'wrap'} \cite{rnflex} & \texttt{FlexLayout} (admite \emph{wrap}) \cite{mauilayout} \\\hline
+		Separar elementos & \texttt{SizedBox}, \texttt{Padding} & \texttt{gap}, \texttt{rowGap}, \texttt{columnGap} \cite{rnflex} & Propiedades de espaciado y margen$^\ast$ \\\hline
+		Lista con scroll eficiente & \texttt{ListView.builder} \cite{flutterrn} & \texttt{FlatList} \cite{flutterrn} & Control de colecciones (\texttt{CollectionView}$^\ast$) \cite{mauiwhat} \\\hline
+		Cuadrícula & \texttt{GridView} \cite{flutterlayout} & Filas con \texttt{flexWrap} y ancho en \% \cite{rnflex} & \texttt{Grid} \cite{mauilayout} \\\hline
+		Estilos reutilizables & \texttt{ThemeData}, \texttt{TextStyle} \cite{flutterrn} & \texttt{StyleSheet.create} \cite{flutterrn} & Estilos y recursos XAML$^\ast$ \\\hline
+	\end{tabularx}
+	\caption{Equivalencias de layout entre los tres frameworks.}
+	\label{tab:equiv}
+\end{table}
+
+Una diferencia importante: en React Native, \texttt{flexDirection} es \texttt{column} por defecto, \texttt{alignContent} es \texttt{flex-start} y \texttt{flexShrink} es 0, a diferencia de CSS \cite{rnflex}. En Flutter no existe un «contenedor flex» genérico: se elige \texttt{Row} o \texttt{Column} \cite{flutterrn}. Y la documentación de MAUI advierte que no se debe imitar un \texttt{Grid} anidando pilas horizontales, ni usar \texttt{Grid} para datos tabulares \cite{mauilayout}.
+
+\subsection{Diseño adaptable}
+\label{sec:adaptable}
+Flutter recomienda un proceso de tres pasos: \emph{abstraer} los widgets que cambian, \emph{medir} el espacio y \emph{ramificar} según el tamaño \cite{flutteradapt}. Para medir hay dos herramientas: \texttt{MediaQuery.sizeOf} mide la ventana completa y es la indicada para elegir la navegación; \texttt{LayoutBuilder} mide el espacio que el padre le da a un widget concreto \cite{flutteradapt}. Los puntos de corte deben depender del tamaño de la ventana y no del tipo de dispositivo; la guía de Material usa una barra de navegación inferior bajo 600 dp y un riel lateral desde 600 dp \cite{flutteradapt}.
+
+En MatrLab se aplican ambas ideas: el \texttt{ShellScreen} usa \texttt{LayoutBuilder} con el corte de 600\,dp (barra inferior \emph{vs.} \texttt{NavigationRail}), y la lista de cursos usa \texttt{SliverGridDelegateWithMaxCrossAxisExtent} para pasar de una columna en el teléfono a dos o más en una tableta, sin escribir un corte explícito.
+
+\subsection{Componentes de Material usados}
+\label{sec:material}
+Además de los widgets de layout, la interfaz se construye con componentes del catálogo Material de Flutter \cite{fluttermaterial}. Los marcados con $^\dagger$ no figuran en la página consultada.
+
+\begin{table}[H]
+	\centering\footnotesize
+	\begin{tabularx}{\textwidth}{|p{3.2cm}|X|X|}
+		\hline
+		\rowcolor{tablebackground}\color{white}\textbf{Componente} & \color{white}\textbf{Qué es \cite{fluttermaterial}} & \color{white}\textbf{Dónde se usa}\\
+		\hline
+		\texttt{AppBar} & Contenedor de contenido y acciones en la parte superior & Título de cada pestaña; cerrar sesión \\\hline
+		\texttt{NavigationBar} & Cambia entre destinos principales & Pestañas en teléfono \\\hline
+		\texttt{NavigationRail}$^\dagger$ & Versión lateral de la barra de navegación & Pestañas en tableta \\\hline
+		\texttt{Card}, \texttt{ListTile} & Caja con sombra; fila de altura fija con texto e iconos & Cursos, grupos, matrículas, notificaciones \\\hline
+		\texttt{FilterChip}, \texttt{Chip} & Bloques pequeños para filtrar o mostrar una opción & Filtros de cursos; lista de espera \\\hline
+		\texttt{TextField}/\texttt{TextFormField} & Cuadro de entrada de texto & Código y contraseña con validación \\\hline
+		\texttt{FilledButton}$^\dagger$, \texttt{OutlinedButton}$^\dagger$, \texttt{TextButton} & Botones de énfasis alto, medio y bajo & Acciones principales y secundarias \\\hline
+		\texttt{SegmentedButton}$^\dagger$ & Selección entre pocas opciones excluyentes & Rol: estudiante o administrador \\\hline
+		\texttt{SearchBar}$^\dagger$ & Campo de búsqueda & Búsqueda de cursos \\\hline
+		\texttt{Badge}$^\dagger$ & Contador o punto sobre un icono & Alertas sin leer \\\hline
+		\texttt{LinearProgressIndicator}$^\dagger$ & Barra de progreso & Ocupación de cupos \\\hline
+		\texttt{AlertDialog}, \texttt{SnackBar} & Diálogo de decisión; mensaje breve inferior & Confirmar cancelación; avisos de error \\\hline
+		\texttt{showModalBottomSheet}$^\dagger$ & Hoja que sube desde el borde inferior & Confirmar matrícula \\\hline
+	\end{tabularx}
+	\caption{Componentes Material empleados.}
+	\label{tab:material}
+\end{table}
+
+\subsection{Errores típicos de layout y cómo se evitaron}
+\label{sec:errores}
+La documentación indica que el desborde se muestra con un patrón de rayas amarillas y negras, que un \texttt{Card} por defecto mide 0$\times$0 y que ciertos widgets lanzan excepciones cuando reciben restricciones infinitas \cite{flutterlayout,flutterconstr}. La tabla~\ref{tab:errores} muestra los casos previstos en MatrLab.
+
+\begin{table}[H]
+	\centering\footnotesize
+	\begin{tabularx}{\textwidth}{|p{4.0cm}|X|X|}
+		\hline
+		\rowcolor{tablebackground}\color{white}\textbf{Síntoma} & \color{white}\textbf{Causa} & \color{white}\textbf{Solución aplicada}\\
+		\hline
+		Franja amarilla de desborde en una fila & Un \texttt{Row} no limita a sus hijos; el texto largo no cabe \cite{flutterconstr} & Texto dentro de \texttt{Expanded} con \texttt{maxLines} y \texttt{TextOverflow.ellipsis} (\texttt{\_CursoCard}) \\\hline
+		Excepción por altura ilimitada & \texttt{GridView} dentro de \texttt{ListView} recibe altura sin límite \cite{flutterconstr} & \texttt{GridView.count} con \texttt{shrinkWrap: true} y \texttt{NeverScrollableScrollPhysics} (panel) \\\hline
+		\texttt{Expanded} dentro de un scroll & El eje principal es ilimitado y no hay espacio que repartir \cite{flutterconstr} & Los \texttt{Expanded} solo se usan en filas, y las columnas con scroll usan tamaños propios \\\hline
+		El contenido se estira en pantallas anchas & El \texttt{ListView} ocupa todo el ancho & \texttt{ContenidoCentrado}: \texttt{Align} + \texttt{ConstrainedBox(maxWidth)} \\\hline
+		El botón inferior queda bajo la barra del sistema & No se respeta el área segura & \texttt{SafeArea} en \texttt{bottomNavigationBar} \\\hline
+		\texttt{Card} invisible & Sin tamaño propio se reduce a 0$\times$0 \cite{flutterlayout} & Se coloca en contenedores con tamaño (\texttt{mainAxisExtent} de la cuadrícula, \texttt{ListView}) \\\hline
+	\end{tabularx}
+	\caption{Problemas comunes de layout y su prevención en MatrLab.}
+	\label{tab:errores}
+\end{table}
