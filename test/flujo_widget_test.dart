@@ -33,7 +33,6 @@ void main() {
     // Curso -> grupo.
     await tester.tap(find.text('Plataformas Emergentes'));
     await tester.pump(const Duration(milliseconds: 600));
-    await tester.scrollUntilVisible(find.text('Grupo B'), 150);
     await tester.tap(find.text('Grupo B'));
     await tester.pump(const Duration(milliseconds: 600));
 
