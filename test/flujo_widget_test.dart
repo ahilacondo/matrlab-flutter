@@ -5,7 +5,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:matrlab/app.dart';
 import 'package:matrlab/estado.dart';
 
+import 'fuentes_prueba.dart';
+
 void main() {
+  setUpAll(cargarFuentesDePrueba);
+
   testWidgets('flujo completo de matrícula del estudiante', (tester) async {
     tester.view.physicalSize = const Size(1080, 2340);
     tester.view.devicePixelRatio = 3.0;
@@ -29,6 +33,7 @@ void main() {
     // Curso -> grupo.
     await tester.tap(find.text('Plataformas Emergentes'));
     await tester.pump(const Duration(milliseconds: 600));
+    await tester.scrollUntilVisible(find.text('Grupo B'), 150);
     await tester.tap(find.text('Grupo B'));
     await tester.pump(const Duration(milliseconds: 600));
 

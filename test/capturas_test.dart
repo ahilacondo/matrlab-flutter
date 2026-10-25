@@ -12,7 +12,6 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:matrlab/app.dart';
 import 'package:matrlab/estado.dart';
@@ -21,34 +20,9 @@ import 'package:matrlab/screens/confirmacion_screen.dart';
 import 'package:matrlab/screens/curso_detalle_screen.dart';
 import 'package:matrlab/screens/grupo_detalle_screen.dart';
 
+import 'fuentes_prueba.dart';
+
 final GlobalKey _raiz = GlobalKey();
-
-Future<void> _cargarFuentes() async {
-  final raizFlutter = Platform.environment['FLUTTER_ROOT'];
-  if (raizFlutter == null) return;
-  final carpeta = Directory('$raizFlutter/bin/cache/artifacts/material_fonts');
-  if (!carpeta.existsSync()) return;
-  final cargador = FontLoader('Roboto');
-  for (final nombre in const [
-    'Roboto-Regular.ttf',
-    'Roboto-Medium.ttf',
-    'Roboto-Bold.ttf',
-  ]) {
-    final f = File('${carpeta.path}/$nombre');
-    if (f.existsSync()) {
-      cargador.addFont(Future.value(ByteData.sublistView(f.readAsBytesSync())));
-    }
-  }
-  await cargador.load();
-
-  // Fuente de iconos de Material; sin ella los iconos salen como cuadrados.
-  final iconos = File('${carpeta.path}/MaterialIcons-Regular.otf');
-  if (iconos.existsSync()) {
-    final cargadorIconos = FontLoader('MaterialIcons')
-      ..addFont(Future.value(ByteData.sublistView(iconos.readAsBytesSync())));
-    await cargadorIconos.load();
-  }
-}
 
 /// Monta la app con tamaño de pantalla lógico [ancho] x [alto] (dp).
 Future<void> _montar(
@@ -97,7 +71,7 @@ MatrLabState _estudiante() {
 }
 
 void main() {
-  setUpAll(_cargarFuentes);
+  setUpAll(cargarFuentesDePrueba);
 
   testWidgets('c01 login', (tester) async {
     await _montar(tester, MatrLabState());

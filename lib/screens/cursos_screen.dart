@@ -206,9 +206,15 @@ class _CursoCard extends StatelessWidget {
                       children: [
                         const Icon(Icons.groups_outlined, size: 18),
                         const SizedBox(width: 4),
-                        Text('${grupos.length} grupos',
-                            style: tema.bodySmall),
-                        const Spacer(),
+                        Expanded(
+                          child: Text(
+                            '${grupos.length} grupos',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: tema.bodySmall,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
                         EstadoChip(
                           estado: estado,
                           etiqueta: libres == 0
