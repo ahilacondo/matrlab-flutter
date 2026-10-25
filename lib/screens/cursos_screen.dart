@@ -206,7 +206,7 @@ class _CursoCard extends StatelessWidget {
                       children: [
                         const Icon(Icons.groups_outlined, size: 18),
                         const SizedBox(width: 4),
-                        Expanded(
+                        Expanded( // CAMBIO: antes un Spacer; el texto ahora se recorta.
                           child: Text(
                             '${grupos.length} grupos',
                             maxLines: 1,

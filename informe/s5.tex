@@ -123,14 +123,30 @@ La figura~\ref{fig:comp} compara tres mockups con las pantallas implementadas. L
 
 \subsection{Pruebas}
 \label{sec:pruebas}
-Escribí tres conjuntos de pruebas (carpeta \texttt{test/} del repositorio):
+Escribí cuatro conjuntos de pruebas (carpeta \texttt{test/} del repositorio):
 \begin{itemize}
 	\item \textbf{Reglas de negocio} (\texttt{matrlab\_state\_test.dart}, 17 pruebas): validación de credenciales, matrícula con reserva de cupo, un solo grupo por curso, cruce de horario, grupo lleno, cancelación, lista de espera, notificación al agregar cupos, umbrales de estado, ranking y métricas, y solapamiento de horarios.
-	\item \textbf{Flujo de interfaz} (\texttt{flujo\_widget\_test.dart}): login con validación, curso, grupo, hoja de confirmación, pantalla de éxito y horario, con widgets reales.
-	\item \textbf{Capturas} (\texttt{capturas\_test.dart}): 17 pruebas que llevan la app a un punto del flujo y guardan una imagen en \texttt{capturas/}.
+	\item \textbf{Flujo de interfaz} (\texttt{flujo\_widget\_test.dart}, 1 prueba): login con validación, curso, grupo, hoja de confirmación, pantalla de éxito y horario, con widgets reales.
+	\item \textbf{Arranque} (\texttt{widget\_test.dart}, 1 prueba): la aplicación abre en el inicio de sesión.
+	\item \textbf{Capturas} (\texttt{capturas\_test.dart}, 17 pruebas): llevan la app a un punto del flujo y guardan una imagen en \texttt{capturas/}.
 \end{itemize}
 
-\pendiente{pegar aquí la salida de \texttt{flutter analyze} y \texttt{flutter test} ejecutados en el equipo del autor (por ejemplo, «All tests passed!» y el número de pruebas).}
+Ejecuté el análisis estático y las pruebas en mi equipo; la salida final fue la siguiente (el análisis no encontró problemas y las 36 pruebas pasaron).
+
+\begin{lstlisting}[style=consola,numbers=none,caption={Resultado de \texttt{flutter analyze} y \texttt{flutter test} (25/10/2026).}]
+> flutter analyze
+Analyzing matrlab-flutter...
+No issues found! (ran in 2.2s)
+
+> flutter test --reporter expanded
+00:00 +0: ... capturas_test.dart: (setUpAll)
+...
+00:03 +35: ... capturas_test.dart: c17 tablet: horario
+00:03 +36: ... capturas_test.dart: (tearDownAll)
+00:03 +36: All tests passed!
+\end{lstlisting}
+
+Las primeras ejecuciones mostraron problemas que corregí antes de esta versión final: el archivo de plantilla \texttt{widget\_test.dart} (creado por \texttt{flutter create}) hacía fallar el análisis; la fila de «N grupos» de las tarjetas de curso y las tarjetas de cifras del panel se desbordaban con la fuente real; y las pruebas dibujaban los iconos como cuadrados por no cargar la fuente de iconos. Los cambios están en la tabla~\ref{tab:cambios}.
 
 \subsection{Registro de cambios}
 Como pide la guía, los cambios sobre el trabajo se registran; en el código se marcan con comentarios \texttt{// CAMBIO:}.
@@ -142,6 +158,7 @@ Como pide la guía, los cambios sobre el trabajo se registran; en el código se 
 		\rowcolor{tablebackground}\color{white}\textbf{Versión} & \color{white}\textbf{Fecha} & \color{white}\textbf{Cambio}\\
 		\hline
 		1.0 & 24/10/2026 & Primera versión: investigación, mockups, aplicación Flutter de 9 pantallas, pruebas e informe. \\\hline
+		1.1 & 25/10/2026 & Al ejecutar las pruebas en el equipo: la fila «N grupos» de las tarjetas de curso usa \texttt{Expanded} en lugar de \texttt{Spacer}; las tarjetas del panel pasan de proporción 1,25 a 1,0; las pruebas cargan Roboto y la fuente de iconos; se reemplaza la prueba de plantilla por una de arranque; se agregan las capturas reales. \\\hline
 	\end{tabularx}
 	\caption{Registro de cambios del trabajo.}
 	\label{tab:cambios}

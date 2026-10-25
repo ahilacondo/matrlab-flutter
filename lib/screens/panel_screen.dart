@@ -27,7 +27,7 @@ class PanelScreen extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
-            childAspectRatio: 1.0,
+            childAspectRatio: 1.0, // CAMBIO: antes 1.25; las tarjetas se desbordaban.
             children: [
               StatTile(valor: '${e.cuposTotales}', etiqueta: 'cupos totales'),
               StatTile(valor: '${e.cuposOcupados}', etiqueta: 'cupos ocupados'),
