@@ -7,6 +7,13 @@ import 'package:matrlab/estado.dart';
 
 import 'fuentes_prueba.dart';
 
+/// Deja que la pantalla se construya y que termine la animación de la ruta
+/// (mismo ritmo que usan las pruebas de capturas).
+Future<void> _avanzar(WidgetTester tester) async {
+  await tester.pump();
+  await tester.pump(const Duration(milliseconds: 700));
+}
+
 void main() {
   setUpAll(cargarFuentesDePrueba);
 
@@ -27,28 +34,28 @@ void main() {
     await tester.enterText(find.byType(TextFormField).at(0), '20241234');
     await tester.enterText(find.byType(TextFormField).at(1), 'clave');
     await tester.tap(find.text('Ingresar'));
-    await tester.pump(const Duration(milliseconds: 500));
+    await _avanzar(tester);
     expect(find.text('Plataformas Emergentes'), findsOneWidget);
 
     // Curso -> grupo.
     await tester.tap(find.text('Plataformas Emergentes'));
-    await tester.pump(const Duration(milliseconds: 600));
+    await _avanzar(tester);
     await tester.tap(find.text('Grupo B'));
-    await tester.pump(const Duration(milliseconds: 600));
+    await _avanzar(tester);
 
     // Matricularme -> confirmar en la hoja inferior.
     await tester.tap(find.byKey(const ValueKey('accion-grupo')));
-    await tester.pump(const Duration(milliseconds: 600));
+    await _avanzar(tester);
     expect(find.text('Confirmar matrícula'), findsOneWidget);
     await tester.tap(find.byKey(const ValueKey('btn-confirmar-sheet')));
-    await tester.pump(const Duration(milliseconds: 800));
+    await _avanzar(tester);
 
     expect(find.text('¡Matrícula confirmada!'), findsOneWidget);
     expect(estado.estaMatriculado('PE-B'), isTrue);
 
     // Ver mi horario.
     await tester.tap(find.byKey(const ValueKey('btn-ver-horario')));
-    await tester.pump(const Duration(milliseconds: 800));
+    await _avanzar(tester);
     expect(find.text('Horario semanal'), findsOneWidget);
     expect(find.text('Mis matrículas'), findsOneWidget);
   });
