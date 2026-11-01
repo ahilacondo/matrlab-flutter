@@ -2,29 +2,11 @@
 \label{sec:scrum}
 
 \subsection{Scrum adaptado a un equipo de una persona}
-Scrum define tres responsabilidades (Product Owner, Scrum Master y Developers), tres artefactos (Product Backlog, Sprint Backlog e Incremento) y cinco eventos \cite{scrumguide}. Este laboratorio lo hago yo solo, así que adapté el marco sin cambiar su lógica: el trabajo se ordena por valor, se entrega en iteraciones con una meta, y cada iteración termina con algo que se puede ejecutar y revisar.
+Scrum define tres responsabilidades (Product Owner, Scrum Master y Developers), tres artefactos (Product Backlog, Sprint Backlog e Incremento) y cinco eventos \cite{scrumguide}. Este laboratorio lo hago yo solo, así que adapté el marco sin cambiar su lógica: el trabajo se ordena por valor, se entrega en iteraciones con una meta, y cada iteración termina con algo que se puede ejecutar y revisar. La figura~\ref{fig:scrumadap} resume cómo se aplicó cada elemento; los artefactos se llevan en un libro de hoja de cálculo (\texttt{MatrLab\_Scrum.xlsx}) cuyas hojas se muestran como figuras en este informe.
 
-\begin{table}[H]
-	\centering\small
-	\begin{tabularx}{\textwidth}{|p{3.4cm}|X|}
-		\hline
-		\cab\hd{Elemento de Scrum} & \hd{Cómo se aplicó}\\
-		\hline
-		Product Owner & Asumo el rol, apoyado en la evidencia de la sección~\ref{sec:contexto} y en la guía del laboratorio, que cumple la función de «cliente». El docente valida en la entrega. \\\hline
-		Developers y Scrum Master & Los asumo también. Es una limitación: no hay revisión cruzada de pares. La compensé con pruebas automáticas, trazabilidad y criterios de aceptación escritos antes de programar. \\\hline
-		Product Backlog & Tabla~\ref{tab:backlog}: ocho historias con prioridad MoSCoW y puntos. \\\hline
-		Sprint Backlog & Tareas de cada historia en las tablas~\ref{tab:sprint1} y \ref{tab:sprint2}. \\\hline
-		Incremento & Una versión de la aplicación que se ejecuta y se prueba al cierre de cada sprint. \\\hline
-		Sprint Planning & Elegí las historias por prioridad y dependencia; fijé una meta y una capacidad por sprint. \\\hline
-		Daily Scrum & Se reemplaza por el registro de cambios del repositorio (anexo~\ref{anx:git}): cada commit dice qué se avanzó. \\\hline
-		Sprint Review & Revisión de capturas y de resultados de pruebas contra los criterios de aceptación (sección~\ref{sec:resultados}). \\\hline
-		Sprint Retrospective & Subsección~\ref{sec:retro}. \\\hline
-	\end{tabularx}
-	\caption{Elementos de Scrum y su adaptación al trabajo individual.}
-	\label{tab:scrumadap}
-\end{table}
+\onefig{img/f5_hoja_scrum.png}{1.0}{Elementos de Scrum y su adaptación al trabajo individual (hoja «Elementos de Scrum»).}{fig:scrumadap}
 
-\onefig{img/d5_scrum.png}{1.0}{Flujo de trabajo: de la evidencia al Product Backlog, dos sprints con su revisión y la entrega.}{fig:scrum}
+\onefig{img/f5_scrum_flujo.png}{1.0}{Flujo de trabajo: de la evidencia al Product Backlog, dos sprints con su revisión y la entrega.}{fig:scrum}
 
 \subsection{Meta de producto y metas de sprint}
 \begin{description}[leftmargin=0pt]
@@ -38,56 +20,19 @@ Fijé una capacidad de 13 puntos por sprint como límite de trabajo en curso. Es
 \textbf{Nota de honestidad sobre los sprints.} Los dos sprints son iteraciones lógicas, ordenadas por prioridad y dependencia; no los medí en días ni semanas, y el repositorio los registra juntos en un solo commit de código (anexo~\ref{anx:git}). Por eso no presento una gráfica de avance ni una velocidad: no tengo datos para sostenerlas.
 
 \subsection{Sprint 1: turnos, explicación y atención sin fila}
-\begin{table}[H]
-	\centering\footnotesize
-	\begin{tabularx}{\textwidth}{|p{1.1cm}|X|p{4.6cm}|}
-		\hline
-		\cab\hd{HU} & \hd{Tareas} & \hd{Archivos principales}\\
-		\hline
-		HU-08 & Modelo de turno con estados; cuatro turnos de demostración; regla que bloquea la matrícula fuera de turno; selector de ciclo en el inicio de sesión; aviso de turno en Cursos; lista de turnos en Ayuda y en Operación. & \texttt{models.dart}, \texttt{datos\_demo.dart}, \texttt{estado.dart}, \texttt{login\_screen.dart}, \texttt{turno\_widgets.dart} \\\hline
-		HU-12 & Función que calcula el motivo del bloqueo; estados del botón del grupo; preguntas frecuentes. & \texttt{estado.dart}, \texttt{grupo\_detalle\_screen.dart}, \texttt{ayuda\_screen.dart} \\\hline
-		HU-09 & Modelo de número de atención; solicitar, cancelar y atender; tarjeta con posición y espera; cola del administrador; avisos. & \texttt{models.dart}, \texttt{estado.dart}, \texttt{ayuda\_screen.dart}, \texttt{operacion\_screen.dart} \\\hline
-	\end{tabularx}
-	\caption{Sprint Backlog del Sprint 1 (13 puntos).}
-	\label{tab:sprint1}
-\end{table}
+Las tareas de cada historia y el archivo donde se resolvieron se registran en la figura~\ref{fig:sprint1}.
+
+\onefig{img/f5_hoja_sprint1.png}{1.0}{Sprint Backlog del Sprint 1 (hoja «Sprint 1»). Capacidad: 13 puntos.}{fig:sprint1}
 
 \subsection{Sprint 2: contingencia, comprobante y legibilidad}
-\begin{table}[H]
-	\centering\footnotesize
-	\begin{tabularx}{\textwidth}{|p{1.1cm}|X|p{4.6cm}|}
-		\hline
-		\cab\hd{HU} & \hd{Tareas} & \hd{Archivos principales}\\
-		\hline
-		HU-11 & Interruptor de caída en Operación; banner de servicio; solicitudes pendientes con código; procesamiento por orden de llegada con motivo de rechazo; sección de pendientes en el horario. & \texttt{estado.dart}, \texttt{turno\_widgets.dart}, \texttt{operacion\_screen.dart}, \texttt{horario\_screen.dart}, \texttt{grupo\_detalle\_screen.dart} \\\hline
-		HU-10 & Código de comprobante en cada matrícula; fila «Comprobante» y botón para copiarlo. & \texttt{models.dart}, \texttt{estado.dart}, \texttt{confirmacion\_screen.dart} \\\hline
-		HU-13 & Etiqueta semántica del número; pruebas con texto al 150\,\%; corrección del contraste del verde. & \texttt{ayuda\_screen.dart}, \texttt{lab05\_widget\_test.dart}, \texttt{comunes.dart} \\\hline
-	\end{tabularx}
-	\caption{Sprint Backlog del Sprint 2 (13 puntos).}
-	\label{tab:sprint2}
-\end{table}
+La figura~\ref{fig:sprint2} registra las tareas del segundo sprint.
+
+\onefig{img/f5_hoja_sprint2.png}{1.0}{Sprint Backlog del Sprint 2 (hoja «Sprint 2»). Capacidad: 13 puntos.}{fig:sprint2}
 
 \subsection{Definición de terminado}
-Una historia está terminada cuando cumple todos los puntos de la tabla~\ref{tab:dod}. Indico cuáles verifiqué por revisión y cuáles quedan pendientes de la ejecución.
+Una historia está terminada cuando cumple todos los puntos de la figura~\ref{fig:dod}. Indico cuáles verifiqué por revisión y cuáles quedan pendientes de la ejecución.
 
-\begin{table}[H]
-	\centering\footnotesize
-	\begin{tabularx}{\textwidth}{|p{0.7cm}|X|p{3.4cm}|}
-		\hline
-		\cab\hd{N.°} & \hd{Condición} & \hd{Estado}\\
-		\hline
-		1 & Cumple todos sus criterios de aceptación (tabla~\ref{tab:criterios}) con pruebas automáticas definidas. & Pruebas escritas; \textbf{resultado pendiente} \\\hline
-		2 & \texttt{flutter analyze} no reporta errores. & \textbf{Pendiente} de ejecución \\\hline
-		3 & Se ve bien a 360\,dp (teléfono) y a 900\,dp (tableta). & Capturas c30 y c16/c17; \textbf{pendiente} de generarlas \\\hline
-		4 & No se desborda con el texto al 150\,\%. & Pruebas escritas; \textbf{pendiente} \\\hline
-		5 & El texto de las etiquetas cumple contraste 4,5:1. & Cumple (tabla~\ref{tab:contraste}) \\\hline
-		6 & No usa paquetes externos (solo el SDK). & Cumple (\texttt{pubspec.yaml}) \\\hline
-		7 & Tiene al menos una captura en el recorrido. & Capturas definidas; \textbf{pendiente} \\\hline
-		8 & Está registrada en el repositorio con un mensaje claro. & Cumple (anexo~\ref{anx:git}) \\\hline
-	\end{tabularx}
-	\caption{Definición de terminado (DoD).}
-	\label{tab:dod}
-\end{table}
+\onefig{img/f5_hoja_dod.png}{1.0}{Definición de terminado (hoja «Definición de terminado»).}{fig:dod}
 
 \subsection{Eventos y retrospectiva}
 \label{sec:retro}
@@ -95,24 +40,6 @@ Una historia está terminada cuando cumple todos los puntos de la tabla~\ref{tab
 
 \pendiente{Revisión del Sprint 1 y del Sprint 2: indicar qué criterios pasaron y cuáles fallaron, con los resultados de la sección~\ref{sec:resultados}.}
 
-\paragraph{Retrospectiva (preliminar).} Lo que sé hasta ahora, sin esperar a los resultados:
+\paragraph{Retrospectiva (preliminar).} La figura~\ref{fig:retro} recoge lo que sé hasta ahora, sin esperar a los resultados.
 
-\begin{table}[H]
-	\centering\small
-	\begin{tabularx}{\textwidth}{|p{3.4cm}|X|}
-		\hline
-		\cab\hd{Qué funcionó} & \hd{Evidencia}\\
-		\hline
-		Partir de la evidencia & Tres de las cuatro funciones principales (turnos escalonados, protocolo de contingencia y mejor orientación) coinciden con medidas que el director de Servicios Académicos nombró como pendientes \cite{elpueblo25}; no las inventé. \\\hline
-		Reloj inyectable & Los turnos dependen de la hora; con un reloj fijo las pruebas y las capturas son repetibles y los textos como «faltan 2 d 0 h» no cambian. \\\hline
-		Revisar el propio diseño & Calcular el contraste de las etiquetas reveló que el verde heredado del Laboratorio~4 no cumplía; se corrigió. \\\hline
-		\cab\hd{Qué mejorar} & \hd{Acción}\\
-		\hline
-		Un commit por historia & El registro de cambios quedó con un solo commit de código para los dos sprints, por lo que no sirve como Daily Scrum. Acción: en los próximos laboratorios, un commit por historia terminada. \\\hline
-		Verificar más temprano & Ejecutar \texttt{flutter analyze} y \texttt{flutter test} al final de cada sprint y no solo al cierre del laboratorio (el script \texttt{ejecutar.ps1} lo hace en un paso). \\\hline
-		Datos propios de usuarios & La evidencia es documental. Con más tiempo, una encuesta breve a compañeros validaría los hallazgos H1 a H8 y ajustaría el backlog. \\\hline
-		Trabajo en solitario & Sin revisión de pares, un error de criterio solo lo detectan las pruebas. Acción: pedir una revisión corta del informe y del código a un compañero antes de entregar. \\\hline
-	\end{tabularx}
-	\caption{Retrospectiva preliminar del trabajo.}
-	\label{tab:retro}
-\end{table}
+\onefig{img/f5_hoja_retro.png}{1.0}{Retrospectiva preliminar del trabajo (hoja «Retrospectiva»).}{fig:retro}

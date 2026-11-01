@@ -1,7 +1,7 @@
 \section{Diseño de interfaces}
 \label{sec:diseno}
 
-\subsection{Qué cambia respecto al diseño del Laboratorio~4}
+\subsection{Cambios respecto al diseño del Laboratorio~4}
 La guía pide que el diseño se base en las funcionalidades del árbol de problemas y que guarde relación con los trabajos anteriores. Por eso conservo el sistema de diseño de MatrLab (Material~3, color semilla guinda \texttt{\#8C1D2F}, múltiplos de 4\,dp, botones principales de 48\,dp) \cite{lab4} y agrego solo lo que los requisitos nuevos necesitan (tabla~\ref{tab:delta}).
 
 \begin{table}[H]
@@ -25,12 +25,12 @@ La guía pide que el diseño se base en las funcionalidades del árbol de proble
 \subsection{Mapa de navegación}
 El administrador ahora ve tres pestañas (Cursos, Panel y Operación) y el estudiante cuatro (Cursos, Mi horario, Alertas y Ayuda). Los elementos nuevos están marcados en amarillo en la figura~\ref{fig:nav5}.
 
-\onefig{img/d5_navegacion.png}{0.95}{Mapa de navegación de MatrLab 2.0 (en amarillo, lo nuevo).}{fig:nav5}
+\onefig{img/f5_navegacion.png}{1.0}{Mapa de navegación de MatrLab 2.0 (en amarillo, lo nuevo).}{fig:nav5}
 
 \subsection{Flujo de contingencia}
 La pieza de diseño más importante de esta versión es qué ocurre cuando el servicio cae. La figura~\ref{fig:conting} muestra el flujo; la decisión clave es que las reglas que no dependen del servidor (turno, curso repetido, cruce de horario) se validan siempre, y solo la reserva del cupo se pospone.
 
-\onefig{img/d5_contingencia.png}{0.75}{Flujo de matrícula con el servicio disponible y en modo contingencia.}{fig:conting}
+\onefig{img/f5_contingencia.png}{0.8}{Flujo de matrícula con el servicio disponible y en modo contingencia.}{fig:conting}
 
 \subsection{Mockups}
 \label{sec:mockups5}

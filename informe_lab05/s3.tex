@@ -1,7 +1,7 @@
 \section{Ingeniería de requisitos}
 \label{sec:requisitos}
 
-\subsection{Cómo plantear los requisitos}
+\subsection{Planteamiento de requisitos}
 Una lista numerada de funciones no es una especificación: cada requisito debe poder justificarse (¿de dónde sale?), priorizarse, verificarse y rastrearse hasta una pantalla y una prueba. Por eso trabajé en cinco pasos, tomando de la norma ISO/IEC/IEEE 29148 los atributos de un buen requisito (identificador, enunciado, prioridad, fuente, criterio de verificación) \cite{iso29148} y de Scrum la forma de ordenarlos y entregarlos \cite{scrumguide}.
 
 \begin{table}[H]
@@ -37,9 +37,9 @@ Una lista numerada de funciones no es una especificación: cada requisito debe p
 
 \subsection{Árbol de problemas}
 \label{sec:arbol}
-El árbol del Laboratorio~4 tenía seis causas planteadas por mí a partir de la descripción de la aplicación \cite{lab4}. Con la evidencia real lo revisé: las causas de aquel árbol (cupos poco visibles, cruces de horario, lista de espera y falta de panel) se reúnen ahora en la causa C7, y las causas C1 a C6 son nuevas y salen de los hallazgos de la tabla~\ref{tab:hallazgos}. La figura~\ref{fig:arbol5} muestra el árbol y la tabla~\ref{tab:causas} indica qué respalda cada causa.
+El árbol del Laboratorio~4 tenía seis causas planteadas por mí a partir de la descripción de la aplicación \cite{lab4}. Con la evidencia real lo revisé: las causas de aquel árbol (cupos poco visibles, cruces de horario, lista de espera y falta de panel) se reúnen ahora en la causa C7, y las causas C1 a C6 son nuevas y salen de los hallazgos de la tabla~\ref{tab:hallazgos}. La figura~\ref{fig:arbol5} muestra el árbol, con las siete causas agrupadas en tres frentes (demanda y capacidad, continuidad del servicio, y atención e información), y la tabla~\ref{tab:causas} indica qué respalda cada causa.
 
-\onefig{img/d5_arbol_problemas.png}{1.0}{Árbol de problemas de MatrLab 2.0: siete causas (izquierda), problema central (centro) y cuatro efectos (derecha).}{fig:arbol5}
+\onefig{img/f5_arbol.png}{1.0}{Árbol de problemas de MatrLab 2.0: cuatro efectos (arriba), problema central y siete causas agrupadas en tres frentes (abajo).}{fig:arbol5}
 
 \begin{table}[H]
 	\centering\small
@@ -142,26 +142,9 @@ Dos características de ISO/IEC 25010 quedan \textbf{fuera de alcance} a propós
 
 \subsection{Product Backlog}
 \label{sec:backlog}
-Cada requisito nuevo se redactó como historia de usuario («Como \emph{rol}, quiero \emph{acción} para \emph{beneficio}») \cite{cohn}. Los puntos son una estimación mía de esfuerzo relativo (serie de Fibonacci), no una medición. HU-14 y HU-15 quedan en el backlog sin construirse.
+Cada requisito nuevo se redactó como historia de usuario («Como \emph{rol}, quiero \emph{acción} para \emph{beneficio}») \cite{cohn}. Los puntos son una estimación mía de esfuerzo relativo (serie de Fibonacci), no una medición. HU-14 y HU-15 quedan en el backlog sin construirse. El backlog se lleva en una hoja de cálculo (figura~\ref{fig:backlog}); el libro completo se entrega con el informe.
 
-\begin{table}[H]
-	\centering\footnotesize
-	\begin{tabularx}{\textwidth}{|p{1.1cm}|X|p{1.3cm}|p{0.9cm}|p{1.1cm}|p{1.2cm}|}
-		\hline
-		\cab\hd{ID} & \hd{Historia de usuario} & \hd{MoSCoW} & \hd{Pts.} & \hd{Req.} & \hd{Sprint}\\
-		\hline
-		HU-08 & Como estudiante, quiero ver cuándo es el turno de matrícula de mi ciclo y que el sistema respete ese turno, para no competir con todos a la vez. & Must & 5 & RF8 & 1 \\\hline
-		HU-12 & Como estudiante, quiero que la aplicación me diga por qué no puedo matricularme en un grupo y qué hacer, para no depender de preguntar en persona. & Must & 3 & RF12 & 1 \\\hline
-		HU-09 & Como estudiante, quiero pedir un número de atención virtual, para recibir ayuda sin hacer fila. & Must & 5 & RF9 & 1 \\\hline
-		HU-11 & Como estudiante, quiero que mi solicitud se guarde si el servicio se cae, para no perder mi lugar. & Must & 8 & RF11, RNF4 & 2 \\\hline
-		HU-10 & Como estudiante, quiero un comprobante con código, para demostrar que quedé matriculado. & Should & 2 & RF10 & 2 \\\hline
-		HU-13 & Como estudiante con texto ampliado, quiero que las pantallas nuevas se lean sin desbordes, para usar la aplicación en mi celular. & Should & 3 & RNF1, RNF2 & 2 \\\hline
-		HU-14 & Como estudiante, quiero que la aplicación recuerde mi sesión y mis solicitudes al cerrarla. & Could & 5 & (futuro) & Backlog \\\hline
-		HU-15 & Como estudiante, quiero recibir avisos en el celular cuando se acerque mi turno. & Won't (por ahora) & 8 & (futuro) & Backlog \\\hline
-	\end{tabularx}
-	\caption{Product Backlog de MatrLab 2.0. Total comprometido: 26 puntos.}
-	\label{tab:backlog}
-\end{table}
+\onefig{img/f5_hoja_backlog.png}{1.0}{Product Backlog de MatrLab 2.0 (hoja «Product Backlog» del libro \texttt{MatrLab\_Scrum.xlsx}). Total comprometido: 26 puntos.}{fig:backlog}
 
 HU-14 y HU-15 requieren almacenamiento local, servidor o servicios de notificación que este laboratorio no cubre (sección~\ref{sec:componentes}).
 
@@ -195,24 +178,6 @@ Cada historia se considera cumplida cuando se cumplen sus criterios, escritos en
 
 \subsection{Matriz de trazabilidad}
 \label{sec:traza}
-La figura~\ref{fig:traza} resume cómo cada causa del árbol termina en un requisito y una pantalla; la tabla~\ref{tab:traza} agrega la historia, la prueba y la captura que lo documentan. Con ella se puede ir en ambos sentidos: de una causa a su evidencia y de una pantalla a su justificación.
+La figura~\ref{fig:traza} relaciona cada causa del árbol con su evidencia, su requisito, su historia, sus pantallas, sus pruebas y sus capturas. Con ella se puede ir en ambos sentidos: de una causa a su evidencia y de una pantalla a su justificación.
 
-\onefig{img/d5_trazabilidad.png}{1.0}{Trazabilidad causa $\rightarrow$ requisito $\rightarrow$ pantalla.}{fig:traza}
-
-\begin{table}[H]
-	\centering\footnotesize
-	\begin{tabularx}{\textwidth}{|p{0.9cm}|p{1.0cm}|p{1.2cm}|p{3.4cm}|X|p{2.6cm}|}
-		\hline
-		\cab\hd{Causa} & \hd{Req.} & \hd{Historia} & \hd{Pantalla} & \hd{Prueba} & \hd{Captura}\\
-		\hline
-		C1, C2 & RF8 & HU-08 & Login (ciclo), Cursos, Ayuda, Operación & \texttt{lab05\_estado\_test} (HU-08), \texttt{lab05\_widget\_test} & c18, c20 \\\hline
-		C6 & RF9 & HU-09 & Ayuda, Operación & ídem (HU-09) & c21, c24 \\\hline
-		C4 & RF10 & HU-10 & Confirmación & ídem (HU-10) & c08 \\\hline
-		C3, C4 & RF11 & HU-11 & Banner, Grupo, Hoja de confirmación, Horario, Alertas, Operación & ídem (HU-11) & c23, c25 a c28 \\\hline
-		C5 & RF12 & HU-12 & Grupo, Ayuda (preguntas) & ídem (HU-12) & c19, c22 \\\hline
-		C1 a C7 & RNF2 & HU-13 & Ayuda, Operación, Grupo & ídem (texto grande) & c29 \\\hline
-		C7 & RF1 a RF7 & HU-01 a HU-07 & Login, Cursos, Grupo, Horario, Alertas, Panel & \texttt{matrlab\_state\_test}, \texttt{flujo\_widget\_test} & c01 a c17 \\\hline
-	\end{tabularx}
-	\caption{Matriz de trazabilidad de MatrLab 2.0.}
-	\label{tab:traza}
-\end{table}
+\onefig{img/f5_hoja_traza.png}{1.0}{Matriz de trazabilidad de MatrLab 2.0 (hoja «Trazabilidad»).}{fig:traza}
