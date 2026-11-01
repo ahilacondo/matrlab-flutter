@@ -174,7 +174,11 @@ void main() {
 
       await _abrir(tester, const GrupoDetalleScreen(grupoId: 'PE-B'));
       await tester.tap(find.byKey(const ValueKey('accion-grupo')));
-      await tester.pump(const Duration(milliseconds: 700));
+      // La hoja inferior tarda dos cuadros en empezar a subir: se avanza
+      // hasta que llegue a su posición antes de tocar «Guardar».
+      await _avanzar(tester);
+      await tester.pump(const Duration(milliseconds: 500));
+      expect(find.text('Guardar solicitud'), findsWidgets);
       await tester.tap(find.byKey(const ValueKey('btn-confirmar-sheet')));
       await _avanzar(tester);
 
