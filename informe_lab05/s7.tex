@@ -1,0 +1,114 @@
+\section{Desarrollo según los requisitos}
+\label{sec:desarrollo}
+
+Esta sección muestra el desarrollo ordenado por sprint e historia de usuario. Cada historia sigue el mismo orden: requisito que atiende, cómo se resolvió en Flutter, el código clave, la captura de la pantalla y la prueba que verifica el criterio de aceptación (tabla~\ref{tab:criterios}).
+
+\subsection{Preparación del proyecto}
+El proyecto de Flutter es el del Laboratorio~4, con el mismo comando de creación y sin paquetes externos. La versión pasa a 2.0.0+2 en \texttt{pubspec.yaml}. Los comandos para analizar, probar y generar las capturas son:
+
+\begin{lstlisting}[style=consola,caption={Comandos para verificar el proyecto y generar las capturas.},captionpos=b]
+flutter pub get
+flutter analyze            # analisis estatico
+flutter test               # pruebas + 30 capturas en .\capturas
+.\ejecutar.ps1             # lo anterior, mas salida_analyze.txt,
+                           # salida_test.txt e historial_git.txt
+\end{lstlisting}
+
+\begin{table}[H]
+	\centering\footnotesize
+	\begin{tabularx}{\textwidth}{|p{4.4cm}|p{2.3cm}|X|}
+		\hline
+		\cab\hd{Archivo} & \hd{Líneas} & \hd{Contenido}\\
+		\hline
+		\texttt{lib/models.dart} & 207 (modificado) & \texttt{TurnoMatricula}, \texttt{TicketAtencion}, \texttt{SolicitudPendiente}, \texttt{EstadoTicket}, código de comprobante, \texttt{formatoFaltante} \\\hline
+		\texttt{lib/datos\_demo.dart} & 216 (modificado) & Cuatro turnos, cola de demostración (A-017 a A-020) y motivos de atención \\\hline
+		\texttt{lib/estado.dart} & 524 (modificado) & Reloj inyectable, turnos, motivo del bloqueo, contingencia y número de atención \\\hline
+		\texttt{lib/widgets/turno\_widgets.dart} & 127 (nuevo) & \texttt{Etiqueta}, \texttt{AvisoTurno}, \texttt{BannerServicio} \\\hline
+		\texttt{lib/screens/ayuda\_screen.dart} & 326 (nuevo) & Pestaña Ayuda del estudiante \\\hline
+		\texttt{lib/screens/operacion\_screen.dart} & 160 (nuevo) & Pestaña Operación del administrador \\\hline
+		\texttt{test/lab05\_estado\_test.dart} & 254 (nuevo) & 26 pruebas de reglas \\\hline
+		\texttt{test/lab05\_widget\_test.dart} & 265 (nuevo) & 13 pruebas de interfaz \\\hline
+		\texttt{test/capturas\_test.dart} & 310 (modificado) & 30 capturas (17 anteriores y 13 nuevas) con reloj fijo \\\hline
+	\end{tabularx}
+	\caption{Archivos del Laboratorio~5. En total, \texttt{lib/} pasó de 2\,863 a 3\,476 líneas (contadas con \texttt{wc -l}, incluyen comentarios y líneas en blanco).}
+	\label{tab:archivos}
+\end{table}
+
+\subsection{Sprint 1}
+
+\subsubsection{HU-08: turnos escalonados de matrícula}
+\textbf{Requisito:} RF8. \textbf{Idea:} un turno es una ventana de fechas asociada a un rango de ciclos; el estudiante solo puede matricularse cuando el reloj pasó el inicio de su turno. El turno no es un campo suelto sino un tipo con comportamiento, lo que permite que la pantalla pregunte «¿en curso?» sin repetir la comparación.
+
+\extracto{lib/models.dart}{102-135}{Modelo del turno de matrícula (\texttt{lib/models.dart}).}
+
+El estado entrega el turno que le corresponde al ciclo del estudiante y si ya está abierto. El administrador no tiene turno. La hora sale de un reloj inyectable (\texttt{ahora}), por lo que las pruebas fijan el día y la hora.
+
+\extracto{lib/estado.dart}{167-180}{Turno del estudiante y turno abierto (\texttt{lib/estado.dart}).}
+
+En la interfaz, el inicio de sesión recoge el ciclo con un \texttt{DropdownMenu} y la lista de cursos muestra al inicio el aviso de turno.
+
+\extracto{lib/screens/login_screen.dart}{136-152}{Selector de ciclo (\texttt{lib/screens/login\_screen.dart}).}
+
+\trio{c18_cursos_turno_pendiente}{Cursos con aviso de turno}{c20_ayuda_turnos}{Ayuda: turnos}{c19_grupo_fuera_turno}{Grupo fuera de turno}{HU-08: el estudiante de ciclo 5 ve que su turno inicia en dos días y no puede matricularse todavía.}
+
+\paragraph{Verificación.} En \texttt{lab05\_estado\_test.dart}: «fuera de turno no se consume cupo ni se registra matrícula», «al iniciar el turno el estudiante ya puede matricularse», «el estado de cada turno depende de la hora» y «el administrador no está sujeto a turnos». En \texttt{lab05\_widget\_test.dart}: «el inicio de sesión guarda el ciclo elegido».
+
+\subsubsection{HU-12: explicación del bloqueo y preguntas frecuentes}
+\textbf{Requisito:} RF12. \textbf{Idea:} la regla de por qué algo no se puede hacer vive en una sola función de \texttt{MatrLabState}, que devuelve el texto exacto para el estudiante o \texttt{null} si puede continuar. El orden importa: primero el turno, luego el curso repetido y por último el cruce de horario.
+
+\extracto{lib/estado.dart}{182-203}{Motivo por el que no se puede matricular (\texttt{lib/estado.dart}).}
+
+La pantalla del grupo muestra ese texto en un aviso y deshabilita el botón. Las preguntas frecuentes de la pestaña Ayuda repiten las reglas con \texttt{ExpansionTile}.
+
+\duo{c22_ayuda_preguntas}{Ayuda: preguntas frecuentes}{c19_grupo_fuera_turno}{Motivo en el grupo}{HU-12: el sistema dice por qué no se puede continuar y qué hacer.}
+
+\paragraph{Verificación.} «fuera de turno dice cuál es el turno y cuánto falta» (el texto contiene «Turno 3» y «faltan 2 d 0 h»), «sin obstáculos no hay motivo de bloqueo», «el cruce de horario se explica con el curso en conflicto» y «un segundo grupo del mismo curso se explica». En interfaz: «fuera de turno el botón queda bloqueado y se explica».
+
+\subsubsection{HU-09: número de atención virtual}
+\textbf{Requisito:} RF9. \textbf{Idea:} cada estudiante tiene como máximo un número activo; su posición se calcula contando los números en espera menores que el suyo, y la espera estimada es esa cantidad por cinco minutos (valor de demostración, declarado en pantalla). El diálogo de motivos se abre con \texttt{showDialog}.
+
+\extracto{lib/estado.dart}{364-387}{Solicitud de un número de atención (\texttt{lib/estado.dart}).}
+
+\extracto{lib/screens/ayuda_screen.dart}{18-33}{Diálogo para elegir el motivo (\texttt{lib/screens/ayuda\_screen.dart}).}
+
+\duo{c21_ayuda_numero}{Número A-021}{c24_operacion_cola}{Cola del administrador}{HU-09: el estudiante recibe su número y puede esperar donde esté; el administrador atiende en orden.}
+
+\paragraph{Verificación.} «la cola de demostración tiene cuatro personas», «el estudiante recibe A-021 con posición y espera estimada», «solo se permite un número activo por estudiante», «el administrador no puede pedir número», «al atender a los de adelante se avisa al estudiante», «cancelar el número permite pedir uno nuevo» y «sin cola de demostración la numeración parte de A-001». En interfaz: pedir, cancelar y atender el siguiente.
+
+\subsection{Sprint 2}
+
+\subsubsection{HU-11: modo contingencia}
+\textbf{Requisito:} RF11 y RNF4. \textbf{Idea:} las reglas locales se validan siempre; si el servicio está caído, la solicitud se guarda con un código y no consume cupo. Al restablecerse, se recorre la cola en orden de llegada y cada solicitud se confirma o se rechaza con su motivo, que se comunica en Alertas.
+
+\extracto{lib/estado.dart}{217-228}{Reglas que no dependen del servidor (\texttt{lib/estado.dart}).}
+
+\extracto{lib/estado.dart}{246-272}{Matrícula directa o solicitud pendiente (\texttt{lib/estado.dart}).}
+
+\extracto{lib/estado.dart}{308-332}{Procesamiento de pendientes por orden de llegada (\texttt{lib/estado.dart}).}
+
+El administrador activa la caída en la pestaña Operación; el banner aparece en todas las pestañas y los botones del grupo cambian a «Guardar solicitud».
+
+\trio{c23_operacion_servicio}{Operación: caída}{c25_grupo_servicio_caido}{Grupo con servicio caído}{c26_hoja_guardar_solicitud}{Guardar solicitud}{HU-11, primera parte: el servicio cae y la aplicación sigue aceptando solicitudes.}
+
+\duo{c27_horario_solicitud_pendiente}{Horario con pendiente}{c28_alertas_servicio_restablecido}{Alertas al restablecer}{HU-11, segunda parte: la solicitud queda visible y, al volver el servicio, se procesa y se avisa.}
+
+\paragraph{Verificación.} «sin servicio la solicitud queda pendiente y no consume cupo», «no admite dos solicitudes para el mismo curso», «al restablecerse se confirma la solicitud y se avisa», «se procesan por orden de llegada y se rechaza la que se cruza», «si el grupo se llenó durante la caída, se rechaza con motivo», «se puede cancelar una solicitud pendiente» y «repetir el mismo cambio de servicio no duplica avisos». En interfaz: «con el servicio caído la solicitud se guarda y luego se confirma» y «el administrador simula la caída desde el panel de operación».
+
+\subsubsection{HU-10: comprobante con código}
+\textbf{Requisito:} RF10. \textbf{Idea:} la pantalla de confirmación muestra el código de la matrícula y un botón que lo copia. \texttt{Clipboard.setData} es asíncrono; se guarda antes el \texttt{ScaffoldMessenger} para no usar el \texttt{BuildContext} después de la espera.
+
+\extracto{lib/screens/confirmacion_screen.dart}{100-112}{Botón para copiar el comprobante (\texttt{lib/screens/confirmacion\_screen.dart}).}
+
+\begin{figure}[H]\centering\begin{minipage}{0.34\textwidth}\capt{c08_confirmacion}{}\end{minipage}\caption{HU-10: la confirmación muestra el comprobante (captura c08, regenerada al ejecutar las pruebas).}\label{fig:c08}\end{figure}
+
+\paragraph{Verificación.} «cada matrícula recibe un código único» y, en interfaz, «el comprobante se copia al portapapeles» (con el canal de plataforma simulado).
+
+\subsubsection{HU-13: legibilidad con texto grande}
+\textbf{Requisito:} RNF2 y RNF1. \textbf{Idea:} Flutter ya aplica la escala de texto del sistema; lo que se comprueba es que las pantallas nuevas no se desborden al 150\,\%. Las pantallas largas están dentro de un \texttt{SingleChildScrollView} y las etiquetas usan \texttt{Row} con \texttt{Expanded} para que el texto largo se ajuste. El contraste de las etiquetas se corrigió como se explicó en la sección~\ref{sec:rnf}.
+
+\duo{c29_ayuda_texto_grande}{Ayuda con texto al 150\,\%}{c30_tablet_ayuda}{Ayuda en tableta}{HU-13 y RNF6: la misma pantalla con texto ampliado y en una tableta.}
+
+\paragraph{Verificación.} Tres pruebas de «texto grande»: Ayuda, Operación y grupo fuera de turno, cada una sin excepciones de desborde.
+
+\subsection{Lo que no se construyó}
+HU-14 (guardar sesión entre ejecuciones) y HU-15 (avisos en el celular) quedan en el backlog por las razones de la tabla~\ref{tab:paquetes}. Tampoco se resuelve la capacidad del servidor (causa C1): la aplicación reparte la demanda, pero no puede aumentar el número de matrículas por día que procesa la universidad.

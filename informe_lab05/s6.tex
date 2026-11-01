@@ -1,0 +1,116 @@
+\section{Diseño de interfaces}
+\label{sec:diseno}
+
+\subsection{Qué cambia respecto al diseño del Laboratorio~4}
+La guía pide que el diseño se base en las funcionalidades del árbol de problemas y que guarde relación con los trabajos anteriores. Por eso conservo el sistema de diseño de MatrLab (Material~3, color semilla guinda \texttt{\#8C1D2F}, múltiplos de 4\,dp, botones principales de 48\,dp) \cite{lab4} y agrego solo lo que los requisitos nuevos necesitan (tabla~\ref{tab:delta}).
+
+\begin{table}[H]
+	\centering\footnotesize
+	\begin{tabularx}{\textwidth}{|p{3.3cm}|X|p{2.2cm}|}
+		\hline
+		\cab\hd{Elemento nuevo} & \hd{Decisión}  & \hd{Requisito}\\
+		\hline
+		Pestaña Ayuda (estudiante) & Cuarta pestaña de la barra inferior: turnos, estado del servicio, número de atención y preguntas frecuentes en una sola pantalla con desplazamiento. & RF8, RF9, RF12 \\\hline
+		Pestaña Operación (administrador) & Tercera pestaña: interruptor de caída simulada, turnos y cola de atención. & RF8, RF9, RF11 \\\hline
+		Etiqueta de estado & Icono + texto + color. Verde = en curso o disponible; ámbar = programado o en espera; gris = finalizado; rojo = no disponible. Todas con contraste $\geq$ 4,5:1 (tabla~\ref{tab:contraste}). & RNF1 \\\hline
+		Aviso de turno & Franja compacta al inicio de Cursos: «Turno 1 · Ciclos 9–10: tu turno está abierto» o «inicia en 2 d 0 h». & RF8 \\\hline
+		Banner de contingencia & Franja de color de error bajo la barra superior, visible en todas las pestañas mientras el servicio esté caído. & RF11 \\\hline
+		Estados del botón del grupo & Cuatro textos según la situación: «Matricularme» o «Guardar solicitud», «Fuera de tu turno», «Solicitud pendiente de procesar» y «Ya tienes una solicitud para este curso»; los bloqueados se deshabilitan y la causa se explica en un aviso encima. & RF8, RF11, RF12 \\\hline
+		Selector de ciclo & Menú desplegable en el inicio de sesión (solo estudiantes) con el texto «Ciclo (define tu turno)». & RF8 \\\hline
+	\end{tabularx}
+	\caption{Elementos de diseño agregados en MatrLab 2.0.}
+	\label{tab:delta}
+\end{table}
+
+\subsection{Mapa de navegación}
+El administrador ahora ve tres pestañas (Cursos, Panel y Operación) y el estudiante cuatro (Cursos, Mi horario, Alertas y Ayuda). Los elementos nuevos están marcados en amarillo en la figura~\ref{fig:nav5}.
+
+\onefig{img/d5_navegacion.png}{0.95}{Mapa de navegación de MatrLab 2.0 (en amarillo, lo nuevo).}{fig:nav5}
+
+\subsection{Flujo de contingencia}
+La pieza de diseño más importante de esta versión es qué ocurre cuando el servicio cae. La figura~\ref{fig:conting} muestra el flujo; la decisión clave es que las reglas que no dependen del servidor (turno, curso repetido, cruce de horario) se validan siempre, y solo la reserva del cupo se pospone.
+
+\onefig{img/d5_contingencia.png}{0.75}{Flujo de matrícula con el servicio disponible y en modo contingencia.}{fig:conting}
+
+\subsection{Mockups}
+\label{sec:mockups5}
+Dibujé los mockups de las pantallas nuevas o modificadas antes de programarlas, a escala de teléfono (360\,$\times$\,740\,dp). Como en el Laboratorio~4, cada número rojo identifica un elemento y la tabla contigua indica con qué widget de Flutter se construye.
+
+\FloatBarrier
+\subsubsection*{Inicio de sesión con selección de ciclo}
+Cambia respecto a la versión anterior solo el campo 5: para el estudiante aparece un \texttt{DropdownMenu} que define su turno.
+
+\begin{figure}[H]\centering
+\begin{minipage}[c]{0.36\textwidth}\centering\includegraphics[width=\linewidth]{img/m5_01_login.png}\end{minipage}\hfill
+\begin{minipage}[c]{0.60\textwidth}\footnotesize\begin{tabularx}{\linewidth}{|c|p{2.3cm}|X|}\hline\cab\hd{N.°} & \hd{Elemento} & \hd{Widget}\\\hline
+1 & Logo circular & \texttt{Container} circular con \texttt{Icon} \\\hline
+2 & Selector de rol & \texttt{SegmentedButton<Rol>} \\\hline
+3 & Código de estudiante & \texttt{TextFormField} con \texttt{validator} \\\hline
+4 & Contraseña & \texttt{TextFormField} con \texttt{IconButton} para mostrar u ocultar \\\hline
+5 & \textbf{Ciclo (nuevo)} & \texttt{DropdownMenu<int>} con 10 \texttt{DropdownMenuEntry}; visible solo si el rol es estudiante \\\hline
+6 & Botón Ingresar & \texttt{FilledButton} \\\hline
+\end{tabularx}\end{minipage}
+\caption{Mockup: inicio de sesión con selector de ciclo.}\label{fig:m501}\end{figure}
+
+\FloatBarrier
+\subsubsection*{Pestaña Ayuda}
+Estructura: \texttt{ContenidoCentrado} $\rightarrow$ \texttt{SingleChildScrollView} $\rightarrow$ \texttt{Column} con cuatro bloques (turnos, servicio, atención sin fila, preguntas frecuentes). El mockup muestra los tres primeros.
+
+\begin{figure}[H]\centering
+\begin{minipage}[c]{0.36\textwidth}\centering\includegraphics[width=\linewidth]{img/m5_02_ayuda.png}\end{minipage}\hfill
+\begin{minipage}[c]{0.60\textwidth}\footnotesize\begin{tabularx}{\linewidth}{|c|p{2.3cm}|X|}\hline\cab\hd{N.°} & \hd{Elemento} & \hd{Widget}\\\hline
+1 & Lista de turnos; el del estudiante resaltado & \texttt{Container} con borde (color primario si es «tu turno») $\rightarrow$ \texttt{Row}[\texttt{Text}, \texttt{Etiqueta}] y fechas en \texttt{Text} \\\hline
+2 & Estado del servicio & \texttt{Card} $\rightarrow$ \texttt{Row}[\texttt{Icon}, \texttt{Column}] con \texttt{Etiqueta} «Disponible» o «No disponible» \\\hline
+3 & Pedir número de atención & \texttt{FilledButton.icon} de 48\,dp dentro de un \texttt{Card}; abre un \texttt{SimpleDialog} con los motivos \\\hline
+\end{tabularx}\end{minipage}
+\caption{Mockup: pestaña Ayuda del estudiante.}\label{fig:m502}\end{figure}
+
+\FloatBarrier
+\subsubsection*{Número de atención y preguntas frecuentes}
+Cuando el estudiante ya tiene número, la tarjeta del paso 3 de la figura anterior se reemplaza por esta.
+
+\begin{figure}[H]\centering
+\begin{minipage}[c]{0.36\textwidth}\centering\includegraphics[width=\linewidth]{img/m5_03_numero.png}\end{minipage}\hfill
+\begin{minipage}[c]{0.60\textwidth}\footnotesize\begin{tabularx}{\linewidth}{|c|p{2.3cm}|X|}\hline\cab\hd{N.°} & \hd{Elemento} & \hd{Widget}\\\hline
+1 & Número grande (A-021) & \texttt{Text} con estilo \texttt{displaySmall} en negrita, dentro de \texttt{Semantics} + \texttt{ExcludeSemantics} para que el lector diga «Tu número de atención es A-021» \\\hline
+2 & Posición y espera & Dos \texttt{StatTile} en una \texttt{Row} de \texttt{Expanded}; nota con \texttt{bodySmall} que declara que son 5 min por persona de demostración \\\hline
+3 & Cancelar mi número & \texttt{TextButton.icon} \\\hline
+4 & Preguntas frecuentes & \texttt{Card} (con \texttt{clipBehavior}) $\rightarrow$ \texttt{ExpansionTile}; la primera pregunta inicia abierta \\\hline
+\end{tabularx}\end{minipage}
+\caption{Mockup: número de atención virtual y preguntas frecuentes.}\label{fig:m503}\end{figure}
+
+\FloatBarrier
+\subsubsection*{Detalle de grupo fuera de turno}
+Es la respuesta de diseño a la queja de que el sistema es «ambiguo» (E6): en lugar de un botón que no hace nada, se dice el motivo y se deshabilita.
+
+\begin{figure}[H]\centering
+\begin{minipage}[c]{0.36\textwidth}\centering\includegraphics[width=\linewidth]{img/m5_04_fuera_turno.png}\end{minipage}\hfill
+\begin{minipage}[c]{0.60\textwidth}\footnotesize\begin{tabularx}{\linewidth}{|c|p{2.3cm}|X|}\hline\cab\hd{N.°} & \hd{Elemento} & \hd{Widget}\\\hline
+1 & Estado de ocupación & \texttt{EstadoChip} (icono + texto + color), con verde de contraste corregido \\\hline
+2 & Motivo del bloqueo & \texttt{Aviso} (icono + \texttt{Text}) cuyo texto sale de \texttt{motivoBloqueo()}: nombre del turno, fecha y tiempo que falta \\\hline
+3 & Botón bloqueado & \texttt{FilledButton} con \texttt{onPressed: null} y texto «Fuera de tu turno» \\\hline
+\end{tabularx}\end{minipage}
+\caption{Mockup: grupo fuera de turno.}\label{fig:m504}\end{figure}
+
+\FloatBarrier
+\subsubsection*{Pestaña Operación del administrador}
+\begin{figure}[H]\centering
+\begin{minipage}[c]{0.36\textwidth}\centering\includegraphics[width=\linewidth]{img/m5_05_operacion.png}\end{minipage}\hfill
+\begin{minipage}[c]{0.60\textwidth}\footnotesize\begin{tabularx}{\linewidth}{|c|p{2.3cm}|X|}\hline\cab\hd{N.°} & \hd{Elemento} & \hd{Widget}\\\hline
+1 & Simular caída del servicio & \texttt{Card} $\rightarrow$ \texttt{SwitchListTile}; el subtítulo muestra las solicitudes pendientes \\\hline
+2 & Turnos de matrícula & Una fila por turno: \texttt{Container} con \texttt{Etiqueta} de estado \\\hline
+3 & Cola de atención & Dos \texttt{StatTile} (en espera y atendidos) y filas con \texttt{SizedBox(width: 64)} para el número, \texttt{Expanded} para el motivo y la hora \\\hline
+4 & Atender siguiente & \texttt{FilledButton.icon} de 48\,dp, deshabilitado si la cola está vacía \\\hline
+\end{tabularx}\end{minipage}
+\caption{Mockup: pestaña Operación del administrador.}\label{fig:m505}\end{figure}
+
+\FloatBarrier
+\subsubsection*{Mi horario con solicitud pendiente}
+\begin{figure}[H]\centering
+\begin{minipage}[c]{0.36\textwidth}\centering\includegraphics[width=\linewidth]{img/m5_06_pendiente.png}\end{minipage}\hfill
+\begin{minipage}[c]{0.60\textwidth}\footnotesize\begin{tabularx}{\linewidth}{|c|p{2.3cm}|X|}\hline\cab\hd{N.°} & \hd{Elemento} & \hd{Widget}\\\hline
+1 & Banner de contingencia & \texttt{Container} de ancho completo con color \texttt{errorContainer} y \texttt{Semantics(container: true)}, colocado sobre las pestañas en \texttt{ShellScreen} \\\hline
+2 & Solicitud pendiente & \texttt{Card} $\rightarrow$ \texttt{ListTile} con \texttt{CircleAvatar} (icono de reloj de arena), título del curso y subtítulo con grupo, horario y código \\\hline
+3 & Cancelar solicitud & \texttt{IconButton} con \texttt{tooltip} «Cancelar solicitud» \\\hline
+\end{tabularx}\end{minipage}
+\caption{Mockup: horario con una solicitud pendiente en modo contingencia.}\label{fig:m506}\end{figure}

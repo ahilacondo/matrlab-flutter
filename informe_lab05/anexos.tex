@@ -1,0 +1,17 @@
+\appendix
+\section{Cómo reproducir el proyecto y las capturas}
+\label{anx:repro}
+\begin{enumerate}
+	\item Instalar Flutter y Android Studio; comprobar con \texttt{flutter doctor}.
+	\item Abrir una terminal en la carpeta \texttt{matrlab-flutter} y, solo la primera vez, ejecutar \texttt{flutter create --project-name matrlab --platforms android,web .} (agrega las carpetas de plataforma sin sobrescribir \texttt{lib/} ni \texttt{pubspec.yaml}).
+	\item Ejecutar \texttt{.\textbackslash ejecutar.ps1}, que corre \texttt{flutter pub get}, \texttt{flutter analyze} y \texttt{flutter test}; guarda las 30 capturas en \texttt{capturas/} y las salidas en \texttt{salida\_analyze.txt}, \texttt{salida\_test.txt} e \texttt{historial\_git.txt}.
+	\item \texttt{flutter run} abre la aplicación en un emulador; \texttt{flutter run -d chrome}, en el navegador.
+	\item Credenciales de demostración: estudiante con un código de 8 dígitos (por ejemplo, \texttt{20201234}), cualquier clave de 4 caracteres o más y un ciclo (el 10 tiene el turno abierto; el 5 aún no); administrador con un código de 4 o más caracteres (por ejemplo, \texttt{admin}).
+	\item Para ver la contingencia: ingresar como administrador, pestaña Operación, activar «Simular caída del servicio»; luego, como estudiante, intentar matricularse.
+	\item Compilar este informe: \texttt{latexmk -pdf informe.tex} dentro de \texttt{informe\_lab05/}.
+\end{enumerate}
+
+\section{Registro de cambios del repositorio}
+\label{anx:git}
+El registro de la tabla~\ref{tab:git} se obtuvo con \texttt{git log}; las fechas son las reales de cada \emph{commit}. Los siete primeros pertenecen al Laboratorio~4; los demás, al Laboratorio~5.
+\IfFileExists{historial.tex}{\input{historial}}{\pendiente{Generar \texttt{historial.tex} con el registro de commits.}}

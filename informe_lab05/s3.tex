@@ -1,0 +1,218 @@
+\section{Ingeniería de requisitos}
+\label{sec:requisitos}
+
+\subsection{Cómo plantear los requisitos}
+Una lista numerada de funciones no es una especificación: cada requisito debe poder justificarse (¿de dónde sale?), priorizarse, verificarse y rastrearse hasta una pantalla y una prueba. Por eso trabajé en cinco pasos, tomando de la norma ISO/IEC/IEEE 29148 los atributos de un buen requisito (identificador, enunciado, prioridad, fuente, criterio de verificación) \cite{iso29148} y de Scrum la forma de ordenarlos y entregarlos \cite{scrumguide}.
+
+\begin{table}[H]
+	\centering\small
+	\begin{tabularx}{\textwidth}{|p{0.7cm}|p{3.0cm}|X|p{2.6cm}|}
+		\hline
+		\cab\hd{N.°} & \hd{Paso} & \hd{Qué hice} & \hd{Dónde}\\
+		\hline
+		1 & Elicitar & Análisis documental de ocho evidencias públicas y de mis informes previos; no hubo encuestas ni entrevistas. & Secc.~\ref{sec:contexto} \\\hline
+		2 & Analizar & Ordené los hallazgos en un árbol de problemas (causas, problema central, efectos) y distinguí lo evidenciado de lo hipotético. & Secc.~\ref{sec:arbol} \\\hline
+		3 & Especificar & Redacté requisitos funcionales y no funcionales con atributos, y los reescribí como historias de usuario con criterios de aceptación Dado/Cuando/Entonces. & Secc.~\ref{sec:rf} a \ref{sec:criterios} \\\hline
+		4 & Priorizar & Clasifiqué con MoSCoW \cite{clegg}, estimé en puntos de historia (serie de Fibonacci) \cite{cohn} y armé el \emph{Product Backlog}. & Secc.~\ref{sec:backlog} \\\hline
+		5 & Verificar y rastrear & Cada criterio tiene una prueba automática y cada requisito una pantalla y una captura (matriz causa $\rightarrow$ requisito $\rightarrow$ historia $\rightarrow$ pantalla $\rightarrow$ prueba). & Secc.~\ref{sec:traza} \\\hline
+	\end{tabularx}
+	\caption{Proceso de requisitos seguido en el laboratorio.}
+	\label{tab:proceso}
+\end{table}
+
+\subsection{Interesados}
+\begin{table}[H]
+	\centering\small
+	\begin{tabularx}{\textwidth}{|p{3.2cm}|X|p{2.2cm}|}
+		\hline
+		\cab\hd{Interesado} & \hd{Necesidad principal (según la evidencia)} & \hd{Evidencia}\\
+		\hline
+		Estudiante regular & Saber cuándo le toca matricularse, asegurar su cupo sin pasar la noche en el campus, entender por qué algo falla y tener prueba de que quedó matriculado. & E3, E6, E7 \\\hline
+		Administración de la escuela o de Servicios Académicos & Repartir la demanda en el tiempo, atender a quien necesita ayuda sin colas físicas y tener un protocolo cuando el servicio cae. & E4, E5, E7 \\\hline
+		Docente del curso (validador) & Que el proyecto se relacione con los laboratorios anteriores y muestre el desarrollo según requisitos. & Guía \cite{guia05} \\\hline
+	\end{tabularx}
+	\caption{Interesados y necesidades.}
+	\label{tab:interesados}
+\end{table}
+
+\subsection{Árbol de problemas}
+\label{sec:arbol}
+El árbol del Laboratorio~4 tenía seis causas planteadas por mí a partir de la descripción de la aplicación \cite{lab4}. Con la evidencia real lo revisé: las causas de aquel árbol (cupos poco visibles, cruces de horario, lista de espera y falta de panel) se reúnen ahora en la causa C7, y las causas C1 a C6 son nuevas y salen de los hallazgos de la tabla~\ref{tab:hallazgos}. La figura~\ref{fig:arbol5} muestra el árbol y la tabla~\ref{tab:causas} indica qué respalda cada causa.
+
+\onefig{img/d5_arbol_problemas.png}{1.0}{Árbol de problemas de MatrLab 2.0: siete causas (izquierda), problema central (centro) y cuatro efectos (derecha).}{fig:arbol5}
+
+\begin{table}[H]
+	\centering\small
+	\begin{tabularx}{\textwidth}{|p{0.9cm}|X|p{2.2cm}|p{2.3cm}|}
+		\hline
+		\cab\hd{Causa} & \hd{Descripción} & \hd{Respaldo} & \hd{Tipo}\\
+		\hline
+		C1 & Demanda concentrada en los últimos días y capacidad limitada & E7, E6 & Evidenciada \\\hline
+		C2 & Sin turnos escalonados de matrícula & E7 (lo menciona como pendiente) & Evidenciada \\\hline
+		C3 & Servidores antiguos y sin alta disponibilidad & E4, E7 & Evidenciada \\\hline
+		C4 & Sin protocolo de contingencia ante una caída & E4, E5, E7 & Evidenciada \\\hline
+		C5 & Poca orientación sobre fechas, cursos y créditos & E6, E7 & Evidenciada \\\hline
+		C6 & Atención asistida solo por fila presencial & E7 & Evidenciada \\\hline
+		C7 & Cupos poco visibles, sin aviso ni validación de cruces & Laboratorios 1 y 4; E3 no menciona cruces ni cupos & Hipótesis del autor \\\hline
+	\end{tabularx}
+	\caption{Causas del árbol y su respaldo. C1 y C3 no se resuelven con una aplicación cliente (ver alcance).}
+	\label{tab:causas}
+\end{table}
+
+Los efectos E1 a E4 de la figura (estudiantes a la intemperie, pérdida de cupos, trámites paralizados, desgaste que se repite cada semestre) también aparecen en las fuentes (E4 a E7); su redacción es mía.
+
+\subsection{Requisitos funcionales}
+\label{sec:rf}
+Los requisitos RF1 a RF7 vienen del Laboratorio~4 y se conservan sin cambio de alcance (tabla~\ref{tab:rfbase}). Los RF8 a RF12 son nuevos y se especifican con sus atributos en la tabla~\ref{tab:rfnuevos}.
+
+\begin{table}[H]
+	\centering\small
+	\begin{tabularx}{\textwidth}{|p{1.1cm}|X|p{4.0cm}|}
+		\hline
+		\cab\hd{ID} & \hd{Requisito (Laboratorio~4)} & \hd{Pantalla}\\
+		\hline
+		RF1 & Matrícula directa con descuento inmediato del cupo & Grupo, confirmación \\\hline
+		RF2 & Ocupación visible (barra, fracción y etiqueta) & Cursos, curso \\\hline
+		RF3 & Flujo mínimo curso $\rightarrow$ grupo $\rightarrow$ confirmar & Todo el flujo \\\hline
+		RF4 & Bloqueo de cruces de horario y de dos grupos del mismo curso & Grupo, horario \\\hline
+		RF5 & Lista de espera y aviso de cupo liberado & Grupo, alertas \\\hline
+		RF6 & Panel de ocupación y ajuste de cupos & Panel \\\hline
+		RF7 & Inicio de sesión con validación & Login \\\hline
+	\end{tabularx}
+	\caption{Requisitos funcionales heredados del Laboratorio~4.}
+	\label{tab:rfbase}
+\end{table}
+
+\begin{table}[H]
+	\centering\footnotesize
+	\begin{tabularx}{\textwidth}{|p{0.9cm}|X|p{1.35cm}|p{1.3cm}|p{1.2cm}|p{2.3cm}|}
+		\hline
+		\cab\hd{ID} & \hd{Enunciado} & \hd{Prioridad} & \hd{Fuente} & \hd{Causa} & \hd{Verificación}\\
+		\hline
+		RF8 & El sistema \textbf{deberá} asignar a cada ciclo del 1 al 10 un turno de matrícula con fecha y hora de inicio y fin, mostrar al estudiante el estado de su turno (programado, en curso o finalizado) y \textbf{no deberá} permitir matricularse ni consumir cupos antes de que su turno inicie. & Must & H1, H2; E7 & C1, C2 & Prueba de estado y de interfaz \\\hline
+		RF9 & El sistema \textbf{deberá} permitir al estudiante pedir un número de atención virtual con un motivo, ver su posición y espera estimada, cancelarlo, y al administrador atender al siguiente; \textbf{deberá} avisar al estudiante cuando le toque. Un estudiante tendrá un solo número activo. & Must & H3; E7 & C6 & Prueba de estado y de interfaz \\\hline
+		RF10 & El sistema \textbf{deberá} asignar a cada matrícula confirmada un código de comprobante único y permitir copiarlo. & Should & H7; E3 & C4 & Prueba de estado y de interfaz \\\hline
+		RF11 & Cuando el servicio no esté disponible, el sistema \textbf{deberá} avisarlo con un banner, guardar la solicitud como pendiente (con código y sin consumir cupo), permitir cancelarla y, al restablecerse el servicio, procesar las pendientes por orden de llegada, confirmando o rechazando cada una con su motivo en Alertas. & Must & H4, H5; E4, E5 & C3, C4 & Prueba de estado y de interfaz \\\hline
+		RF12 & El sistema \textbf{deberá} explicar, en la pantalla del grupo, el motivo por el que no se puede matricular (turno, cruce o curso repetido) y \textbf{deberá} ofrecer preguntas frecuentes sobre las reglas. & Must & H6; E6, E7 & C5 & Prueba de estado y de interfaz \\\hline
+	\end{tabularx}
+	\caption{Requisitos funcionales nuevos de MatrLab 2.0, con atributos.}
+	\label{tab:rfnuevos}
+\end{table}
+
+\subsection{Requisitos no funcionales}
+\label{sec:rnf}
+Los clasifiqué según las características de calidad de ISO/IEC 25010 \cite{iso25010} y los redacté de forma que se puedan comprobar.
+
+\begin{table}[H]
+	\centering\footnotesize
+	\begin{tabularx}{\textwidth}{|p{1.1cm}|p{3.0cm}|X|p{2.3cm}|}
+		\hline
+		\cab\hd{ID} & \hd{Característica} & \hd{Requisito medible} & \hd{Verificación}\\
+		\hline
+		RNF1 & Usabilidad (accesibilidad) & El estado nunca se comunica solo con color: toda etiqueta lleva icono y texto. El texto de las etiquetas tiene una relación de contraste de al menos 4,5:1 sobre su fondo (WCAG 2.2, criterio 1.4.3 \cite{wcag}). & Cálculo (tabla~\ref{tab:contraste}) \\\hline
+		RNF2 & Usabilidad (legibilidad) & Las pantallas nuevas no se desbordan con el texto del sistema ampliado al 150\,\% en un teléfono de 360\,dp. & Pruebas de texto grande \\\hline
+		RNF3 & Usabilidad (operabilidad) & Los botones principales miden al menos 48\,dp de alto y las acciones de número y comprobante tienen etiqueta de texto. & Revisión de código \\\hline
+		RNF4 & Fiabilidad (tolerancia a fallos) & Con el servicio caído, ninguna solicitud se pierde ni consume cupo, y al restablecerse se procesan en orden de llegada. & Pruebas de HU-11 \\\hline
+		RNF5 & Mantenibilidad (capacidad de prueba) & Toda regla que depende de la hora usa un reloj inyectable, de modo que las pruebas y las capturas sean deterministas; no se usan paquetes externos. & Pruebas con reloj fijo \\\hline
+		RNF6 & Portabilidad & Un solo código para Android y web, con diseño adaptable (barra inferior bajo 600\,dp y riel lateral desde 600\,dp). & Captura en tableta \\\hline
+	\end{tabularx}
+	\caption{Requisitos no funcionales por característica de calidad.}
+	\label{tab:rnf5}
+\end{table}
+
+Dos características de ISO/IEC 25010 quedan \textbf{fuera de alcance} a propósito: la eficiencia de desempeño bajo carga real (la capacidad de 4\,000 matrículas por día depende de servidores, no de la aplicación cliente) y la seguridad (la aplicación no guarda datos reales ni autentica contra un servicio).
+
+\paragraph{Comprobación del contraste (RNF1).} Calculé la relación de contraste con la fórmula de WCAG para el texto de cada etiqueta sobre su fondo, que es el color del texto aplicado con 11\,\% de opacidad (valor 28 de 255) sobre blanco. Al revisarlo encontré que el verde que usaba desde el Laboratorio~4 (\texttt{\#2E7D32}) daba 4,44:1, por debajo del mínimo de 4,5:1 para texto de este tamaño (12\,dp en negrita no cuenta como texto grande). Lo corregí a \texttt{\#1B5E20} en las etiquetas (\texttt{EstadoChip}, \texttt{Etiqueta} y el texto de la pestaña Ayuda). Los otros tres colores ya cumplían.
+
+\begin{table}[H]
+	\centering\small
+	\begin{tabular}{|l|c|c|c|c|}
+		\hline
+		\cab\hd{Color de etiqueta} & \hd{Valor} & \hd{Sobre blanco} & \hd{Sobre su fondo} & \hd{¿Cumple 4,5:1?}\\
+		\hline
+		Verde (antes) & \texttt{\#2E7D32} & 5,13 & 4,44 & No \\\hline
+		Verde (ahora) & \texttt{\#1B5E20} & 7,87 & 6,61 & Sí \\\hline
+		Ámbar & \texttt{\#9A5B00} & 5,43 & 4,67 & Sí \\\hline
+		Gris (turno finalizado) & \texttt{\#5F5F5F} & 6,39 & 5,45 & Sí \\\hline
+		Rojo & \texttt{\#B3261E} & 6,54 & 5,46 & Sí \\\hline
+	\end{tabular}
+	\caption{Contraste del texto de las etiquetas, calculado con la fórmula de luminancia relativa de WCAG 2.2.}
+	\label{tab:contraste}
+\end{table}
+
+\subsection{Product Backlog}
+\label{sec:backlog}
+Cada requisito nuevo se redactó como historia de usuario («Como \emph{rol}, quiero \emph{acción} para \emph{beneficio}») \cite{cohn}. Los puntos son una estimación mía de esfuerzo relativo (serie de Fibonacci), no una medición. HU-14 y HU-15 quedan en el backlog sin construirse.
+
+\begin{table}[H]
+	\centering\footnotesize
+	\begin{tabularx}{\textwidth}{|p{1.1cm}|X|p{1.3cm}|p{0.9cm}|p{1.1cm}|p{1.2cm}|}
+		\hline
+		\cab\hd{ID} & \hd{Historia de usuario} & \hd{MoSCoW} & \hd{Pts.} & \hd{Req.} & \hd{Sprint}\\
+		\hline
+		HU-08 & Como estudiante, quiero ver cuándo es el turno de matrícula de mi ciclo y que el sistema respete ese turno, para no competir con todos a la vez. & Must & 5 & RF8 & 1 \\\hline
+		HU-12 & Como estudiante, quiero que la aplicación me diga por qué no puedo matricularme en un grupo y qué hacer, para no depender de preguntar en persona. & Must & 3 & RF12 & 1 \\\hline
+		HU-09 & Como estudiante, quiero pedir un número de atención virtual, para recibir ayuda sin hacer fila. & Must & 5 & RF9 & 1 \\\hline
+		HU-11 & Como estudiante, quiero que mi solicitud se guarde si el servicio se cae, para no perder mi lugar. & Must & 8 & RF11, RNF4 & 2 \\\hline
+		HU-10 & Como estudiante, quiero un comprobante con código, para demostrar que quedé matriculado. & Should & 2 & RF10 & 2 \\\hline
+		HU-13 & Como estudiante con texto ampliado, quiero que las pantallas nuevas se lean sin desbordes, para usar la aplicación en mi celular. & Should & 3 & RNF1, RNF2 & 2 \\\hline
+		HU-14 & Como estudiante, quiero que la aplicación recuerde mi sesión y mis solicitudes al cerrarla. & Could & 5 & (futuro) & Backlog \\\hline
+		HU-15 & Como estudiante, quiero recibir avisos en el celular cuando se acerque mi turno. & Won't (por ahora) & 8 & (futuro) & Backlog \\\hline
+	\end{tabularx}
+	\caption{Product Backlog de MatrLab 2.0. Total comprometido: 26 puntos.}
+	\label{tab:backlog}
+\end{table}
+
+HU-14 y HU-15 requieren almacenamiento local, servidor o servicios de notificación que este laboratorio no cubre (sección~\ref{sec:componentes}).
+
+\subsection{Criterios de aceptación}
+\label{sec:criterios}
+Cada historia se considera cumplida cuando se cumplen sus criterios, escritos en la forma Dado/Cuando/Entonces. Las pruebas citadas están en la carpeta \texttt{test/} del proyecto.
+
+\begin{longtable}{|p{1.1cm}|p{9.3cm}|p{3.4cm}|}
+	\hline
+	\cab\hd{HU} & \hd{Criterio de aceptación} & \hd{Prueba}\\
+	\hline\endfirsthead
+	\hline
+	\cab\hd{HU} & \hd{Criterio de aceptación} & \hd{Prueba}\\
+	\hline\endhead
+	HU-08 & \textbf{Dado} un estudiante de ciclo 5 cuyo turno aún no inicia, \textbf{cuando} intenta matricularse, \textbf{entonces} el resultado es «fuera de turno», no se consume cupo y no se registra matrícula. & Estado: «fuera de turno no se consume cupo» \\\cline{2-3}
+	& \textbf{Dado} que el turno del estudiante inicia a una hora, \textbf{cuando} el reloj llega a esa hora, \textbf{entonces} puede matricularse. & Estado: «al iniciar el turno…» \\\cline{2-3}
+	& \textbf{Dado} el listado de turnos, \textbf{entonces} cada ciclo del 1 al 10 tiene un turno y su estado depende de la hora (programado, en curso, finalizado). & Estado: «todos los ciclos…», «el estado de cada turno…» \\\hline
+	HU-12 & \textbf{Dado} un estudiante fuera de turno, \textbf{cuando} abre un grupo, \textbf{entonces} ve el nombre de su turno, la fecha de inicio y cuánto falta, y el botón queda bloqueado con la etiqueta «Fuera de tu turno». & Estado y widget: «fuera de turno dice…», «el botón queda bloqueado» \\\cline{2-3}
+	& \textbf{Dado} un grupo que se cruza con otro ya matriculado, \textbf{entonces} el motivo nombra el curso en conflicto. & Estado: «el cruce de horario se explica…» \\\hline
+	HU-09 & \textbf{Dado} una cola de demostración de cuatro personas, \textbf{cuando} el estudiante pide un número, \textbf{entonces} recibe A-021, con cuatro personas delante y 20 minutos de espera estimada. & Estado: «recibe A-021…» \\\cline{2-3}
+	& \textbf{Dado} un estudiante con número activo, \textbf{cuando} pide otro, \textbf{entonces} no se crea. El administrador no puede pedir número. & Estado: «solo un número activo», «el administrador no puede…» \\\cline{2-3}
+	& \textbf{Dado} que el administrador atiende al siguiente, \textbf{cuando} el estudiante pasa a ser el primero, \textbf{entonces} recibe el aviso «Es tu turno». & Estado y widget: «al atender a los de adelante…» \\\hline
+	HU-10 & \textbf{Dado} que se confirman dos matrículas, \textbf{entonces} cada una tiene un código distinto con el prefijo MLB-2026B-, y la pantalla de confirmación permite copiarlo al portapapeles. & Estado: «código único»; widget: «se copia al portapapeles» \\\hline
+	HU-11 & \textbf{Dado} que el servicio está caído, \textbf{cuando} el estudiante confirma un grupo, \textbf{entonces} la solicitud queda pendiente con un código de prefijo SOL-2026B- y no consume cupo. & Estado: «sin servicio la solicitud queda pendiente…» \\\cline{2-3}
+	& \textbf{Dado} varias solicitudes pendientes, \textbf{cuando} el servicio se restablece, \textbf{entonces} se procesan por orden de llegada; la que se cruza o cuyo grupo se llenó se rechaza con su motivo en Alertas. & Estado: «se procesan por orden…», «si el grupo se llenó…» \\\cline{2-3}
+	& \textbf{Dado} una solicitud pendiente, \textbf{entonces} puede cancelarse y no se admiten dos para el mismo curso. & Estado: «se puede cancelar…», «no admite dos…» \\\hline
+	HU-13 & \textbf{Dado} el texto del sistema al 150\,\%, \textbf{cuando} se abren Ayuda, Operación y el grupo fuera de turno, \textbf{entonces} no se produce ninguna excepción de desborde. & Widget: tres pruebas de «texto grande» \\\hline
+	\caption{Criterios de aceptación por historia y prueba que los verifica.}
+	\label{tab:criterios}
+\end{longtable}
+
+\subsection{Matriz de trazabilidad}
+\label{sec:traza}
+La figura~\ref{fig:traza} resume cómo cada causa del árbol termina en un requisito y una pantalla; la tabla~\ref{tab:traza} agrega la historia, la prueba y la captura que lo documentan. Con ella se puede ir en ambos sentidos: de una causa a su evidencia y de una pantalla a su justificación.
+
+\onefig{img/d5_trazabilidad.png}{1.0}{Trazabilidad causa $\rightarrow$ requisito $\rightarrow$ pantalla.}{fig:traza}
+
+\begin{table}[H]
+	\centering\footnotesize
+	\begin{tabularx}{\textwidth}{|p{0.9cm}|p{1.0cm}|p{1.2cm}|p{3.4cm}|X|p{2.6cm}|}
+		\hline
+		\cab\hd{Causa} & \hd{Req.} & \hd{Historia} & \hd{Pantalla} & \hd{Prueba} & \hd{Captura}\\
+		\hline
+		C1, C2 & RF8 & HU-08 & Login (ciclo), Cursos, Ayuda, Operación & \texttt{lab05\_estado\_test} (HU-08), \texttt{lab05\_widget\_test} & c18, c20 \\\hline
+		C6 & RF9 & HU-09 & Ayuda, Operación & ídem (HU-09) & c21, c24 \\\hline
+		C4 & RF10 & HU-10 & Confirmación & ídem (HU-10) & c08 \\\hline
+		C3, C4 & RF11 & HU-11 & Banner, Grupo, Hoja de confirmación, Horario, Alertas, Operación & ídem (HU-11) & c23, c25 a c28 \\\hline
+		C5 & RF12 & HU-12 & Grupo, Ayuda (preguntas) & ídem (HU-12) & c19, c22 \\\hline
+		C1 a C7 & RNF2 & HU-13 & Ayuda, Operación, Grupo & ídem (texto grande) & c29 \\\hline
+		C7 & RF1 a RF7 & HU-01 a HU-07 & Login, Cursos, Grupo, Horario, Alertas, Panel & \texttt{matrlab\_state\_test}, \texttt{flujo\_widget\_test} & c01 a c17 \\\hline
+	\end{tabularx}
+	\caption{Matriz de trazabilidad de MatrLab 2.0.}
+	\label{tab:traza}
+\end{table}

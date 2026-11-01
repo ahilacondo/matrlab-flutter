@@ -1,0 +1,71 @@
+\section{Recorrido de la aplicación}
+\label{sec:recorrido}
+
+Esta sección muestra el sistema solo con capturas, en el orden en que lo recorre una persona. Son las mismas imágenes de la sección~\ref{sec:desarrollo} más las del flujo base del Laboratorio~4, que se regeneran con el reloj fijo del 9 de noviembre de 2026 a las 08:00. El estudiante de los recorridos 1, 3 y 4 es de ciclo 10 (turno abierto) y el del recorrido 2 es de ciclo 5 (turno programado).
+
+\subsection{Recorrido 1: matrícula en el turno propio}
+\begin{figure}[H]
+\centering
+\scap{c01_login}{Inicio de sesión}\hfill
+\scap{c03_cursos}{Cursos}\hfill
+\scap{c06_grupo_detalle}{Grupo}\hfill
+\scap{c07_confirmar_sheet}{Confirmar}
+\caption{Pasos 1 a 4: entrar con el ciclo, ver el aviso de turno, elegir un grupo y confirmar.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\scap{c08_confirmacion}{Con comprobante}\hspace{0.04\textwidth}
+\scap{c09_horario}{Mi horario}\hspace{0.04\textwidth}
+\scap{c13_alertas_espera}{Alertas}
+\caption{Pasos 5 a 7: constancia con código copiable, horario y avisos.}
+\end{figure}
+
+\subsection{Recorrido 2: antes de que inicie el turno}
+\begin{figure}[H]
+\centering
+\scap{c18_cursos_turno_pendiente}{Aviso de turno}\hspace{0.04\textwidth}
+\scap{c19_grupo_fuera_turno}{Motivo y botón bloqueado}\hspace{0.04\textwidth}
+\scap{c20_ayuda_turnos}{Turnos en Ayuda}
+\caption{El estudiante de ciclo 5 ve cuándo le toca y por qué todavía no puede matricularse.}
+\end{figure}
+
+\subsection{Recorrido 3: atención sin fila}
+\begin{figure}[H]
+\centering
+\scap{c20_ayuda_turnos}{Ayuda}\hspace{0.04\textwidth}
+\scap{c21_ayuda_numero}{Número de atención}\hspace{0.04\textwidth}
+\scap{c22_ayuda_preguntas}{Preguntas frecuentes}
+\caption{El estudiante pide su número, ve su posición y consulta las reglas.}
+\end{figure}
+
+\subsection{Recorrido 4: el servicio cae}
+\begin{figure}[H]
+\centering
+\scap{c25_grupo_servicio_caido}{Banner y grupo}\hfill
+\scap{c26_hoja_guardar_solicitud}{Guardar solicitud}\hfill
+\scap{c27_horario_solicitud_pendiente}{Pendiente}\hfill
+\scap{c28_alertas_servicio_restablecido}{Servicio restablecido}
+\caption{Modo contingencia: el banner avisa, la solicitud se guarda y, al restablecerse el servicio, se procesa y se informa en Alertas.}
+\end{figure}
+
+\subsection{Recorrido 5: administrador}
+\begin{figure}[H]
+\centering
+\scap{c14_panel_admin}{Panel}\hspace{0.04\textwidth}
+\scap{c23_operacion_servicio}{Operación: servicio}\hspace{0.04\textwidth}
+\scap{c24_operacion_cola}{Operación: cola}
+\caption{El administrador revisa la ocupación, simula una caída y atiende a quienes esperan.}
+\end{figure}
+
+\subsection{Casos especiales del flujo base y accesibilidad}
+\begin{figure}[H]
+\centering
+\scap{c11_cruce_horario}{Cruce de horario}\hfill
+\scap{c12_grupo_lleno}{Grupo lleno}\hfill
+\scap{c15_alertas_cupo_liberado}{Cupo liberado}\hfill
+\scap{c29_ayuda_texto_grande}{Texto al 150\,\%}
+\caption{Casos del Laboratorio~4 que se conservan y pantalla con texto ampliado.}
+\end{figure}
+
+\ancha{c30_tablet_ayuda}{Pestaña Ayuda en una tableta (riel lateral de navegación).}{fig:tablet5}

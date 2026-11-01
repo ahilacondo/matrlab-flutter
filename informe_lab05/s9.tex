@@ -1,0 +1,74 @@
+\section{Pruebas y resultados}
+\label{sec:resultados}
+
+Esta sección es la que cierra el ciclo de verificación. Las pruebas están escritas y listas; los resultados dependen de ejecutarlas en mi equipo con Flutter instalado, por lo que están marcados como pendientes y \textbf{no} se afirma que pasen.
+
+\subsection{Inventario de pruebas}
+\begin{table}[H]
+	\centering\small
+	\begin{tabularx}{\textwidth}{|p{5.0cm}|p{1.6cm}|X|p{2.2cm}|}
+		\hline
+		\cab\hd{Archivo} & \hd{Pruebas} & \hd{Qué verifica} & \hd{Resultado}\\
+		\hline
+		\texttt{matrlab\_state\_test.dart} & 17 & Reglas del Laboratorio~4 (RF1 a RF7) & Pendiente \\\hline
+		\texttt{lab05\_estado\_test.dart} & 26 & Turnos, motivo del bloqueo, comprobante, contingencia y número de atención (RF8 a RF12) & Pendiente \\\hline
+		\texttt{flujo\_widget\_test.dart} & 1 & Flujo completo del estudiante & Pendiente \\\hline
+		\texttt{widget\_test.dart} & 1 & La aplicación arranca en el inicio de sesión & Pendiente \\\hline
+		\texttt{lab05\_widget\_test.dart} & 13 & Interfaz de HU-08 a HU-13, incluido el texto al 150\,\% & Pendiente \\\hline
+		\texttt{capturas\_test.dart} & 30 & Genera las 30 capturas del informe & Pendiente \\\hline
+		\textbf{Total} & \textbf{88} & & \\\hline
+	\end{tabularx}
+	\caption{Pruebas del proyecto (88 definidas).}
+	\label{tab:pruebas}
+\end{table}
+
+\subsection{Resultados de la ejecución}
+\pendiente{Pegar aquí la salida de \texttt{flutter analyze} (archivo \texttt{salida\_analyze.txt}) y el resumen final de \texttt{flutter test} (archivo \texttt{salida\_test.txt}, línea «All tests passed!» o la lista de fallos). Con ellos se completa la tabla~\ref{tab:pruebas} y se actualiza la definición de terminado (tabla~\ref{tab:dod}).}
+
+\begin{lstlisting}[style=consola,caption={Formato en que se pegará la salida (pendiente).},captionpos=b]
+$ flutter analyze
+  (resultado pendiente)
+$ flutter test
+  (resultado pendiente: N pruebas, N correctas, N fallidas)
+\end{lstlisting}
+
+\subsection{Criterios de aceptación frente a resultados}
+\begin{table}[H]
+	\centering\small
+	\begin{tabularx}{\textwidth}{|p{1.4cm}|X|p{3.2cm}|}
+		\hline
+		\cab\hd{Historia} & \hd{Criterio resumido} & \hd{Resultado}\\
+		\hline
+		HU-08 & Fuera de turno no se matricula ni se consume cupo; al iniciar el turno sí & Pendiente \\\hline
+		HU-12 & El motivo del bloqueo nombra turno, tiempo restante o curso en conflicto & Pendiente \\\hline
+		HU-09 & Número A-021 con posición 5 y 20 min; un solo número activo; aviso al llegar el turno & Pendiente \\\hline
+		HU-11 & Pendiente sin consumir cupo; procesamiento en orden de llegada con motivo de rechazo & Pendiente \\\hline
+		HU-10 & Código único por matrícula y copia al portapapeles & Pendiente \\\hline
+		HU-13 & Sin desbordes con texto al 150\,\% en Ayuda, Operación y grupo & Pendiente \\\hline
+	\end{tabularx}
+	\caption{Estado de verificación de cada historia.}
+	\label{tab:aceptacion}
+\end{table}
+
+\subsection{Qué revisar primero si una prueba falla}
+Las pruebas de interfaz dependen de detalles del motor de pruebas de Flutter que conviene mirar primero si alguna falla:
+
+\begin{itemize}
+	\item \textbf{Selección del ciclo en el menú desplegable.} La prueba toca \texttt{menu-ciclo} y luego una opción; si el menú no se abre en el tamaño de prueba, hay que desplazar o usar la opción con \texttt{warnIfMissed: false}.
+	\item \textbf{Escala de texto.} Las pruebas de texto grande usan \texttt{tester.platformDispatcher.\allowbreak textScaleFactorTestValue}; en versiones recientes del SDK puede aparecer como API en desuso. Si el analizador avisa, se cambia por la alternativa que indique el mensaje.
+	\item \textbf{Mensajes temporales.} El \texttt{SnackBar} deja un temporizador activo; las pruebas desmontan la aplicación al final (función \texttt{\_cerrar}) para evitar el error de temporizador pendiente.
+	\item \textbf{Portapapeles.} La prueba simula el canal de plataforma \texttt{SystemChannels.platform}; si el SDK cambia el nombre del método, la prueba lo mostrará.
+	\item \textbf{Fuentes de las capturas.} Las capturas cargan Roboto y los iconos Material desde el SDK; si faltan, el texto aparece como cuadros.
+\end{itemize}
+
+\section{Conclusiones}
+\label{sec:conclusiones}
+\begin{itemize}
+	\item \textbf{Los requisitos salieron de casos reales.} Con ocho evidencias públicas sobre las matrículas de la UNSA en 2026 pasé de un árbol de problemas hipotético a uno con seis de siete causas respaldadas por fuentes. Tres de las funciones principales coinciden con medidas que la propia Dirección de Servicios Académicos reconoce como pendientes (horarios escalonados, protocolos de contingencia y mejor orientación) \cite{elpueblo25}.
+	\item \textbf{Especificar es más que enumerar.} Cada requisito tiene fuente, prioridad, criterio de aceptación, prueba, pantalla y captura. La matriz de trazabilidad permite ir de una causa a su prueba y de una pantalla a su justificación.
+	\item \textbf{Scrum sirvió incluso en solitario}, con adaptaciones declaradas: meta de producto, backlog priorizado, dos sprints con meta, definición de terminado y retrospectiva. Su límite es la falta de revisión de pares, que compensé con pruebas automáticas.
+	\item \textbf{El aporte social es repartir la oportunidad de matricularse}: turno propio, atención sin fila, solicitudes que no se pierden y reglas explicadas. Reduce la ventaja de quien puede estar presente de noche; no sustituye la mejora de servidores que la universidad debe hacer.
+	\item \textbf{Un defecto propio salió al medir.} Calcular el contraste de las etiquetas mostró que el verde heredado del Laboratorio~4 no cumplía WCAG AA y se corrigió.
+	\item \textbf{Límites reconocidos:} la evidencia es documental y no hay encuesta propia; la caída del servicio es simulada; los turnos y tiempos de espera son valores de demostración; la capacidad del servidor y las notificaciones fuera de la aplicación quedan fuera de alcance; y los resultados de las 88 pruebas están pendientes de ejecución.
+	\item \textbf{Trabajo futuro:} validar los hallazgos con una encuesta breve a estudiantes; conectar la aplicación a un servidor para que la caída y los turnos sean reales; persistir la sesión y las solicitudes (HU-14); enviar avisos al celular (HU-15); y presentar la propuesta de turnos y número virtual a la Escuela como insumo para su proceso de matrícula.
+\end{itemize}

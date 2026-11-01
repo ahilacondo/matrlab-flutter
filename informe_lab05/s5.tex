@@ -1,0 +1,53 @@
+\section{Investigación de componentes de Flutter para el tema}
+\label{sec:componentes}
+
+La guía pide investigar los componentes propios del framework \emph{enfocados en el tema del proyecto}. En el Laboratorio~4 estudié los componentes de layout \cite{lab4}; aquí estudio los que resuelven los problemas de esta versión: elegir un ciclo, explicar reglas, avisar que el servicio cayó, entregar un comprobante, hacerlo accesible y probarlo. Para cada necesidad comparo el componente elegido con su alternativa más cercana y digo por qué lo elegí.
+
+\subsection{Componentes estudiados}
+\footnotesize\begin{longtable}{|p{2.5cm}|p{3.3cm}|p{4.5cm}|p{3.5cm}|}
+	\hline
+	\cab\hd{Necesidad} & \hd{Componente elegido} & \hd{Por qué, frente a la alternativa} & \hd{Uso en el código}\\
+	\hline\endfirsthead
+	\hline
+	\cab\hd{Necesidad} & \hd{Componente elegido} & \hd{Por qué, frente a la alternativa} & \hd{Uso en el código}\\
+	\hline\endhead
+	Elegir el ciclo (10 opciones) & \texttt{DropdownMenu<int>} & Es el menú de Material que se abre desde un campo de texto y muestra la opción elegida en él \cite{flutterdropdown}. \texttt{SegmentedButton}, que usé para el rol, sirve para pocas opciones (2 a 5); diez no caben en un teléfono. & \texttt{login\_screen.dart}, clave \texttt{menu-ciclo} \\\hline
+	Activar la caída simulada & \texttt{SwitchListTile} & Une un interruptor con título y subtítulo en una fila completamente táctil; un \texttt{Switch} suelto exigiría armar la fila a mano. & \texttt{operacion\_screen.dart}, \texttt{sw-servicio} \\\hline
+	Preguntas frecuentes & \texttt{ExpansionTile} & Expande y contrae contenido con animación y ya trae el icono de expansión. Una lista de textos largos ocuparía toda la pantalla. & \texttt{ayuda\_screen.dart} \\\hline
+	Elegir el motivo de la atención & \texttt{showDialog} con \texttt{SimpleDialog} & Una lista corta de opciones excluyentes; una hoja inferior sería válida, pero el diálogo basta para cuatro opciones. & \texttt{ayuda\_screen.dart} (\texttt{\_pedirNumero}) \\\hline
+	Avisar «Comprobante copiado» & \texttt{SnackBar} con \texttt{ScaffoldMessenger} & Mensaje breve que desaparece solo y no bloquea. Un diálogo interrumpiría una acción de un solo toque. & \texttt{confirmacion\_screen.dart} \\\hline
+	Copiar el código & \texttt{Clipboard.setData} (paquete \texttt{services}) & Es parte del SDK; no hace falta un paquete externo. & \texttt{confirmacion\_screen.dart}, \texttt{btn-copiar-comprobante} \\\hline
+	Etiquetas de estado & Widget propio \texttt{Etiqueta} (\texttt{Container} + \texttt{Row}) & \texttt{Chip} es el componente estándar; usé uno propio para controlar el color del texto y del fondo y poder garantizar el contraste, y para igualar a \texttt{EstadoChip} del Laboratorio~4. & \texttt{turno\_widgets.dart} \\\hline
+	Aviso de servicio caído & Banner propio (\texttt{Container} + \texttt{Row}) con \texttt{Semantics} & \texttt{MaterialBanner} se muestra mediante \texttt{ScaffoldMessenger} y está pensado para mensajes descartables con acciones. Este aviso debe permanecer mientras dure la caída y no tiene acción. & \texttt{turno\_widgets.dart} (\texttt{BannerServicio}) \\\hline
+	Lectura con lector de pantalla & \texttt{Semantics}, \texttt{ExcludeSemantics} & Permiten dar una etiqueta hablada («Tu número de atención es A-021») y evitar que se lea dos veces el texto grande. La guía de accesibilidad de Flutter pide probar con lectores de pantalla (TalkBack, VoiceOver) \cite{flutteracc}. & \texttt{ayuda\_screen.dart}, \texttt{turno\_widgets.dart} \\\hline
+	Texto ampliado & Escala de texto del sistema (\texttt{TextScaler}, \texttt{MediaQuery}) & La guía de accesibilidad incluye comprobar que la interfaz se lea con factores de escala de texto muy grandes \cite{flutteracc}; en el código esto significa no fijar alturas rígidas y comprobar que no haya desbordes. & Pruebas de HU-13 \\\hline
+	Estado y hora & \texttt{ChangeNotifier} + \texttt{InheritedNotifier}; reloj como función inyectable & \texttt{InheritedNotifier} reconstruye solo a quienes lo leen \cite{flutterinherited}. Inyectar la hora (\texttt{typedef Reloj = DateTime Function()}) permite probar turnos sin esperar. & \texttt{estado.dart} \\\hline
+	Probar la interfaz & \texttt{flutter\_test}: \texttt{testWidgets}, \texttt{tester.view}, canal de plataforma simulado & Permite montar la aplicación a tamaño de teléfono, ampliar el texto y simular el portapapeles sin dispositivo \cite{fluttertest}. & \texttt{lab05\_widget\_test.dart} \\\hline
+	\caption{Componentes de Flutter estudiados para el tema del proyecto.}
+	\label{tab:componentes}
+\end{longtable}
+
+\subsection{Decisiones de diseño con los componentes}
+\begin{itemize}
+	\item \textbf{El estado nunca depende solo del color.} \texttt{Etiqueta} y \texttt{EstadoChip} combinan icono, texto y color; el botón bloqueado del grupo lleva el texto «Fuera de tu turno», no solo un tono gris. Es el criterio de WCAG 1.4.1 (uso del color) \cite{wcag}.
+	\item \textbf{Un solo lugar para las reglas.} Las pantallas no deciden si se puede matricular; preguntan a \texttt{MatrLabState} (\texttt{motivoBloqueo}, \texttt{matricular}). Así el mismo motivo aparece en la pantalla del grupo y en las pruebas.
+	\item \textbf{Las pantallas largas se desplazan.} Ayuda y Operación usan \texttt{SingleChildScrollView} dentro de \texttt{ContenidoCentrado} (ancho máximo de 720\,dp), de modo que el texto ampliado desplaza el contenido en lugar de desbordarlo.
+	\item \textbf{\texttt{DropdownMenu} no se valida.} El menú siempre tiene un ciclo seleccionado (el 10 por defecto), por lo que no necesita la validación del formulario \cite{flutterforms}.
+\end{itemize}
+
+\subsection{Paquetes que investigué y no usé}
+Tres necesidades del backlog requieren paquetes externos o servicios que este laboratorio no cubre. No los instalé ni los probé; los registro para dejar clara la frontera del alcance.
+
+\begin{table}[H]
+	\centering\small
+	\begin{tabularx}{\textwidth}{|p{3.6cm}|p{2.0cm}|X|}
+		\hline
+		\cab\hd{Necesidad} & \hd{Historia} & \hd{Por qué queda fuera}\\
+		\hline
+		Guardar sesión y solicitudes entre ejecuciones & HU-14 & Requiere almacenamiento local persistente (por ejemplo, un paquete de preferencias). Ahora los datos viven en memoria; la prueba de contingencia necesita reiniciar el estado, no persistirlo. \\\hline
+		Detectar la pérdida real de conexión & (mejora de HU-11) & La caída se simula con un interruptor del administrador porque lo que se demuestra es la lógica de cola, no la detección de red. Un paquete de conectividad detecta la red del dispositivo, no la caída del servidor de la universidad. \\\hline
+		Avisos en el celular fuera de la aplicación & HU-15 & Requiere un servicio de notificaciones y, en la práctica, un servidor que las envíe. Los avisos actuales viven en la pestaña Alertas. \\\hline
+	\end{tabularx}
+	\caption{Paquetes investigados y no incorporados.}
+	\label{tab:paquetes}
+\end{table}

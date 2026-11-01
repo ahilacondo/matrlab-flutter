@@ -1,0 +1,72 @@
+\section{Contexto real y proyección social}
+\label{sec:contexto}
+
+\subsection{El problema en la UNSA}
+La matrícula de la UNSA es virtual, obligatoria y masiva: cerca de 26\,000 estudiantes en 59 programas de estudio usan el mismo sistema académico \cite{elpueblo25}. Durante 2026 la prensa local y los propios comunicados de la universidad documentaron dos episodios que afectaron a estudiantes y que encajan con el problema que venía trabajando en MatrLab desde el Laboratorio~1 \cite{lab1}:
+
+\begin{enumerate}
+	\item \textbf{Caída de los sistemas (mayo a junio).} Desde el 25 de mayo los sistemas informáticos de la universidad estuvieron fuera de servicio por un incidente eléctrico en el centro de datos. Hubo matrículas suspendidas, trámites paralizados y tesis postergadas; la universidad reconoció que no tiene infraestructura de alta disponibilidad ni servidor espejo, y el 12 de junio todavía no tenía una fecha exacta de restablecimiento total \cite{radiounica,correo}.
+	\item \textbf{Matrícula del semestre B (agosto).} Con la plataforma saturada, unos 125 estudiantes pasaron la noche del 23 al 24 de agosto en carpas en el Área de Sociales para no perder cupos en cursos clave; por la mañana recibieron números de atención en un aula mientras esperaban que la plataforma se recuperara. Una estudiante se desmayó. El director de Servicios Académicos explicó que la plataforma procesa unas 4\,000 matrículas por día, que sus servidores tienen varios años y que faltaban medidas como horarios escalonados y protocolos de contingencia \cite{elpueblo24,elpueblo25}.
+\end{enumerate}
+
+\subsection{Cómo reuní la evidencia}
+Busqué en la web noticias y comunicados oficiales sobre matrícula, caídas del sistema y colas en la UNSA, y leí cada fuente completa antes de usarla. Retuve las ocho de la tabla~\ref{tab:evidencias}. Las fuentes que no hablaban de matrícula (por ejemplo, notas sobre huelgas o tomas de local) las descarté. Esta técnica es \emph{análisis documental}; tiene límites que conviene decir:
+
+\begin{itemize}
+	\item Las noticias reportan lo que vieron los periodistas; no hay cifras propias ni muestreo de estudiantes. Por ejemplo, la nota del 24 de agosto no incluye número de afectados ni postura oficial \cite{elpueblo24}.
+	\item Las cifras de capacidad (4\,000 matrículas por día) vienen de una declaración del director de Servicios Académicos, no de una medición independiente \cite{elpueblo25}.
+	\item No encontré documentos públicos que describan los turnos de matrícula por ciclo de la UNSA en 2026; la nota institucional de marzo solo fija el periodo general \cite{unsa2026}. Los turnos que implementé son una propuesta de diseño, no una réplica de algo existente.
+\end{itemize}
+
+\begin{longtable}{|p{0.8cm}|p{3.7cm}|p{2.2cm}|p{7.1cm}|}
+	\hline
+	\cab\hd{ID} & \hd{Fuente} & \hd{Fecha} & \hd{Hecho relevante para MatrLab}\\
+	\hline\endfirsthead
+	\hline
+	\cab\hd{ID} & \hd{Fuente} & \hd{Fecha} & \hd{Hecho relevante para MatrLab}\\
+	\hline\endhead
+	E1 & El Búho \cite{elbuho2016} & 16/03/2016 & Primera matrícula virtual de la UNSA para unos 27\,000 estudiantes, presentada como «se acabaron las colas». El rector dijo que se habían preparado contingencias y que 47 estudiantes de Ingeniería de Sistemas apoyarían en las oficinas de las escuelas. \\\hline
+	E2 & UNSA, Imagen Institucional \cite{unsa2026} & 20/03/2026 & Matrícula virtual 2026-A del 23 al 31 de marzo, obligatoria para ingresantes y regulares. La nota consultada no menciona turnos por ciclo ni por hora. \\\hline
+	E3 & UNSA, Dirección de Servicios Académicos \cite{dsa} & 2026 (matrícula 2026-A) & El sistema valida prerrequisitos y topes de créditos; hay que validar la matrícula e imprimir la constancia («sin la validación, la matrícula no quedará registrada»); las correcciones se piden en la escuela con ficha firmada y recibo de pago. La página no menciona cruces de horario ni cupos. \\\hline
+	E4 & Radio La Única \cite{radiounica} & 01/06/2026 & Más de una semana de caída de los sistemas: matrículas suspendidas, trámites paralizados, tesis postergadas. La UNSA admite que no tiene alta disponibilidad ni servidor espejo. \\\hline
+	E5 & Diario Correo \cite{correo} & 12/06/2026 & La caída empezó el 25 de mayo (incidente eléctrico en el centro de datos) y seguía sin solución; «no existe una fecha exacta para el restablecimiento total». \\\hline
+	E6 & Diario El Pueblo \cite{elpueblo24} & 24/08/2026 & El colapso «se repite al inicio de cada semestre». Estudiantes pasaron la noche a la intemperie para no perder cupos en asignaturas clave y encontraron grandes colas; uno dijo que aunque intenten matricularse a medianoche «se cae la página» y pidió un sistema menos ambiguo. \\\hline
+	E7 & Diario El Pueblo \cite{elpueblo25} & 25/08/2026 & Unos 125 estudiantes acamparon la noche del 23 al 24 de agosto; recibieron números de atención en un aula; una estudiante se desmayó. Capacidad de unas 4\,000 matrículas por día para unos 26\,000 estudiantes; el proceso empezó el 10 de agosto y las solicitudes se acumularon al final. Servidores antiguos. El director reconoce que faltan mejor orientación sobre fechas, cursos y créditos, horarios escalonados y protocolos de contingencia. \\\hline
+	E8 & Andina, con datos del INEI \cite{inei} & 27/12/2024 & Tercer trimestre de 2024: 80,2\,\% de la población de 6 años o más usa internet; el 90\,\% de esas personas se conecta con celular. En el grupo de 19 a 24 años el uso es de 96,5\,\%; en el área rural, 56,1\,\%. \\\hline
+	\caption{Evidencias reunidas (todas consultadas el 1 de noviembre de 2026).}
+	\label{tab:evidencias}
+\end{longtable}
+
+\subsection{Hallazgos}
+De la tabla de evidencias saqué ocho hallazgos. Cada uno dice qué muestra la evidencia y qué implica para el diseño; ninguno afirma más de lo que dicen las fuentes.
+
+\begin{longtable}{|p{0.8cm}|p{6.0cm}|p{1.4cm}|p{5.6cm}|}
+	\hline
+	\cab\hd{ID} & \hd{Hallazgo} & \hd{Evidencia} & \hd{Implicancia para MatrLab}\\
+	\hline\endfirsthead
+	\hline
+	\cab\hd{ID} & \hd{Hallazgo} & \hd{Evidencia} & \hd{Implicancia para MatrLab}\\
+	\hline\endhead
+	H1 & La demanda se concentra al final del periodo: el proceso empezó el 10 de agosto y las solicitudes se acumularon en los últimos días, con capacidad de 4\,000 matrículas por día frente a 26\,000 estudiantes. & E7, E6 & Repartir la demanda con \textbf{turnos escalonados por ciclo} (RF8). El propio director lista los horarios escalonados como medida pendiente. \\\hline
+	H2 & Estudiantes pasan la noche fuera para no perder cupos, con efectos en la salud (desayuno omitido, un desmayo). & E6, E7 & Que asegurar el cupo no dependa de estar presente de noche: turno claro y matrícula desde cualquier lugar (RF8, RF11). \\\hline
+	H3 & La atención asistida se organiza en persona: aula con números repartidos a mano. & E7 & \textbf{Número de atención virtual} para esperar donde la persona esté (RF9). \\\hline
+	H4 & Una falla eléctrica dejó sin servicio durante semanas a miles de personas; no hay alta disponibilidad ni servidor espejo. & E4, E5 & \textbf{Modo contingencia}: guardar la solicitud y procesarla por orden de llegada al restablecerse (RF11). \\\hline
+	H5 & Los servidores son antiguos y faltan protocolos de contingencia. & E7 & Un protocolo visible en la aplicación: aviso de servicio, solicitudes pendientes, motivo de cada rechazo (RF11). \\\hline
+	H6 & Falta orientación sobre fechas, cursos y créditos; un estudiante califica el sistema de «ambiguo». & E7, E6 & Decir \textbf{siempre el motivo} por el que no se puede matricular y qué hacer, y publicar preguntas frecuentes (RF12). \\\hline
+	H7 & La matrícula solo queda registrada si se valida; las correcciones requieren trámite presencial con ficha y recibo. & E3 & Un \textbf{comprobante con código} único y copiable, como prueba verificable de la matrícula (RF10). \\\hline
+	H8 & Casi todas las personas jóvenes se conectan con celular, pero la conexión no es pareja (56,1\,\% en zonas rurales). & E8 & Diseño para celular primero, legible con texto ampliado (RNF) y tolerante a fallos de servicio. \\\hline
+	\caption{Hallazgos derivados de la evidencia.}
+	\label{tab:hallazgos}
+\end{longtable}
+
+\subsection{Proyección social}
+La proyección social de MatrLab es el \textbf{acceso equitativo a la matrícula}. Pasar la noche en un campus favorece a quien vive cerca, tiene tiempo libre y se siente seguro; perjudica a quien viene de provincia, trabaja o tiene problemas de salud. Esta conclusión es una inferencia mía, no un dato de las fuentes: lo que las fuentes muestran es el fenómeno (E6, E7: estudiantes a la intemperie, un desayuno omitido, un desmayo). Los cuatro requisitos principales buscan quitar la ventaja de «estar presente»:
+
+\begin{itemize}
+	\item los \textbf{turnos escalonados} dan a cada ciclo una ventana propia en lugar de una carrera general;
+	\item el \textbf{número virtual} reemplaza la fila física;
+	\item el \textbf{modo contingencia} evita que una caída haga perder el lugar de quien ya intentó matricularse;
+	\item la \textbf{explicación del bloqueo} reduce la dependencia de preguntar en persona.
+\end{itemize}
+
+Las personas beneficiadas son los estudiantes regulares (unos 26\,000 en la UNSA \cite{elpueblo25}) y el personal de las direcciones de escuela, que atiende las colas. Según el INEI, la mayoría de la población joven usa internet desde el celular \cite{inei}, lo que justifica una aplicación móvil. La alineación con los Objetivos de Desarrollo Sostenible 4 (educación de calidad) y 10 (reducción de las desigualdades) es una referencia de contexto, no una medición de impacto.
