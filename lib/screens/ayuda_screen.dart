@@ -83,7 +83,7 @@ class AyudaScreen extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            '${formatoFechaHora(t.inicio)} → ${formatoFechaHora(t.fin)}',
+            '${formatoFechaHora(t.inicio)} a ${formatoFechaHora(t.fin)}',
             style: tema.bodySmall,
           ),
         ],

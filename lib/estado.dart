@@ -55,7 +55,7 @@ class MatrLabState extends ChangeNotifier {
   })  : cursos = cursos ?? datosCursos(),
         grupos = grupos ?? datosGrupos(),
         reloj = reloj ?? DateTime.now {
-    if (conAvisosIniciales) notificaciones.addAll(avisosIniciales());
+    if (conAvisosIniciales) notificaciones.addAll(avisosIniciales(this.reloj()));
     turnos = datosTurnos(this.reloj());
     if (conColaDemo) {
       tickets.addAll(ticketsDemo(this.reloj()));

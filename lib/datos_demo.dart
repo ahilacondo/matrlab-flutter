@@ -137,8 +137,8 @@ List<GrupoLab> datosGrupos() => [
       ),
     ];
 
-List<Notificacion> avisosIniciales() {
-  final ahora = DateTime.now();
+List<Notificacion> avisosIniciales([DateTime? hora]) {
+  final ahora = hora ?? DateTime.now();
   return [
     Notificacion(
       titulo: 'Matrícula de laboratorios abierta',
