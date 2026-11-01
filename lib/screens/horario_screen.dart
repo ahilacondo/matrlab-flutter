@@ -132,6 +132,14 @@ class HorarioScreen extends StatelessWidget {
           else
             for (final m in e.matriculas)
               _MatriculaTile(matricula: m),
+          if (e.pendientes.isNotEmpty) ...[
+            const SizedBox(height: 20),
+            Text(
+              'Solicitudes pendientes',
+              style: tema.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+            ),
+            for (final s in e.pendientes) _PendienteTile(solicitud: s),
+          ],
         ],
       ),
     );
@@ -161,6 +169,37 @@ class _MatriculaTile extends StatelessWidget {
           tooltip: 'Cancelar matrícula',
           icon: const Icon(Icons.event_busy_outlined),
           onPressed: () => e.cancelarMatricula(g.id),
+        ),
+      ),
+    );
+  }
+}
+
+/// Solicitud guardada mientras el servicio no estaba disponible (HU-11).
+class _PendienteTile extends StatelessWidget {
+  const _PendienteTile({required this.solicitud});
+
+  final SolicitudPendiente solicitud;
+
+  @override
+  Widget build(BuildContext context) {
+    final e = MatrLabScope.of(context);
+    final g = e.grupoPorId(solicitud.grupoId);
+    final curso = e.cursoDeGrupo(g);
+    return Card(
+      margin: const EdgeInsets.only(top: 10),
+      child: ListTile(
+        leading: const CircleAvatar(child: Icon(Icons.hourglass_top, size: 20)),
+        title: Text(curso.nombre),
+        subtitle: Text(
+          '${g.nombre} · ${g.horario.texto}\n'
+          'Pendiente · ${solicitud.codigo}',
+        ),
+        isThreeLine: true,
+        trailing: IconButton(
+          tooltip: 'Cancelar solicitud',
+          icon: const Icon(Icons.close),
+          onPressed: () => e.cancelarSolicitud(g.id),
         ),
       ),
     );

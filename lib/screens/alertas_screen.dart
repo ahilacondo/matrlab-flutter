@@ -9,6 +9,8 @@ IconData _icono(TipoNotificacion t) => switch (t) {
       TipoNotificacion.cupoLiberado => Icons.lock_open,
       TipoNotificacion.listaEspera => Icons.hourglass_top,
       TipoNotificacion.aviso => Icons.campaign_outlined,
+      TipoNotificacion.ticket => Icons.confirmation_number_outlined,
+      TipoNotificacion.servicio => Icons.cloud_sync_outlined,
     };
 
 class AlertasScreen extends StatelessWidget {

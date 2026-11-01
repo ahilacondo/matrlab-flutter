@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../estado.dart';
+import '../widgets/turno_widgets.dart';
 import 'alertas_screen.dart';
+import 'ayuda_screen.dart';
 import 'cursos_screen.dart';
 import 'horario_screen.dart';
+import 'operacion_screen.dart';
 import 'panel_screen.dart';
 
 class _Destino {
@@ -21,11 +24,13 @@ const List<_Destino> _destinosEstudiante = [
   _Destino('Mi horario', Icons.calendar_month_outlined, Icons.calendar_month),
   _Destino('Alertas', Icons.notifications_outlined, Icons.notifications,
       esAlertas: true),
+  _Destino('Ayuda', Icons.help_outline, Icons.help),
 ];
 
 const List<_Destino> _destinosAdmin = [
   _Destino('Cursos', Icons.menu_book_outlined, Icons.menu_book),
   _Destino('Panel', Icons.insights_outlined, Icons.insights),
+  _Destino('Operación', Icons.tune_outlined, Icons.tune),
 ];
 
 /// Estructura principal: AppBar + navegación adaptable.
@@ -47,11 +52,24 @@ class ShellScreen extends StatelessWidget {
     final destinos = e.esAdmin ? _destinosAdmin : _destinosEstudiante;
     final indice = e.pestana.clamp(0, destinos.length - 1).toInt();
 
-    final cuerpo = IndexedStack(
+    final pantallas = IndexedStack(
       index: indice,
       children: e.esAdmin
-          ? const [CursosScreen(), PanelScreen()]
-          : const [CursosScreen(), HorarioScreen(), AlertasScreen()],
+          ? const [CursosScreen(), PanelScreen(), OperacionScreen()]
+          : const [
+              CursosScreen(),
+              HorarioScreen(),
+              AlertasScreen(),
+              AyudaScreen(),
+            ],
+    );
+
+    // Si el servicio está caído se muestra un banner encima de cualquier pestaña.
+    final cuerpo = Column(
+      children: [
+        if (!e.servicioDisponible) const BannerServicio(),
+        Expanded(child: pantallas),
+      ],
     );
 
     return LayoutBuilder(

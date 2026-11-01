@@ -154,3 +154,63 @@ List<Notificacion> avisosIniciales() {
     ),
   ];
 }
+
+/// Turnos de matrícula de demostración, escalonados cada 24 horas a partir de
+/// [base] (el primero empieza en ese instante). La asignación de ciclos es un
+/// escenario de prueba; no representa el reglamento de la universidad.
+List<TurnoMatricula> datosTurnos(DateTime base) {
+  DateTime tras(int horas) => base.add(Duration(hours: horas));
+  return [
+    TurnoMatricula(
+      nombre: 'Turno 1',
+      cicloMin: 9,
+      cicloMax: 10,
+      inicio: tras(0),
+      fin: tras(24),
+    ),
+    TurnoMatricula(
+      nombre: 'Turno 2',
+      cicloMin: 7,
+      cicloMax: 8,
+      inicio: tras(24),
+      fin: tras(48),
+    ),
+    TurnoMatricula(
+      nombre: 'Turno 3',
+      cicloMin: 5,
+      cicloMax: 6,
+      inicio: tras(48),
+      fin: tras(72),
+    ),
+    TurnoMatricula(
+      nombre: 'Turno 4',
+      cicloMin: 1,
+      cicloMax: 4,
+      inicio: tras(72),
+      fin: tras(96),
+    ),
+  ];
+}
+
+/// Código con el que se marcan los números de atención ficticios de la cola
+/// de demostración (otras personas que ya esperan).
+const String codigoTicketDemo = 'demo';
+
+/// Cola de atención de demostración: cuatro personas esperando (A-017 a A-020).
+List<TicketAtencion> ticketsDemo(DateTime ahora) => [
+      for (var n = 17; n <= 20; n++)
+        TicketAtencion(
+          numero: n,
+          codigoEstudiante: codigoTicketDemo,
+          motivo: 'Matrícula incompleta',
+          creado: ahora.subtract(Duration(minutes: (21 - n) * 4)),
+        ),
+    ];
+
+/// Motivos que puede elegir el estudiante al pedir un número de atención.
+const List<String> motivosTicket = [
+  'Mi matrícula falló o quedó incompleta',
+  'No puedo ingresar a mi cuenta',
+  'Consulta sobre cruce de horarios',
+  'Otro motivo',
+];

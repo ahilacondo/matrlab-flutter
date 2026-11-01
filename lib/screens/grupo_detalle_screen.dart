@@ -53,7 +53,7 @@ class GrupoDetalleScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Confirmar matrícula',
+                e.servicioDisponible ? 'Confirmar matrícula' : 'Guardar solicitud',
                 style: Theme.of(ctx)
                     .textTheme
                     .titleLarge
@@ -66,6 +66,13 @@ class GrupoDetalleScreen extends StatelessWidget {
               Text('${g.nombre} · ${g.horario.texto} · ${g.aula}'),
               const SizedBox(height: 4),
               Text('Cupos libres: ${g.cuposLibres} de ${g.cuposTotales}'),
+              if (!e.servicioDisponible) ...[
+                const SizedBox(height: 8),
+                const Text(
+                  'El servicio no está disponible. Guardaremos tu solicitud y, '
+                  'al restablecerse, se confirmará solo si aún hay cupo.',
+                ),
+              ],
               const SizedBox(height: 20),
               Row(
                 children: [
@@ -81,7 +88,7 @@ class GrupoDetalleScreen extends StatelessWidget {
                     child: FilledButton(
                       key: const ValueKey('btn-confirmar-sheet'),
                       onPressed: () => Navigator.pop(ctx, true),
-                      child: const Text('Confirmar'),
+                      child: Text(e.servicioDisponible ? 'Confirmar' : 'Guardar'),
                     ),
                   ),
                 ],
@@ -106,6 +113,11 @@ class GrupoDetalleScreen extends StatelessWidget {
         ResultadoMatricula.cruceHorario => 'El horario se cruza con otro grupo.',
         ResultadoMatricula.yaMatriculado =>
           'Ya estás matriculado en este curso.',
+        ResultadoMatricula.fueraDeTurno => 'Tu turno aún no inicia.',
+        ResultadoMatricula.pendiente =>
+          'Solicitud guardada. Se procesará cuando el servicio se restablezca.',
+        ResultadoMatricula.yaPendiente =>
+          'Ya tienes una solicitud pendiente para este curso.',
         ResultadoMatricula.ok => '',
       };
       ScaffoldMessenger.of(context)
@@ -148,6 +160,27 @@ class GrupoDetalleScreen extends StatelessWidget {
         label: const Text('Cancelar matrícula'),
       );
     }
+    if (e.tienePendiente(g.id)) {
+      return const FilledButton(
+        key: clave,
+        onPressed: null,
+        child: Text('Solicitud pendiente de procesar'),
+      );
+    }
+    if (!e.turnoAbierto) {
+      return const FilledButton(
+        key: clave,
+        onPressed: null,
+        child: Text('Fuera de tu turno'),
+      );
+    }
+    if (e.tienePendienteDeCurso(g.cursoCodigo)) {
+      return const FilledButton(
+        key: clave,
+        onPressed: null,
+        child: Text('Ya tienes una solicitud para este curso'),
+      );
+    }
     if (e.tieneCursoMatriculado(g.cursoCodigo)) {
       return const FilledButton(
         key: clave,
@@ -179,7 +212,7 @@ class GrupoDetalleScreen extends StatelessWidget {
     return FilledButton(
       key: clave,
       onPressed: () => _matricular(context, e, g),
-      child: const Text('Matricularme'),
+      child: Text(e.servicioDisponible ? 'Matricularme' : 'Guardar solicitud'),
     );
   }
 
@@ -233,7 +266,20 @@ class GrupoDetalleScreen extends StatelessWidget {
                 child: CupoBar(grupo: g, grande: true),
               ),
             ),
-            if (otroGrupo != null && otroGrupo.id != g.id)
+            if (!e.esAdmin && !e.turnoAbierto)
+              Aviso(
+                icono: Icons.schedule,
+                color: const Color(0xFF9A5B00),
+                texto: e.motivoBloqueo(g) ?? '',
+              )
+            else if (e.tienePendiente(g.id))
+              Aviso(
+                icono: Icons.hourglass_top,
+                color: scheme.primary,
+                texto: 'Tu solicitud quedó guardada. Se procesará por orden de '
+                    'llegada cuando el servicio se restablezca.',
+              )
+            else if (otroGrupo != null && otroGrupo.id != g.id)
               Aviso(
                 icono: Icons.info_outline,
                 color: scheme.primary,
@@ -254,6 +300,14 @@ class GrupoDetalleScreen extends StatelessWidget {
                 color: const Color(0xFFB3261E),
                 texto: 'Este grupo no tiene cupos. Únete a la lista de espera '
                     'y te avisaremos cuando se libere uno.',
+              )
+            else if (!e.esAdmin && !e.servicioDisponible)
+              Aviso(
+                icono: Icons.cloud_off_outlined,
+                color: const Color(0xFFB3261E),
+                texto: 'El servicio no está disponible. Guardaremos tu solicitud '
+                    'y se confirmará por orden de llegada cuando se restablezca, '
+                    'solo si aún hay cupo.',
               )
             else if (!e.esAdmin)
               Aviso(

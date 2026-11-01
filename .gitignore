@@ -27,3 +27,11 @@ informe/*.synctex.gz
 informe/build.log
 # Salidas locales
 salida_*.txt
+informe_lab05/*.aux
+informe_lab05/*.log
+informe_lab05/*.toc
+informe_lab05/*.lof
+informe_lab05/*.lot
+informe_lab05/*.out
+informe_lab05/*.fls
+informe_lab05/*.fdb_latexmk

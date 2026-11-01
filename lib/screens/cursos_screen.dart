@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../estado.dart';
 import '../models.dart';
 import '../widgets/comunes.dart';
+import '../widgets/turno_widgets.dart';
 import 'curso_detalle_screen.dart';
 
 enum _Filtro { todos, conCupos, misCursos }
@@ -49,6 +50,7 @@ class _CursosScreenState extends State<CursosScreen> {
       anchoMaximo: 1000,
       child: Column(
         children: [
+          const AvisoTurno(),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
             child: SearchBar(

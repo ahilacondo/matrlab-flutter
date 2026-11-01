@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:matrlab/app.dart';
+import 'package:matrlab/datos_demo.dart';
 import 'package:matrlab/estado.dart';
 import 'package:matrlab/models.dart';
 import 'package:matrlab/screens/confirmacion_screen.dart';
@@ -64,9 +65,18 @@ Future<void> _capturar(WidgetTester tester, String nombre,
   });
 }
 
-MatrLabState _estudiante() {
-  final e = MatrLabState();
-  e.iniciarSesion('20241234', Rol.estudiante);
+/// Hora fija: así los turnos y los avisos salen iguales en cada ejecución.
+final DateTime _base = DateTime(2026, 11, 9, 8, 0);
+
+MatrLabState _estudiante({int ciclo = 10}) {
+  final e = MatrLabState(reloj: () => _base);
+  e.iniciarSesion('20241234', Rol.estudiante, ciclo: ciclo);
+  return e;
+}
+
+MatrLabState _admin() {
+  final e = MatrLabState(reloj: () => _base);
+  e.iniciarSesion('admin', Rol.administrador);
   return e;
 }
 
@@ -193,5 +203,108 @@ void main() {
     e.irAPestana(1);
     await _montar(tester, e, ancho: 1000, alto: 640);
     await _capturar(tester, 'c17_tablet_horario');
+  });
+
+  // ------------------------------------------------------------ Laboratorio 05
+  testWidgets('c18 cursos con turno pendiente', (tester) async {
+    await _montar(tester, _estudiante(ciclo: 5));
+    await _capturar(tester, 'c18_cursos_turno_pendiente');
+  });
+
+  testWidgets('c19 grupo fuera de turno', (tester) async {
+    await _montar(tester, _estudiante(ciclo: 5));
+    await _abrir(tester, const GrupoDetalleScreen(grupoId: 'PE-B'));
+    await _capturar(tester, 'c19_grupo_fuera_turno');
+  });
+
+  testWidgets('c20 ayuda: turnos y servicio', (tester) async {
+    final e = _estudiante(ciclo: 5)..irAPestana(3);
+    await _montar(tester, e);
+    await _capturar(tester, 'c20_ayuda_turnos');
+  });
+
+  testWidgets('c21 ayuda: número de atención', (tester) async {
+    final e = _estudiante()..irAPestana(3);
+    e.solicitarTicket(motivosTicket.first);
+    await _montar(tester, e);
+    await tester.ensureVisible(find.byKey(const ValueKey('btn-cancelar-numero')));
+    await _capturar(tester, 'c21_ayuda_numero');
+  });
+
+  testWidgets('c22 ayuda: preguntas frecuentes', (tester) async {
+    final e = _estudiante()..irAPestana(3);
+    await _montar(tester, e);
+    await tester.ensureVisible(find.text('¿Cómo se calcula la espera de mi número?'));
+    await _capturar(tester, 'c22_ayuda_preguntas');
+  });
+
+  testWidgets('c23 operación: servicio y turnos', (tester) async {
+    final e = _admin()..irAPestana(2);
+    await _montar(tester, e);
+    await _capturar(tester, 'c23_operacion_servicio');
+  });
+
+  testWidgets('c24 operación: cola de atención', (tester) async {
+    final e = _admin()..irAPestana(2);
+    e.atenderSiguiente();
+    await _montar(tester, e);
+    await tester.ensureVisible(find.byKey(const ValueKey('btn-atender')));
+    await _capturar(tester, 'c24_operacion_cola');
+  });
+
+  testWidgets('c25 grupo con el servicio caído', (tester) async {
+    final e = _estudiante();
+    e.cambiarServicio(disponible: false);
+    await _montar(tester, e);
+    await _abrir(tester, const GrupoDetalleScreen(grupoId: 'PE-B'));
+    await _capturar(tester, 'c25_grupo_servicio_caido');
+  });
+
+  testWidgets('c26 hoja para guardar la solicitud', (tester) async {
+    final e = _estudiante();
+    e.cambiarServicio(disponible: false);
+    await _montar(tester, e);
+    await _abrir(tester, const GrupoDetalleScreen(grupoId: 'PE-B'));
+    await tester.tap(find.byKey(const ValueKey('accion-grupo')));
+    await tester.pump(const Duration(milliseconds: 700));
+    await _capturar(tester, 'c26_hoja_guardar_solicitud');
+  });
+
+  testWidgets('c27 horario con solicitud pendiente', (tester) async {
+    final e = _estudiante();
+    e.cambiarServicio(disponible: false);
+    e.matricular('PE-B');
+    e.irAPestana(1);
+    await _montar(tester, e);
+    await tester.scrollUntilVisible(
+      find.text('Solicitudes pendientes'),
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await _capturar(tester, 'c27_horario_solicitud_pendiente');
+  });
+
+  testWidgets('c28 alertas tras restablecer el servicio', (tester) async {
+    final e = _estudiante();
+    e.cambiarServicio(disponible: false);
+    e.matricular('PE-B');
+    e.cambiarServicio(disponible: true);
+    e.irAPestana(2);
+    await _montar(tester, e);
+    await _capturar(tester, 'c28_alertas_servicio_restablecido');
+  });
+
+  testWidgets('c29 ayuda con texto al 150 %', (tester) async {
+    tester.platformDispatcher.textScaleFactorTestValue = 1.5;
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+    final e = _estudiante()..irAPestana(3);
+    await _montar(tester, e);
+    await _capturar(tester, 'c29_ayuda_texto_grande');
+  });
+
+  testWidgets('c30 tablet: ayuda', (tester) async {
+    final e = _estudiante(ciclo: 5)..irAPestana(3);
+    await _montar(tester, e, ancho: 1000, alto: 640);
+    await _capturar(tester, 'c30_tablet_ayuda');
   });
 }

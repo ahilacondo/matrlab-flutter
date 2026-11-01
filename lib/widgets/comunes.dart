@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../models.dart';
 
 Color colorEstado(EstadoCupo e) => switch (e) {
-      EstadoCupo.disponible => const Color(0xFF2E7D32),
+      EstadoCupo.disponible => const Color(0xFF1B5E20),
       EstadoCupo.casiLleno => const Color(0xFF9A5B00),
       EstadoCupo.lleno => const Color(0xFFB3261E),
     };

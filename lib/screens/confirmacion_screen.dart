@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../estado.dart';
 import '../models.dart';
@@ -88,12 +89,28 @@ class ConfirmacionScreen extends StatelessWidget {
                           const Divider(height: 1),
                           _fila('Estado', matricula.estado),
                           const Divider(height: 1),
+                          _fila('Comprobante', matricula.codigo),
+                          const Divider(height: 1),
                           _fila('Registrado', formatoFechaHora(matricula.fecha)),
                         ],
                       ),
                     ),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 12),
+                  OutlinedButton.icon(
+                    key: const ValueKey('btn-copiar-comprobante'),
+                    onPressed: () async {
+                      final mensajero = ScaffoldMessenger.of(context);
+                      await Clipboard.setData(
+                          ClipboardData(text: matricula.codigo));
+                      mensajero.showSnackBar(
+                        const SnackBar(content: Text('Comprobante copiado')),
+                      );
+                    },
+                    icon: const Icon(Icons.copy_outlined),
+                    label: const Text('Copiar comprobante'),
+                  ),
+                  const SizedBox(height: 12),
                   FilledButton(
                     key: const ValueKey('btn-ver-horario'),
                     onPressed: () {

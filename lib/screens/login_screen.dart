@@ -15,6 +15,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _codigo = TextEditingController();
   final _clave = TextEditingController();
   Rol _rol = Rol.estudiante;
+  int _ciclo = 10;
   bool _ocultar = true;
 
   @override
@@ -26,7 +27,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _ingresar() {
     if (_formKey.currentState!.validate()) {
-      MatrLabScope.leer(context).iniciarSesion(_codigo.text.trim(), _rol);
+      MatrLabScope.leer(context)
+          .iniciarSesion(_codigo.text.trim(), _rol, ciclo: _ciclo);
     }
   }
 
@@ -129,6 +131,26 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       validator: validarClave,
                     ),
+                    if (esEstudiante) ...[
+                      const SizedBox(height: 14),
+                      DropdownMenu<int>(
+                        key: const ValueKey('menu-ciclo'),
+                        expandedInsets: EdgeInsets.zero,
+                        label: const Text('Ciclo (define tu turno)'),
+                        leadingIcon: const Icon(Icons.event_note_outlined),
+                        initialSelection: _ciclo,
+                        onSelected: (v) {
+                          if (v != null) setState(() => _ciclo = v);
+                        },
+                        dropdownMenuEntries: [
+                          for (var c = 1; c <= 10; c++)
+                            DropdownMenuEntry<int>(
+                              value: c,
+                              label: 'Ciclo $c',
+                            ),
+                        ],
+                      ),
+                    ],
                     const SizedBox(height: 20),
                     FilledButton(
                       onPressed: _ingresar,
