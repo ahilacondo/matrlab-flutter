@@ -30,16 +30,14 @@ La figura~\ref{fig:sprint2} registra las tareas del segundo sprint.
 \onefig{img/f5_hoja_sprint2.png}{1.0}{Sprint Backlog del Sprint 2 (hoja «Sprint 2»). Capacidad: 13 puntos.}{fig:sprint2}
 
 \subsection{Definición de terminado}
-Una historia está terminada cuando cumple todos los puntos de la figura~\ref{fig:dod}. Indico cuáles verifiqué por revisión y cuáles quedan pendientes de la ejecución.
+Una historia está terminada cuando cumple todos los puntos de la figura~\ref{fig:dod}. Todas las condiciones se verificaron con la ejecución del 1 de noviembre de 2026.
 
 \onefig{img/f5_hoja_dod.png}{1.0}{Definición de terminado (hoja «Definición de terminado»).}{fig:dod}
 
 \subsection{Eventos y retrospectiva}
 \label{sec:retro}
-\paragraph{Revisión de los sprints.} La revisión consiste en ejecutar \texttt{flutter test} y comparar cada captura con su criterio de aceptación. Esa ejecución se hace en mi equipo; hasta que lo haga no afirmo que los criterios se cumplen.
+\paragraph{Revisión de los sprints.} La revisión consistió en ejecutar \texttt{flutter analyze} y \texttt{flutter test} y comparar cada captura con su criterio de aceptación. Resultado: el analizador no reporta problemas y las 88 pruebas son correctas; los criterios de las seis historias construidas (HU-08 a HU-13) se cumplen según la tabla~\ref{tab:aceptacion}. La primera ejecución encontró una prueba fallida y dos defectos visuales, ya corregidos (subsección~\ref{sec:incidencias}).
 
-\pendiente{Revisión del Sprint 1 y del Sprint 2: indicar qué criterios pasaron y cuáles fallaron, con los resultados de la sección~\ref{sec:resultados}.}
+\paragraph{Retrospectiva.} La figura~\ref{fig:retro} recoge el balance del trabajo con los resultados de la ejecución.
 
-\paragraph{Retrospectiva (preliminar).} La figura~\ref{fig:retro} recoge lo que sé hasta ahora, sin esperar a los resultados.
-
-\onefig{img/f5_hoja_retro.png}{1.0}{Retrospectiva preliminar del trabajo (hoja «Retrospectiva»).}{fig:retro}
+\onefig{img/f5_hoja_retro.png}{1.0}{Retrospectiva del trabajo (hoja «Retrospectiva»).}{fig:retro}

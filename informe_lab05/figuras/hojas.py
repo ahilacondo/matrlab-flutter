@@ -117,7 +117,7 @@ hd = ['Tarea', 'Historia', 'Descripción de la tarea', 'Archivo principal', 'Est
 wd = [88, 90, 470, 400, 142]
 libro['f5_hoja_sprint1'] = sheet('', 'Sprint 1', 'SPRINT BACKLOG · SPRINT 1',
     'Meta: el estudiante sabe cuándo le toca matricularse, entiende por qué algo está bloqueado y puede pedir atención sin fila. Capacidad: 13 puntos.',
-    hd, s1, wd, 'Comprometido: 13 puntos (HU-08: 5 · HU-12: 3 · HU-09: 5). Resultado de las pruebas: pendiente de ejecución.')
+    hd, s1, wd, 'Comprometido: 13 puntos (HU-08: 5 · HU-12: 3 · HU-09: 5). Pruebas del proyecto: 88 de 88 correctas (sección 9).')
 s2 = [
     ['S2-01', ('HU-11', 'c'), 'Interruptor de caída del servicio en Operación', 'operacion_screen.dart', estado()],
     ['S2-02', ('HU-11', 'c'), 'Banner de servicio no disponible en todas las pestañas', 'turno_widgets.dart, shell_screen.dart', estado()],
@@ -132,7 +132,7 @@ s2 = [
 ]
 libro['f5_hoja_sprint2'] = sheet('', 'Sprint 2', 'SPRINT BACKLOG · SPRINT 2',
     'Meta: la matrícula no se pierde si el servicio cae, queda con un comprobante verificable y las pantallas nuevas se leen con texto ampliado. Capacidad: 13 puntos.',
-    hd, s2, wd, 'Comprometido: 13 puntos (HU-11: 8 · HU-10: 2 · HU-13: 3). Resultado de las pruebas: pendiente de ejecución.')
+    hd, s2, wd, 'Comprometido: 13 puntos (HU-11: 8 · HU-10: 2 · HU-13: 3). Pruebas del proyecto: 88 de 88 correctas (sección 9).')
 
 # ---------------- Elementos de Scrum
 el = [
@@ -155,19 +155,19 @@ libro['f5_hoja_scrum'] = sheet('', 'Elementos de Scrum', 'ELEMENTOS DE SCRUM ADA
 
 # ---------------- DoD
 dod = [
-    [('1', 'c'), 'Cumple todos sus criterios de aceptación con pruebas automáticas definidas', 'Pruebas escritas; resultado pendiente', ('Pendiente', 'pend')],
-    [('2', 'c'), 'flutter analyze no reporta errores', 'Pendiente de ejecución', ('Pendiente', 'pend')],
-    [('3', 'c'), 'Se ve bien a 360 dp (teléfono) y a 900 dp (tableta)', 'Capturas c30 y c16/c17 por generar', ('Pendiente', 'pend')],
-    [('4', 'c'), 'No se desborda con el texto del sistema al 150 %', 'Pruebas escritas; pendiente', ('Pendiente', 'pend')],
+    [('1', 'c'), 'Cumple todos sus criterios de aceptación con pruebas automáticas', '88 pruebas; todas correctas', ('Cumple', 'ok')],
+    [('2', 'c'), 'flutter analyze no reporta errores', 'Salida: «No issues found!»', ('Cumple', 'ok')],
+    [('3', 'c'), 'Se ve bien a 360 dp (teléfono) y a 900 dp (tableta)', 'Capturas a 360 dp (c01 a c15, c18 a c29) y a 900 dp (c16, c17, c30)', ('Cumple', 'ok')],
+    [('4', 'c'), 'No se desborda con el texto del sistema al 150 %', '3 pruebas de texto grande; captura c29', ('Cumple', 'ok')],
     [('5', 'c'), 'El texto de las etiquetas cumple contraste 4,5:1', 'Cálculo con la fórmula de WCAG 2.2', ('Cumple', 'ok')],
     [('6', 'c'), 'No usa paquetes externos (solo el SDK de Flutter)', 'Revisión de pubspec.yaml', ('Cumple', 'ok')],
-    [('7', 'c'), 'Tiene al menos una captura en el recorrido del informe', 'Capturas definidas; por generar', ('Pendiente', 'pend')],
+    [('7', 'c'), 'Tiene al menos una captura en el recorrido del informe', '30 capturas generadas por capturas_test', ('Cumple', 'ok')],
     [('8', 'c'), 'Está registrada en el repositorio con un mensaje claro', 'Anexo B (git log)', ('Cumple', 'ok')],
 ]
 libro['f5_hoja_dod'] = sheet('', 'Definición de terminado', 'DEFINICIÓN DE TERMINADO (DoD)',
-    'Una historia está terminada cuando cumple todas las condiciones. Se indica cuáles ya se verificaron y cuáles dependen de ejecutar el proyecto.',
+    'Una historia está terminada cuando cumple todas las condiciones. Verificación con la ejecución del 01/11/2026 (commit 023749d).',
     ['N.°', 'Condición', 'Verificación', 'Estado'], dod, [60, 600, 380, 156],
-    'Resumen: 3 condiciones cumplidas y 5 pendientes de la ejecución en el equipo del autor.')
+    'Resumen: 8 de 8 condiciones cumplidas.')
 
 # ---------------- Retrospectiva
 retro = [
@@ -175,14 +175,15 @@ retro = [
     [('Partir de la evidencia', 'func'), 'Tres de las cuatro funciones principales (turnos escalonados, protocolo de contingencia y mejor orientación) coinciden con medidas que el director de Servicios Académicos nombró como pendientes.'],
     [('Reloj inyectable', 'func'), 'Con un reloj fijo, las pruebas y las capturas son repetibles y textos como «faltan 2 d 0 h» no cambian.'],
     [('Revisar el propio diseño', 'func'), 'Calcular el contraste mostró que el verde heredado del Laboratorio 4 no cumplía WCAG AA; se corrigió.'],
+    [('Capturas automáticas', 'func'), 'Al revisarlas aparecieron un símbolo de flecha que la fuente no dibuja y avisos con la hora real; se corrigieron y se volvió a ejecutar.'],
     'Qué mejorar y acción',
     [('Un commit por historia', 'mej'), 'El registro quedó con un solo commit de código para los dos sprints. Acción: un commit por historia terminada en los próximos laboratorios.'],
-    [('Verificar más temprano', 'mej'), 'Ejecutar flutter analyze y flutter test al final de cada sprint, no solo al cierre (ejecutar.ps1 lo hace en un paso).'],
+    [('Verificar más temprano', 'mej'), 'La primera ejecución dio 87 de 88 pruebas: una falló por el tiempo de una animación. Acción: ejecutar flutter analyze y flutter test al final de cada sprint (ejecutar.ps1 lo hace en un paso).'],
     [('Datos propios de usuarios', 'mej'), 'La evidencia es documental. Con más tiempo, una encuesta breve a compañeros validaría los hallazgos H1 a H8 y ajustaría el backlog.'],
     [('Trabajo en solitario', 'mej'), 'Sin revisión de pares, un error de criterio solo lo detectan las pruebas. Acción: pedir una revisión corta del informe y del código a un compañero.'],
 ]
-libro['f5_hoja_retro'] = sheet('', 'Retrospectiva', 'RETROSPECTIVA PRELIMINAR · MatrLab 2.0',
-    'Lo que se sabe antes de ejecutar las pruebas; se completará con los resultados de la sección 9.',
+libro['f5_hoja_retro'] = sheet('', 'Retrospectiva', 'RETROSPECTIVA · MatrLab 2.0',
+    'Balance del trabajo con los resultados de la ejecución de la sección 9.',
     ['Aspecto', 'Observación o acción'], retro, [330, 866])
 
 # ---------------- Trazabilidad

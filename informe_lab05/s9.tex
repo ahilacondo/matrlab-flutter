@@ -1,7 +1,7 @@
 \section{Pruebas y resultados}
 \label{sec:resultados}
 
-Esta sección es la que cierra el ciclo de verificación. Las pruebas están escritas y listas; los resultados dependen de ejecutarlas en mi equipo con Flutter instalado, por lo que están marcados como pendientes y \textbf{no} se afirma que pasen.
+Esta sección cierra el ciclo de verificación con los resultados de la ejecución del 1 de noviembre de 2026 en mi equipo (Flutter 3.47.5 sobre Windows 11), sobre el estado del repositorio en el \emph{commit} \texttt{023749d}.
 
 \subsection{Inventario de pruebas}
 \begin{table}[H]
@@ -10,27 +10,31 @@ Esta sección es la que cierra el ciclo de verificación. Las pruebas están esc
 		\hline
 		\cab\hd{Archivo} & \hd{Pruebas} & \hd{Qué verifica} & \hd{Resultado}\\
 		\hline
-		\texttt{matrlab\_state\_test.dart} & 17 & Reglas del Laboratorio~4 (RF1 a RF7) & Pendiente \\\hline
-		\texttt{lab05\_estado\_test.dart} & 26 & Turnos, motivo del bloqueo, comprobante, contingencia y número de atención (RF8 a RF12) & Pendiente \\\hline
-		\texttt{flujo\_widget\_test.dart} & 1 & Flujo completo del estudiante & Pendiente \\\hline
-		\texttt{widget\_test.dart} & 1 & La aplicación arranca en el inicio de sesión & Pendiente \\\hline
-		\texttt{lab05\_widget\_test.dart} & 13 & Interfaz de HU-08 a HU-13, incluido el texto al 150\,\% & Pendiente \\\hline
-		\texttt{capturas\_test.dart} & 30 & Genera las 30 capturas del informe & Pendiente \\\hline
-		\textbf{Total} & \textbf{88} & & \\\hline
+		\texttt{matrlab\_state\_test.dart} & 17 & Reglas del Laboratorio~4 (RF1 a RF7) & Correctas \\\hline
+		\texttt{lab05\_estado\_test.dart} & 26 & Turnos, motivo del bloqueo, comprobante, contingencia y número de atención (RF8 a RF12) & Correctas \\\hline
+		\texttt{flujo\_widget\_test.dart} & 1 & Flujo completo del estudiante & Correctas \\\hline
+		\texttt{widget\_test.dart} & 1 & La aplicación arranca en el inicio de sesión & Correctas \\\hline
+		\texttt{lab05\_widget\_test.dart} & 13 & Interfaz de HU-08 a HU-13, incluido el texto al 150\,\% & Correctas \\\hline
+		\texttt{capturas\_test.dart} & 30 & Genera las 30 capturas del informe & Correctas \\\hline
+		\textbf{Total} & \textbf{88} & & \textbf{88 correctas} \\\hline
 	\end{tabularx}
-	\caption{Pruebas del proyecto (88 definidas).}
+	\caption{Pruebas del proyecto y resultado de su ejecución (88 de 88 correctas).}
 	\label{tab:pruebas}
 \end{table}
 
 \subsection{Resultados de la ejecución}
-\pendiente{Pegar aquí la salida de \texttt{flutter analyze} (archivo \texttt{salida\_analyze.txt}) y el resumen final de \texttt{flutter test} (archivo \texttt{salida\_test.txt}, línea «All tests passed!» o la lista de fallos). Con ellos se completa la tabla~\ref{tab:pruebas} y se actualiza la definición de terminado (figura~\ref{fig:dod}).}
+El analizador estático no reportó ningún problema y las 88 pruebas terminaron correctas. La salida es la que produjo el script \texttt{ejecutar.ps1}.
 
-\begin{lstlisting}[style=consola,caption={Formato en que se pegará la salida (pendiente).},captionpos=b]
+\begin{lstlisting}[style=consola,caption={Salida de \texttt{flutter analyze} y resumen de \texttt{flutter test} (01/11/2026).},captionpos=b]
 $ flutter analyze
-  (resultado pendiente)
-$ flutter test
-  (resultado pendiente: N pruebas, N correctas, N fallidas)
+Analyzing matrlab-flutter...
+No issues found! (ran in 7.2s)
+
+$ flutter test --reporter expanded
+00:21 +88: All tests passed!
 \end{lstlisting}
+
+\paragraph{Primera ejecución.} Antes de este resultado hubo una ejecución previa con 87 pruebas correctas y una fallida; el detalle y su corrección están en la subsección siguiente. Los resultados de la tabla~\ref{tab:pruebas} corresponden a la ejecución posterior a las correcciones.
 
 \subsection{Criterios de aceptación frente a resultados}
 \begin{table}[H]
@@ -39,26 +43,25 @@ $ flutter test
 		\hline
 		\cab\hd{Historia} & \hd{Criterio resumido} & \hd{Resultado}\\
 		\hline
-		HU-08 & Fuera de turno no se matricula ni se consume cupo; al iniciar el turno sí & Pendiente \\\hline
-		HU-12 & El motivo del bloqueo nombra turno, tiempo restante o curso en conflicto & Pendiente \\\hline
-		HU-09 & Número A-021 con posición 5 y 20 min; un solo número activo; aviso al llegar el turno & Pendiente \\\hline
-		HU-11 & Pendiente sin consumir cupo; procesamiento en orden de llegada con motivo de rechazo & Pendiente \\\hline
-		HU-10 & Código único por matrícula y copia al portapapeles & Pendiente \\\hline
-		HU-13 & Sin desbordes con texto al 150\,\% en Ayuda, Operación y grupo & Pendiente \\\hline
+		HU-08 & Fuera de turno no se matricula ni se consume cupo; al iniciar el turno sí & Correctas \\\hline
+		HU-12 & El motivo del bloqueo nombra turno, tiempo restante o curso en conflicto & Correctas \\\hline
+		HU-09 & Número A-021 con posición 5 y 20 min; un solo número activo; aviso al llegar el turno & Correctas \\\hline
+		HU-11 & Pendiente sin consumir cupo; procesamiento en orden de llegada con motivo de rechazo & Correctas \\\hline
+		HU-10 & Código único por matrícula y copia al portapapeles & Correctas \\\hline
+		HU-13 & Sin desbordes con texto al 150\,\% en Ayuda, Operación y grupo & Correctas \\\hline
 	\end{tabularx}
-	\caption{Estado de verificación de cada historia.}
+	\caption{Verificación de cada historia con las pruebas del proyecto.}
 	\label{tab:aceptacion}
 \end{table}
 
-\subsection{Puntos de revisión ante una prueba fallida}
-Las pruebas de interfaz dependen de detalles del motor de pruebas de Flutter que conviene mirar primero si alguna falla:
+\subsection{Incidencias de la ejecución y su corrección}
+\label{sec:incidencias}
+La ejecución encontró un fallo y la revisión de las capturas, dos defectos visuales. Los tres se corrigieron y se volvió a ejecutar todo.
 
 \begin{itemize}
-	\item \textbf{Selección del ciclo en el menú desplegable.} La prueba toca \texttt{menu-ciclo} y luego una opción; si el menú no se abre en el tamaño de prueba, hay que desplazar o usar la opción con \texttt{warnIfMissed: false}.
-	\item \textbf{Escala de texto.} Las pruebas de texto grande usan \texttt{tester.platformDispatcher.\allowbreak textScaleFactorTestValue}; en versiones recientes del SDK puede aparecer como API en desuso. Si el analizador avisa, se cambia por la alternativa que indique el mensaje.
-	\item \textbf{Mensajes temporales.} El \texttt{SnackBar} deja un temporizador activo; las pruebas desmontan la aplicación al final (función \texttt{\_cerrar}) para evitar el error de temporizador pendiente.
-	\item \textbf{Portapapeles.} La prueba simula el canal de plataforma \texttt{SystemChannels.platform}; si el SDK cambia el nombre del método, la prueba lo mostrará.
-	\item \textbf{Fuentes de las capturas.} Las capturas cargan Roboto y los iconos Material desde el SDK; si faltan, el texto aparece como cuadros.
+	\item \textbf{Prueba de contingencia (HU-11).} En la primera ejecución falló «con el servicio caído la solicitud se guarda y luego se confirma»: la prueba tocó el botón «Guardar» de la hoja inferior antes de que esta terminara de subir (el botón estaba en y\,=\,1048 con una pantalla de 780\,dp de alto). El defecto era de la prueba y no de la aplicación; ahora la prueba avanza la animación y comprueba que la hoja diga «Guardar solicitud» antes de tocar.
+	\item \textbf{Símbolo de flecha sin dibujar.} En las tarjetas de turnos, el rango de fechas usaba el símbolo «→» y la fuente de las pruebas lo mostraba como un cuadro vacío. Lo reemplacé por la palabra «a» («09/11/2026 08:00 a 10/11/2026 08:00»), que se ve igual en cualquier fuente.
+	\item \textbf{Hora real en avisos de demostración.} Dos avisos iniciales de la pestaña Alertas mostraban la hora del momento de ejecución (15:34) y no la del reloj fijo de las capturas (08:00), por lo que las capturas no eran repetibles. Ahora los avisos iniciales usan el reloj inyectado.
 \end{itemize}
 
 \section{Conclusiones}
@@ -69,6 +72,6 @@ Las pruebas de interfaz dependen de detalles del motor de pruebas de Flutter que
 	\item \textbf{Scrum sirvió incluso en solitario}, con adaptaciones declaradas: meta de producto, backlog priorizado, dos sprints con meta, definición de terminado y retrospectiva. Su límite es la falta de revisión de pares, que compensé con pruebas automáticas.
 	\item \textbf{El aporte social es repartir la oportunidad de matricularse}: turno propio, atención sin fila, solicitudes que no se pierden y reglas explicadas. Reduce la ventaja de quien puede estar presente de noche; no sustituye la mejora de servidores que la universidad debe hacer.
 	\item \textbf{Un defecto propio salió al medir.} Calcular el contraste de las etiquetas mostró que el verde heredado del Laboratorio~4 no cumplía WCAG AA y se corrigió.
-	\item \textbf{Límites reconocidos:} la evidencia es documental y no hay encuesta propia; la caída del servicio es simulada; los turnos y tiempos de espera son valores de demostración; la capacidad del servidor y las notificaciones fuera de la aplicación quedan fuera de alcance; y los resultados de las 88 pruebas están pendientes de ejecución.
+	\item \textbf{Límites reconocidos:} la evidencia es documental y no hay encuesta propia; la caída del servicio es simulada; los turnos y tiempos de espera son valores de demostración; la capacidad del servidor y las notificaciones fuera de la aplicación quedan fuera de alcance; y el resultado de las 88 pruebas es de una sola máquina y una sola ejecución (Windows 11, Flutter 3.47.5), sin pruebas en dispositivos físicos.
 	\item \textbf{Trabajo futuro:} validar los hallazgos con una encuesta breve a estudiantes; conectar la aplicación a un servidor para que la caída y los turnos sean reales; persistir la sesión y las solicitudes (HU-14); enviar avisos al celular (HU-15); y presentar la propuesta de turnos y número virtual a la Escuela como insumo para su proceso de matrícula.
 \end{itemize}
