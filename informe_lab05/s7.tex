@@ -106,7 +106,11 @@ El administrador activa la caída en la pestaña Operación; el banner aparece e
 \subsubsection{HU-13: legibilidad con texto grande}
 \textbf{Requisito:} RNF2 y RNF1. \textbf{Idea:} Flutter ya aplica la escala de texto del sistema; lo que se comprueba es que las pantallas nuevas no se desborden al 150\,\%. Las pantallas largas están dentro de un \texttt{SingleChildScrollView} y las etiquetas usan \texttt{Row} con \texttt{Expanded} para que el texto largo se ajuste. El contraste de las etiquetas se corrigió como se explicó en la sección~\ref{sec:rnf}.
 
-\duo{c29_ayuda_texto_grande}{Ayuda con texto al 150\,\%}{c30_tablet_ayuda}{Ayuda en tableta}{HU-13 y RNF6: la misma pantalla con texto ampliado y en una tableta.}
+\begin{figure}[!htbp]
+\centering
+\begin{minipage}{0.33\textwidth}\capt{c29_ayuda_texto_grande}{}\end{minipage}
+\caption{HU-13 y RNF2: la pestaña Ayuda con el texto del sistema ampliado al 150\,\%; los títulos se reparten en varias líneas y nada se desborda. La misma pantalla en una tableta se muestra en la figura~\ref{fig:tablet5}.}
+\end{figure}
 
 \paragraph{Verificación.} Tres pruebas de «texto grande»: Ayuda, Operación y grupo fuera de turno, cada una sin excepciones de desborde.
 
